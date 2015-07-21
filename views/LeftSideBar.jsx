@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+'use strict'
 
 var React = require('react')
 
@@ -15,7 +16,7 @@ module.exports = React.createClass({
     		top: '60px',
     		bottom: '0',
     		display: 'block',
-			width: '248px',
+			width: '200px',
 			borderRight: '1px solid #e8e8e8'		
 		}
 

@@ -17,11 +17,12 @@ module.exports = React.createClass({
 			display: 'inline-block',
 			cursor: 'pointer',
 			color: '#ffffff',
-			fontSize: '15px',
-			padding: '9px 28px',
+			fontSize: '12px',
+			padding: '4px',
 			textDecoration: 'none',	
 			border: 'solid 1px transparent',
-			width: '100%'
+			width: '100%',
+			height: '100%'
 		}
 
 	

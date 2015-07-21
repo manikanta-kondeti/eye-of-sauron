@@ -25,20 +25,22 @@ var ListItem = React.createClass({
 
 		var liStyle = {
 			width: '100%',
-			background: '#cc181e',
-			height: '40px',
+			background: 'white',
+			height: '34px',
 			textAlign: 'center',
-			lineHeight: '40px',
+			lineHeight: '34px',
 			listStyleType: 'none',
-			color: 'white',
+			color: '#7f919e',
 			textTransform: 'uppercase',
-			fontSize: '17px',
-			marginBottom: '13px',
-			cursor: 'pointer'
+			fontSize: '14px',
+			marginBottom: '10px',
+			cursor: 'pointer',
+			border: '1px solid #e0e3e9'
 		}
 
         if (this.props.isSelected || this.state.hover_flag) {
-            liStyle['background'] = '#ff7f7f';
+            liStyle['color'] = '#cc181e';
+            liStyle['background'] = '#f8fafd';
         }
 
 		return (

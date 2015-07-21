@@ -1,37 +1,45 @@
 'use strict'
 
-window.init = function() {
-     
-    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
-    gapi.client.load('samosa', 'v1', function() {
-        popular_now();
-    }, ROOT);
-
-};
-
-var popular_now = function() {
-
-    var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
-      function(resp) {
-      			this.setState({voices: resp.voices})
-            });
-}
 
 
 var React = require('react')
+var ShowClips = require('./ShowClips')
 
 module.exports = React.createClass({
 
+	popular_now: function() {
+	var _this = this
+	  var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
+      function(resp) {
+      			console.log('hi')
+      			_this.setState({voices: resp.voices, popular_now: false})
+            });
+	},
+
 	getInitialState: function(){
-		return {voices: null}
+		return {voices: null, popular_now: true}
 	},
 
 	render: function() {
 
-		return (
+		if(this.state.popular_now) {
+			this.popular_now()
+		}
 
-		 <div> 
-			{this.state.voices}
+		var RightSideBarStyle = {
+			position: 'absolute',
+			marginLeft: '200px',
+			top: '60px',
+			bottom: '0px',
+			display: 'block',
+			padding: '9px',
+			width: 'auto'
+		}
+
+		return (
+			
+		 <div style={RightSideBarStyle}> 
+			<ShowClips clips = {this.state.voices} />
 		 </div>
 
 		)

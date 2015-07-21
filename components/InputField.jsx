@@ -19,12 +19,12 @@ module.exports = React.createClass({
 		var inputStyle = {
 			width: '100%',
 			height: '100%',
-			lineHeight: '45px',
+			lineHeight: '38px',
 			paddingLeft: '10px',
 			color: '#999',
 			border: '1px solid #dcdcdc',
 			fontFamily: 'Helvetica,Arial',
-			fontSize: '16px',
+			fontSize: '12px',
 			margin: '5px',
 			boxShadow: '1px 1px 7px #dcdcdc'
 		};

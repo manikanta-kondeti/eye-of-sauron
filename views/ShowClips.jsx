@@ -21,31 +21,33 @@ var Clip = React.createClass({
 		var poster_url = this.props.data.poster_url;
 
 		var audioBlockStyle = {
-			height: '320px',
+			height: '230px',
 			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.3)',
 			position: 'relative',
 			minHeight: '1px',
-			paddingRight: '15px',
-			paddingLeft: '15px',
-			width: '200px',
-			paddingTop: '10px',
+			paddingRight: '6px',
+			paddingLeft: '6px',
+			width: '150px',
+			paddingTop: '6px',
 			float: 'left',
 			margin: '10px',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			background: 'white'
 		}
 
 		var imgStyle = {
 			backgroundImage: 'url('+ poster_url +')',
 			backgroundRepeat: 'no-repeat',
-			backgroundSize: '200px',
-			width: '200px',
-			height: '200px'
+			backgroundSize: '150px 150px',
+			height: '150px'
 		}
 
 		var titleStyle = {
-			fontFamily: "'Ruda',sans-serif",
-			marginTop: '10px',
-			marginBottom: '16px'
+			whiteSpace: 'nowrap',
+			overflow: 'hidden',		
+			fontSize: '14px',
+			marginTop: '9px',
+			marginBottom: '7px'
 		}
 
 		var hrStyle = {
@@ -53,17 +55,17 @@ var Clip = React.createClass({
 		}
 
 		var heartsStyle = {
-			width: '80px',
+			width: '55px',
 			float: 'left',
 			textAlign: 'center',
-			marginTop: '14px',
+			marginTop: '5px',
 		}
 
 		var sharesStyle = {
-			width: '80px',
+			width: '55px',
 			float: 'right',
 			textAlign: 'center',
-			marginTop: '14px',
+			marginTop: '5px',
 		}
 
 		var overlayStyle = {
@@ -79,8 +81,7 @@ var Clip = React.createClass({
 		}
 
 		var buttonStyle = {
-			display: 'none',
-			marginTop:'25px'
+			display: 'none'
 		}
 
 		var playActionStyle = {
@@ -88,15 +89,15 @@ var Clip = React.createClass({
 		}
 
 		var iconStyle = {
-			marginRight: '10px',
+			marginRight: '4px',
 			float: 'left',
-			width: '20px'
+			width: '12px'
 		}
 
 		var iconFontStyle = {
-			lineHeight: '20px',
+			lineHeight: '12px',
 			float: 'left',
-			fontSize: '14px'
+			fontSize: '10px'
 		}
 
 		if(this.state.mouseEnter){
@@ -121,9 +122,9 @@ var Clip = React.createClass({
 								    <AudioPlayer
 							        	opusURL={this.props.data.opus_url}
            							    mp3URL={this.props.data.mp3_url}
-             						    frameWidth={256}
-              							frameHeight={256}
-              						 	controlSize={32} />
+             						    frameWidth={151}
+              							frameHeight={151}
+              						 	controlSize={23} />
 								</div>
                             </div>
                             <div>
@@ -165,9 +166,7 @@ module.exports = React.createClass({
 				return <Clip data={data} key={index} />
 			});
 		}
-		else{
-			clips = "No clips Found"
-		}
+		
 
 		return (
 

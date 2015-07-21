@@ -5,11 +5,11 @@
 
 
 var React = require('react')
+var page = require('page')
 var Logo = require('../components/Logo')
 var InputField = require('../components/InputField')
 var RedButton = require('../components/RedButton')
-var SearchView = require('./SearchView')
-var AudioPlayer = require('../components/AudioPlayer');
+
 
 
 module.exports = React.createClass({
@@ -21,7 +21,7 @@ module.exports = React.createClass({
 	handleSubmimt: function(e) {
 		e.preventDefault()
 		var queryText = this.refs.search.getDOMNode().value
-	 	this.setState({queryText: queryText})
+	 	page('/search/'+queryText)
 	},
 
 	render: function() {
@@ -40,34 +40,37 @@ module.exports = React.createClass({
 
 		var titleStyle = {
 			float: 'left',
-			fontSize: '28px',
+			fontSize: '26px',
 			marginTop: '9px',
 			marginLeft: '5px',
-			width: '171px'
+			width: '134px'
 		};
 
 		var logoStyle = {
 			float: 'left',
-			marginLeft: '20px'
+			marginLeft: '20px',
+			marginTop: '9px'
 		};
 
 		var searchBoxStyle = {
 			float: 'left',
-			width: '700px',
-			height: '37px'
+			width: '43%',
+			marginTop: '3px'
 		}
 
 		var buttonStyle = {
 			float:'right',
-			marginTop: '10px',
-			marginRight: '25px'
+			marginTop: '15px',
+			marginRight: '25px',
+			width: '100px',
+			height: '30px'
 		}
 
 		return (
 
 		 <div> 
 			<div style = {headerStyle} > 
-				<div style = {logoStyle}> <Logo width="45" height="45"/> </div>
+				<div style = {logoStyle}> <Logo width="35" height="35"/> </div>
 				<div style = {titleStyle}> SAMOSA </div>
 				<div style = {searchBoxStyle}>
 					 <form onSubmit={this.handleSubmimt}>
@@ -76,7 +79,6 @@ module.exports = React.createClass({
 				 </div>
 				<div style = {buttonStyle}> <RedButton name = "LOGIN"/>  </div>
 			</div>
-			<SearchView queryText = {this.state.queryText} />
 		</div>
 
 
