@@ -1,0 +1,18 @@
+{
+  "name": "samosa-web-application",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "npm run gapi_start | npm run dev",
+    "dev": "webpack-dev-server --progress --colors --port 8080",
+    "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
+  },
+  "author": "vamshi",
+  "dependencies": {
+    "react": "~0.11.2"
+  },
+  "devDependencies": {
+    "webpack": "~1.4.4",
+    "webpack-dev-server": "~1.6.5",
+    "jsx-loader": "~0.11.2"
+  }
+}
