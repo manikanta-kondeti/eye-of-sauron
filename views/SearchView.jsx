@@ -1,13 +1,5 @@
 'use strict'
 
-window.init = function() {
-     
-    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
-    gapi.client.load('samosa', 'v1', function() {
-    }, ROOT);
-
-};
-
 var React = require('react')
 var ShowClips = require('./ShowClips')
 
@@ -19,9 +11,10 @@ module.exports = React.createClass({
 
    search_by_tags: function() {
 
-  		if(this.props.queryText) {
+   		var queryText = this.props.params.queryText
+  		if(queryText) {
   		  var _this = this
-  		  gapi.client.samosa.api.get_search_results({'tags': this.props.queryText}).execute(
+  		  gapi.client.samosa.api.get_search_results({'tags': queryText}).execute(
             function(resp){             	
 
             	_this.setState({voices: resp.voices, search_result: false})
@@ -49,11 +42,11 @@ module.exports = React.createClass({
 
 		var RightSideBarStyle = {
 			position: 'absolute',
-			marginLeft: '244px',
+			marginLeft: '200px',
 			top: '60px',
 			bottom: '0px',
 			display: 'block',
-			padding: '25px',
+			padding: '9px',
 			width: 'auto'
 		}
 

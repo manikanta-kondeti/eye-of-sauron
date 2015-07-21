@@ -105,12 +105,12 @@ var AudioPlayer = React.createClass({
     }
   },
   render: function() {
-    var control = <img src="../public/images/play.png" />;
+    var control = <img width='35' src="../public/images/play.png" />;
     if (this.state.currentState == PlayerStates.LOADING) {
       // use time update event to show this; show spinner until this point
-      control = <img src="../public/images/spinner.gif" />;
+      control = <img width='35' src="../public/images/spinner.gif" />;
     } else if (this.state.currentState == PlayerStates.PLAYING) {
-      control = <img src="../public/images/pause.png" />;
+      control = <img width='35' src="../public/images/pause.png" />;
     }
 
     //TODO(abhilashi): fix all these magic numbers
