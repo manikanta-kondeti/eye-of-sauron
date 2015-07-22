@@ -3,7 +3,7 @@
 'use strict'
 
 var React = require('react')
-
+var page = require('page')
 
 var ListItem = React.createClass({
 
@@ -58,7 +58,8 @@ module.exports = React.createClass({
 
 	},
 
-	clickEvent: function(index) {
+	clickEvent: function(index,url) {
+		page('/'+url)
 		this.setState({click_flag: index})
 	},
 
@@ -80,7 +81,7 @@ module.exports = React.createClass({
 
 			var click_state = _this.state.click_flag === index
 
-			return <ListItem click={_this.clickEvent.bind(_this, index)} isSelected={click_state} name={data.name} key={index}/>
+			return <ListItem click={_this.clickEvent.bind(_this, index, data.url)} isSelected={click_state} name={data.name} key={index}/>
 		})
 
 		return (

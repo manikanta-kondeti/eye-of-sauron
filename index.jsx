@@ -52,6 +52,7 @@ window.init = function() {
 
 	var routes = [
  		 ['/', PopularNow],
+ 		 ['/Popular-now',PopularNow],
  		 ['/search/:queryText', SearchView]
 	];
 

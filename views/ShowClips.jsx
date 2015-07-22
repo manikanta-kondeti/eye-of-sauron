@@ -25,10 +25,11 @@ var Clip = React.createClass({
 			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.3)',
 			position: 'relative',
 			minHeight: '1px',
-			paddingRight: '6px',
-			paddingLeft: '6px',
+			borderRadius: '2px',
+			paddingRight: '3px',
+			paddingLeft: '3px',
 			width: '150px',
-			paddingTop: '6px',
+			paddingTop: '3px',
 			float: 'left',
 			margin: '10px',
 			cursor: 'pointer',
@@ -45,9 +46,12 @@ var Clip = React.createClass({
 		var titleStyle = {
 			whiteSpace: 'nowrap',
 			overflow: 'hidden',		
-			fontSize: '14px',
+			fontSize: '13px',
 			marginTop: '9px',
-			marginBottom: '7px'
+			marginBottom: '7px',
+			marginRight: '3px',
+			marginLeft: '3px',
+			textAlign: 'center'
 		}
 
 		var hrStyle = {
@@ -59,10 +63,11 @@ var Clip = React.createClass({
 			float: 'left',
 			textAlign: 'center',
 			marginTop: '5px',
+			marginLeft: '3px'
 		}
 
 		var sharesStyle = {
-			width: '55px',
+			width: '45px',
 			float: 'right',
 			textAlign: 'center',
 			marginTop: '5px',
@@ -138,7 +143,7 @@ var Clip = React.createClass({
 
 							<div style={socialIconsStyle}> 
 								<div style={heartsStyle}>
-									<img style={iconStyle} src="public/images/heart.png" />
+									<img style={iconStyle} src="http://localhost:8080/public/images/heart.png" />
 									<span style={iconFontStyle}> {this.props.data.hearts} </span>
 								</div>
 								<div style={sharesStyle}>

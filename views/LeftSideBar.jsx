@@ -21,7 +21,7 @@ module.exports = React.createClass({
 		}
 
 		var data = [
-			{name: 'trending now'},
+			{name: 'trending now', url: 'popular-now'},
 			{name: 'most recent'},
 			{name: 'most viewed'},
 			{name: 'expressions'}

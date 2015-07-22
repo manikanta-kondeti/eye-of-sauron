@@ -11,13 +11,12 @@ module.exports = React.createClass({
 	var _this = this
 	  var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
       function(resp) {
-      			console.log('hi')
-      			_this.setState({voices: resp.voices, popular_now: false})
+      			_this.setState({voices: resp.voices})
             });
 	},
 
 	getInitialState: function(){
-		return {voices: null, popular_now: true}
+		return {voices: null}
 	},
 
 	render: function() {
