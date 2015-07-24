@@ -21,7 +21,6 @@ var Clip = React.createClass({
 		var poster_url = this.props.data.poster_url;
 
 		var audioBlockStyle = {
-<<<<<<< HEAD
 			height: '218px',
 			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.3)',
 			position: 'relative',
@@ -30,18 +29,6 @@ var Clip = React.createClass({
 			width: '150px',
 			float: 'left',
 			margin: '8px',
-=======
-			height: '230px',
-			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.3)',
-			position: 'relative',
-			minHeight: '1px',
-			paddingRight: '6px',
-			paddingLeft: '6px',
-			width: '150px',
-			paddingTop: '6px',
-			float: 'left',
-			margin: '10px',
->>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
 			cursor: 'pointer',
 			background: 'white'
 		}
@@ -56,18 +43,12 @@ var Clip = React.createClass({
 		var titleStyle = {
 			whiteSpace: 'nowrap',
 			overflow: 'hidden',		
-<<<<<<< HEAD
 			fontSize: '13px',
 			marginTop: '9px',
 			marginBottom: '7px',
 			marginRight: '7px',
 			marginLeft: '6px',
 			textAlign: 'center'
-=======
-			fontSize: '14px',
-			marginTop: '9px',
-			marginBottom: '7px'
->>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
 		}
 
 		var hrStyle = {
@@ -79,22 +60,13 @@ var Clip = React.createClass({
 			width: '55px',
 			float: 'left',
 			textAlign: 'center',
-<<<<<<< HEAD
 			marginLeft: '10px'
-=======
-			marginTop: '5px',
->>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
 		}
 
 		var sharesStyle = {
 			width: '55px',
 			float: 'right',
-<<<<<<< HEAD
 			textAlign: 'center'
-=======
-			textAlign: 'center',
-			marginTop: '5px',
->>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
 		}
 
 		var overlayStyle = {
@@ -110,12 +82,8 @@ var Clip = React.createClass({
 		}
 
 		var buttonStyle = {
-<<<<<<< HEAD
 			display: 'none',
 			height: '32px'
-=======
-			display: 'none'
->>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
 		}
 
 		var playActionStyle = {
