@@ -21,10 +21,10 @@ module.exports = React.createClass({
 		}
 
 		var data = [
-			{name: 'trending now', url: 'popular-now'},
-			{name: 'most recent'},
-			{name: 'most viewed'},
-			{name: 'expressions'}
+			{name: 'Trending Now', url: 'popular-now', image_url:'https://www.kewlcircle.com/assets/images/trending.png'},
+			{name: 'Most Recent', url: 'most-recent', image_url:'http://www.tablespoon.com/-/media/Images/Landing%20Page%20Icons/icon-recent.png'},
+			{name: 'Most Viewed'},
+			{name: 'Expressions'}
 		]
 
 		return (

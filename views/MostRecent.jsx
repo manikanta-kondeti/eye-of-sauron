@@ -7,22 +7,22 @@ var ShowClips = require('./ShowClips')
 
 module.exports = React.createClass({
 
-	popular_now: function() {
+	most_recent: function() {
 	var _this = this
-	  var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
+	  var popular_voices = gapi.client.samosa.api.expressions.recent().execute(
       function(resp) {
-      			_this.setState({voices: resp.voices, popular_now: false})
+      			_this.setState({voices: resp.voices, most_recent: false})
             });
 	},
 
 	getInitialState: function(){
-		return {voices: null, popular_now: true}
+		return {voices: null, most_recent: true}
 	},
 
 	render: function() {
 
-		if(this.state.popular_now) {
-			this.popular_now()
+		if(this.state.most_recent) {
+			this.most_recent()
 		}
 
 		var RightSideBarStyle = {

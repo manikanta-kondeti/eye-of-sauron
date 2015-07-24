@@ -21,17 +21,14 @@ var Clip = React.createClass({
 		var poster_url = this.props.data.poster_url;
 
 		var audioBlockStyle = {
-			height: '230px',
+			height: '218px',
 			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.3)',
 			position: 'relative',
 			minHeight: '1px',
 			borderRadius: '2px',
-			paddingRight: '3px',
-			paddingLeft: '3px',
 			width: '150px',
-			paddingTop: '3px',
 			float: 'left',
-			margin: '10px',
+			margin: '8px',
 			cursor: 'pointer',
 			background: 'white'
 		}
@@ -49,28 +46,27 @@ var Clip = React.createClass({
 			fontSize: '13px',
 			marginTop: '9px',
 			marginBottom: '7px',
-			marginRight: '3px',
-			marginLeft: '3px',
+			marginRight: '7px',
+			marginLeft: '6px',
 			textAlign: 'center'
 		}
 
 		var hrStyle = {
-			border: '1px solid #cc181e'
+			border: '1px solid #f5f5f1',
+			margin: '0px'
 		}
 
 		var heartsStyle = {
 			width: '55px',
 			float: 'left',
 			textAlign: 'center',
-			marginTop: '5px',
-			marginLeft: '3px'
+			marginLeft: '10px'
 		}
 
 		var sharesStyle = {
-			width: '45px',
+			width: '55px',
 			float: 'right',
-			textAlign: 'center',
-			marginTop: '5px',
+			textAlign: 'center'
 		}
 
 		var overlayStyle = {
@@ -82,11 +78,12 @@ var Clip = React.createClass({
 		}
 
 		var socialIconsStyle = {
-
+			marginTop: '9px'
 		}
 
 		var buttonStyle = {
-			display: 'none'
+			display: 'none',
+			height: '32px'
 		}
 
 		var playActionStyle = {
@@ -138,7 +135,7 @@ var Clip = React.createClass({
                             </div>
 
                             <div style={buttonStyle}>
-                         	  	<RedButton name = "COPY CLIP" /> 
+                         	  	<RedButton text = "COPY CLIP" /> 
                          	</div>
 
 							<div style={socialIconsStyle}> 

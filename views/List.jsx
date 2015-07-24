@@ -23,7 +23,23 @@ var ListItem = React.createClass({
 
 	render: function() {
 
+
+		var imageStyle = {
+			width:'20px',
+			float: 'left',
+			marginLeft: '11px',
+			marginRight: '11px',
+			marginTop: '9px',
+			WebkitFilter: 'grayscale(1)' 
+		}
+
+		var textStyle = {
+			float: 'left'
+		}
+
+
 		var liStyle = {
+
 			width: '100%',
 			background: 'white',
 			height: '34px',
@@ -31,20 +47,28 @@ var ListItem = React.createClass({
 			lineHeight: '34px',
 			listStyleType: 'none',
 			color: '#7f919e',
-			textTransform: 'uppercase',
 			fontSize: '14px',
-			marginBottom: '10px',
+			marginBottom: '5px',
 			cursor: 'pointer',
-			border: '1px solid #e0e3e9'
+			border: '1px solid #e0e3e9',
+			borderRadius: '3px',
+			fontFamily: 'fantasy'
 		}
 
         if (this.props.isSelected || this.state.hover_flag) {
+        	imageStyle['WebkitFilter'] = "grayscale(0)"
             liStyle['color'] = '#cc181e';
             liStyle['background'] = '#f8fafd';
         }
 
 		return (
-			<li onClick={this.props.click} onMouseEnter={this.hoverEvent} onMouseLeave={this.hoverEvent} style={liStyle} key={this.props.name}>{this.props.name}</li>
+			<li onClick={this.props.click} onMouseEnter={this.hoverEvent} onMouseLeave={this.hoverEvent} style={liStyle} key={this.props.name}>
+
+				<img style={imageStyle} src ={this.props.image} />
+
+				<span style={textStyle}> {this.props.name} </span>
+
+			</li>
 		)
 	}
 
@@ -81,7 +105,7 @@ module.exports = React.createClass({
 
 			var click_state = _this.state.click_flag === index
 
-			return <ListItem click={_this.clickEvent.bind(_this, index, data.url)} isSelected={click_state} name={data.name} key={index}/>
+			return <ListItem image={data.image_url} click={_this.clickEvent.bind(_this, index, data.url)} isSelected={click_state} name={data.name} key={index} />
 		})
 
 		return (

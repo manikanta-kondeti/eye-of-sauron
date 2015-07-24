@@ -12,9 +12,11 @@ window.init = function() {
 		var page = require('page');
 
 		var Header = require('./views/Header');
-		var LeftSideBar = require('./views/LeftSideBar')
-		var PopularNow = require('./views/PopularNow')
-		var SearchView = require('./views/SearchView')
+		var LeftSideBar = require('./views/LeftSideBar');
+		var PopularNow = require('./views/PopularNow');
+		var SearchView = require('./views/SearchView');
+		var LoginView = require('./views/LoginView');
+		var MostRecent = require('./views/MostRecent');
 
 		var Router = React.createClass({
 
@@ -33,9 +35,11 @@ window.init = function() {
       				var url = route[0];
       				var Component = route[1];
 
-
      				page(url, function (ctx) {
-     				   console.log(ctx.params)
+
+						document.getElementById('left-side-bar').style.display = 'block';
+						document.getElementById('wrapper').style.display = 'block';
+
      				  _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			   });
@@ -52,8 +56,10 @@ window.init = function() {
 
 	var routes = [
  		 ['/', PopularNow],
- 		 ['/Popular-now',PopularNow],
- 		 ['/search/:queryText', SearchView]
+ 		 ['/popular-now',PopularNow],
+ 		 ['/most-recent',MostRecent],
+ 		 ['/search/:queryText', SearchView],
+ 		 ['/login', LoginView]
 	];
 
 	React.renderComponent(<Header />, document.getElementById('header'));
