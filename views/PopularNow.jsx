@@ -11,6 +11,10 @@ module.exports = React.createClass({
 	var _this = this
 	  var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
       function(resp) {
+<<<<<<< HEAD
+=======
+      			console.log('hi')
+>>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
       			_this.setState({voices: resp.voices, popular_now: false})
             });
 	},

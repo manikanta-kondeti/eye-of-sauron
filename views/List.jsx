@@ -47,6 +47,7 @@ var ListItem = React.createClass({
 			lineHeight: '34px',
 			listStyleType: 'none',
 			color: '#7f919e',
+<<<<<<< HEAD
 			fontSize: '14px',
 			marginBottom: '5px',
 			cursor: 'pointer',
@@ -57,6 +58,16 @@ var ListItem = React.createClass({
 
         if (this.props.isSelected || this.state.hover_flag) {
         	imageStyle['WebkitFilter'] = "grayscale(0)"
+=======
+			textTransform: 'uppercase',
+			fontSize: '14px',
+			marginBottom: '10px',
+			cursor: 'pointer',
+			border: '1px solid #e0e3e9'
+		}
+
+        if (this.props.isSelected || this.state.hover_flag) {
+>>>>>>> 92d5aea750da3981c4a9fe724732b3383d1c8736
             liStyle['color'] = '#cc181e';
             liStyle['background'] = '#f8fafd';
         }
