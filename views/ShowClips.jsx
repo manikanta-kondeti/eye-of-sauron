@@ -15,6 +15,16 @@ var Clip = React.createClass({
 		this.setState({mouseEnter: !this.state.mouseEnter})
 	},
 
+	processText: function(string) {
+		 return string.replace(/-/g,' ');
+	},
+ 
+ 	handleCopyClick: function(storyId) {
+ 	  	   window.prompt(
+    	  "Copy to clipboard: Ctrl+C, Enter", 
+     		 "http://app.getsamosa.com/play/" + storyId
+    	);
+  	},
 
 	render: function() {
 
@@ -86,10 +96,6 @@ var Clip = React.createClass({
 			height: '32px'
 		}
 
-		var playActionStyle = {
-			marginTop: '60px'
-		}
-
 		var iconStyle = {
 			marginRight: '4px',
 			float: 'left',
@@ -130,17 +136,17 @@ var Clip = React.createClass({
 								</div>
                             </div>
                             <div>
-			    				<p style={titleStyle} > {this.props.data.caption} </p>
+			    				<p style={titleStyle} > {this.processText(this.props.data.caption)} </p>
                     	        <hr style={hrStyle}/>
                             </div>
 
-                            <div style={buttonStyle}>
-                         	  	<RedButton text = "COPY CLIP" /> 
+                            <div onClick = { this.handleCopyClick.bind(this,this.props.data.key) } style={buttonStyle}>
+                         	  	<RedButton text = "SHARE" /> 
                          	</div>
 
 							<div style={socialIconsStyle}> 
 								<div style={heartsStyle}>
-									<img style={iconStyle} src="http://localhost:8080/public/images/heart.png" />
+									<img style={iconStyle} src="/public/images/heart.png" />
 									<span style={iconFontStyle}> {this.props.data.hearts} </span>
 								</div>
 								<div style={sharesStyle}>

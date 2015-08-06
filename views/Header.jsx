@@ -3,10 +3,9 @@
 
 'use strict'
 
-
 var React = require('react');
 var page = require('page');
-var Logo = require('../components/Logo');
+var Logo = require('../components/Image');
 var InputField = require('../components/InputField');
 var RedButton = require('../components/RedButton');
 var LinkTo = require('../components/LinkTo');
@@ -15,8 +14,113 @@ var LanguageModal = require('../views/LanguageModal');
 
 module.exports = React.createClass({
 
-	getInitialState: function(){
-		return { queryText:null, open_modal: null };
+	getInitialState: function() {
+		return { queryText:null, open_modal: null};
+	},
+
+	componentDidMount: function() {
+
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId: '580678502050494',
+				cookie: true, // enable cookies to allow the server to access
+				// the session
+				xfbml: true, // parse social plugins on this page
+				version: 'v2.1' // use version 2.1
+			});
+
+			// Now that we've initialized the JavaScript SDK, we call
+			// FB.getLoginStatus().  This function gets the state of the
+			// person visiting this page and can return one of three states to
+			// the callback you provide.  They can be:
+			//
+			// 1. Logged into your app ('connected')
+			// 2. Logged into Facebook, but not your app ('not_authorized')
+			// 3. Not logged into Facebook and can't tell if they are logged into
+			//    your app or not.
+			//
+			// These three cases are handled in the callback function.
+			FB.getLoginStatus(function(response) {
+				this.statusChangeCallback(response);
+			}.bind(this));
+		}.bind(this);
+
+		// Load the SDK asynchronously
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	},
+
+	// Here we run a very simple test of the Graph API after login is
+	// successful.  See statusChangeCallback() for when this call is made.
+	testAPI: function(response) {
+
+			console.log('Welcome!  Fetching your information.... ');
+			var _this = this;
+			var access_token = response.authResponse.accessToken;
+
+			FB.api('/me', function(response) {
+				_this.setCookie(access_token, response);
+			});
+		},
+
+		// This is called with the results from from FB.getLoginStatus().
+		statusChangeCallback: function(response) {
+
+			// The response object is returned with a status field that lets the
+			// app know the current login status of the person.
+			// Full docs on the response object can be found in the documentation
+			// for FB.getLoginStatus().
+			if (response.status === 'connected') {
+				// Logged into your app and Facebook.
+				this.testAPI(response);
+
+			} else if (response.status === 'not_authorized') {
+				// The person is logged into Facebook, but not your app.
+
+			} else {
+				// The person is not logged into Facebook, so we're not sure if
+				// they are logged into this app or not.
+
+			}
+		},
+
+		// This function is called when someone finishes with the Login
+		// Button.  See the onlogin handler attached to it in the sample
+		// code below.
+		checkLoginState: function() {
+			FB.getLoginStatus(function(response) {
+				this.statusChangeCallback(response);
+			}.bind(this));
+	},
+
+	setCookie: function(access_token, response) {
+	    		
+	    		console.log('hi');
+
+	    		var responseArray = {
+	    			'facebook_id':response.id,
+   					'email': response.email,
+               		'full_name': response.name,
+               		'gender': response.gender,
+               		'facebook_token': access_token
+        		};
+
+			    gapi.client.samosa.api.auth.fb.login(responseArray).execute(
+           			function(resp){             			
+        				sessionStorage.setItem('samosa_key', resp.auth_key);
+
+           		});
+
+	},
+
+	handleLoginClick: function() {
+		FB.login(this.checkLoginState,{scope: 'public_profile,email'});	
 	},
 
 	handleSubmimt: function(e) {
@@ -35,6 +139,10 @@ module.exports = React.createClass({
 
 	navigate: function(url) {
 		page(url);
+	},
+
+	checkLogin: function() {
+		this.setState({ login: true});
 	},
 
 	render: function() {
@@ -56,7 +164,8 @@ module.exports = React.createClass({
 			fontSize: '24px',
 			marginTop: '9px',
 			marginLeft: '5px',
-			width: '134px'
+			width: '134px',
+			cursor: 'pointer'
 		};
 
 		var logoStyle = {
@@ -97,16 +206,22 @@ module.exports = React.createClass({
 			display: 'none'
 		}
 
-		if(this.state.open_modal) {
-			modalStyle['display']= 'block';
+		var myAccountStyle = {
+			display: 'none'
 		}
 
+		if(this.state.open_modal) {
+			modalStyle['display'] = 'block'
+
+		}
+
+	
 		return (
 
 		 <div> 
 			<div style = {headerStyle} > 
 				<div onClick={this.navigate.bind(this,'/')}>
-					<div style = {logoStyle}> <Logo width="35" height="35"/> </div>
+					<div style = {logoStyle}> <Logo  src="https://lh5.ggpht.com/oJpCSXfyxWeLDSM8GKN-SHyv8ZK29pF2NURecNkK1aQD_9mH0ZYscux07oNPgxog28RU=w300" width="35" height="35"/> </div>
 					<div style = {titleStyle}> SAMOSA </div>
 				</div>
 				<div id = "wrapper">
@@ -117,7 +232,8 @@ module.exports = React.createClass({
 					 </div>
 				 	<div style= {rightblockStyle}>
 						 <div onClick={this.openModal} style = {langStyle}><LinkTo text="SELECT LANGUAGES" color="black" hover_color="#cc181e" /> </div>
-					 	 <div onClick={this.navigate.bind(this,'/login')} style = {buttonStyle}> <RedButton text = "LOGIN"/>  </div>
+					 	 <div onClick={this.handleLoginClick} style = {buttonStyle}> <RedButton text = "LOGIN"/>  </div>
+					 	 <div style={myAccountStyle}>My Account </div>
 				 	</div>
 				</div>
 			</div>

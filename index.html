@@ -6,19 +6,22 @@
 
     <title>SAMOSA</title>
     
-    <script src="http://localhost:8080/node_modules/react/dist/react-with-addons.js"></script>
+    <script src="/node_modules/react/dist/react-with-addons.js"></script>
 
     <style>
         body {
             background: #eff3fa;
             overflow-y: scroll;
-            font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+            font-family: sans-serif;
             border: 0;
             line-height: 1.5;
             height: 100%;
+            font-weight:100;
             font-size: 17px;
             margin: 0;
             padding: 0;
+            letter-spacing: 0.01em;
+
         }
     </style>
 
@@ -50,10 +53,9 @@
     <div id = "right-side-bar">
     </div>
 
-
     <!-- include the bundle that contains all our scripts, produced by webpack -->
     <!-- the bundle is served by the webpack-dev-server -->
-    <script type="text/javascript" src="http://localhost:8080/bundle.js"></script>
+    <script type="text/javascript" src="/bundle.js"></script>
  
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
   

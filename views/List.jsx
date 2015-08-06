@@ -82,8 +82,8 @@ module.exports = React.createClass({
 	},
 
 	clickEvent: function(index,url) {
-		page('/'+url)
 		this.setState({click_flag: index})
+		page('/'+url)	
 	},
 
 	render: function() {
@@ -92,12 +92,6 @@ module.exports = React.createClass({
 	    	padding: '0px',
 	    	margin: '20px'
 	    }
-
-		var link = {
-			textDecoration: 'none',
-			color: 'white',
-			cursor: 'pointer'		
-		}
 
 		var _this = this
 		var list = this.props.data.map(function(data, index) {

@@ -7,12 +7,54 @@ var React = require('react')
 module.exports = React.createClass({
 
 
+    componentDidMount: function() {
+
+        window.addEventListener('keyup', this.handleKeyUp);
+
+    },
+
+    /**
+     * [changeLanguage change the language preference of the user]
+     * @return {[none]} 
+     */
+    changeLanguage: function() {
+        
+        var checkboxes = document.getElementsByClassName('checkbox');
+       
+
+        var languages = []
+        for(var i=0; i<checkboxes.length; i++){
+
+           if(checkboxes[i].checked){
+                var checkedValue = checkboxes[i].value;
+                languages.push(checkedValue);
+            }
+        }
+
+        gapi.client.samosa.api.modify_user_language_preference({
+            'auth_key': sessionStorage.getItem('samosa_key'),
+            'languages': languages
+        }).execute(function(e) {
+            if(e.value){
+                window.location.href = "/popular-now"
+            } 
+        })
+    },
+
 	blur: function() {
 		this.props.close_modal();
 	},
 
+    handleKeyUp: function(e) {
+        if(e.keyCode == 27) {
+            this.props.close_modal();
+        }
+    },
+
 	render: function() {
-		
+		  
+        console.log(sessionStorage.getItem('samosa_key'))
+
 		var overlayStyle = {
     		visibility: 'visible',
      		position: 'absolute',
@@ -21,27 +63,39 @@ module.exports = React.createClass({
      		width: '100%',
      		height: '100%',
      		textAlign: 'center',
- 		    zIndex: '1000',
+ 		    zIndex: '300',
  		    background: 'rgba(0, 0, 0, 0.8)'
-
  		}
 
 		var modalStyle = {
-			width: '300px',
-    		margin: '100px auto',
+            position: 'absolute',
+			width: '600px',
+            height: '300px',
+    		left: '24%',
+            top: '20%',
      		backgroundColor: '#fff',
     		border: '1px solid #000',
      		padding: '15px',
-     		textAlign: 'center'
+     		textAlign: 'center',
+            zIndex: '500'
 		}
 
 
 		return (
-			<div onClick={this.blur} style={overlayStyle}>
+            <div>
+            <div onClick={this.blur} style={overlayStyle}></div>
      			<div style={modalStyle}>
-          			<p>Content you want the user to see goes here. </p>
+                     SELECT LANGUAGES <hr/>
+                
+                    <input type="checkbox" className="checkbox" value="hindi"/>Hindi<br/>
+                    <input type="checkbox" className="checkbox" value="tamil"/>Tamil<br/>
+          			<input type="checkbox" className="checkbox" value="telugu"/>Telugu<br/>
+                    <input type="checkbox" className="checkbox" value="kannada"/>Kannada<br/>
+                    <input type="checkbox" className="checkbox" value="malayalam"/>Malayalam<br/>
+                    <input onClick={this.changeLanguage} type="submit" value="Submit"/>
   			   </div>
-			</div>
+            </div>  
+			
 		)
 	}
 

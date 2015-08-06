@@ -1,29 +1,39 @@
 'use strict'
 
-
-
-var React = require('react')
-var ShowClips = require('./ShowClips')
+var React = require('react');
+var ShowClips = require('./ShowClips');
 
 module.exports = React.createClass({
 
+	getInitialState: function(){
+		console.log('hi')
+		return {voices: [], cursor: '', auth_key:''}
+	},
+
+	componentDidMount: function() {
+		this.popular_now();
+    	window.addEventListener('scroll', this.handleScroll);
+	},
+
 	popular_now: function() {
-	var _this = this
-	  var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
+	var _this = this;
+	  var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
       function(resp) {
-      			_this.setState({voices: resp.voices, popular_now: false})
+      			var new_voices = _this.state.voices.concat(resp.voices);
+      			_this.setState({voices: new_voices, cursor: resp.cursor});
             });
 	},
 
-	getInitialState: function(){
-		return {voices: null, popular_now: true}
+	handleScroll: function() {
+
+		  // you're at the bottom of the page
+		  if ((window.innerHeight + window.scrollY+3) >= document.body.scrollHeight) {
+     		 this.popular_now();
+   		 }
 	},
 
 	render: function() {
 
-		if(this.state.popular_now) {
-			this.popular_now()
-		}
 
 		var RightSideBarStyle = {
 			position: 'absolute',
@@ -38,7 +48,7 @@ module.exports = React.createClass({
 		return (
 			
 		 <div style={RightSideBarStyle}> 
-			<ShowClips clips = {this.state.voices} />
+			<ShowClips clips = {this.state.voices} />	
 		 </div>
 
 		)

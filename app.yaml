@@ -8,13 +8,17 @@ builtins:
 - remote_api: on
 
 handlers:
-- url: /js
-  static_dir: public/
-- url: /css
-  static_dir: public/
 - url: /
-  static_files: public/index.html
-  upload: public/index\.html
-- url: /
-  static_dir: public/
-
+  static_files: index.html
+  upload: index\.html
+- url: /node_modules/react/dist/react-with-addons.js
+  static_files: node_modules/react/dist/react-with-addons.js
+  upload: node_modules/react/dist/react-with-addons\.js
+- url: /bundle.js
+  static_files: bundle.js
+  upload: bundle\.js
+- url: /public/images
+  static_dir: public/images
+- url: /.*
+  static_files: index.html
+  upload: index\.html

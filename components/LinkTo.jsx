@@ -17,8 +17,6 @@ module.exports = React.createClass({
 
 	render: function() {
 
-
-
 		var linkStyle = {
 
 			color: this.props.color,
@@ -28,8 +26,7 @@ module.exports = React.createClass({
 		if(this.state.hover) {
 			linkStyle['color'] = this.props.hover_color
 		}
-	
-
+ 
 		return (
 
 			<a onMouseEnter={this.hover} onMouseLeave={this.hover} style={linkStyle}> {this.props.text} </a>

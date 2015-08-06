@@ -14,6 +14,11 @@ module.exports = React.createClass({
     this.setState({focus_flag: !this.state.focus_flag});
   },
 
+  keyUp: function(e) {
+  	this.props.keyup(e.target.value);
+  },
+
+
 	render: function() {
 
 		var inputStyle = {
@@ -37,8 +42,7 @@ module.exports = React.createClass({
 
 
 		return (
-
-			<input onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
+			<input onKeyUp={this.keyUp} onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
 		)
 	}
 

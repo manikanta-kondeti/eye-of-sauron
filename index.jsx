@@ -4,7 +4,7 @@
 
 window.init = function() {
      
-    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
+    var ROOT = 'https://ranking-dot-the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
 
 
@@ -17,6 +17,11 @@ window.init = function() {
 		var SearchView = require('./views/SearchView');
 		var LoginView = require('./views/LoginView');
 		var MostRecent = require('./views/MostRecent');
+		var IndividualClip = require('./views/IndividualClip');
+		var viewPopularNow = require('./views/admin/viewPopularNow');
+		var viewSearchByTags = require('./views/admin/viewSearchByTags');	
+		var viewPopularByRank = require('./views/admin/viewPopularByRank');
+
 
 		var Router = React.createClass({
 
@@ -57,7 +62,14 @@ window.init = function() {
  		 ['/popular-now',PopularNow],
  		 ['/most-recent',MostRecent],
  		 ['/search/:queryText', SearchView],
- 		 ['/login', LoginView]
+ 		 ['/login', LoginView],
+ 		 ['/play/:key', IndividualClip],
+
+
+ 		 ['/dashboard/:view-popular-by-rank', viewPopularByRank],
+ 		 ['/dashboard/:view-popular-now', viewPopularNow],
+ 		 ['/dashboard/:view-search-tags', viewSearchByTags]
+
 	];
 
 	React.renderComponent(<Header />, document.getElementById('header'));

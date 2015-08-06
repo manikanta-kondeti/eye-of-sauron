@@ -3,21 +3,33 @@
 var React = require('react')
 var ShowClips = require('./ShowClips')
 
+
 module.exports = React.createClass({
 
-   componentWillReceiveProps: function() {
-   		this.setState({search_result: true})
-   },
+	getInitialState: function() {
+		return {voices: [], cursor: '',search_result: false}
+	},
 
-   search_by_tags: function() {
+	componentDidMount: function() {
+		this.search_by_tags();
+    	window.addEventListener('scroll', this.handleScroll);
+	},
 
-   		var queryText = this.props.params.queryText
+	componentWillReceiveProps: function(newProps, oldProps) {
+		this.setState({voices: [], cursor: '', search_result: true})
+	},
+
+
+   search_by_tags: function(queryText) {
+
+   		var queryText = this.props.params.queryText;
   		if(queryText) {
   		  var _this = this
-  		  gapi.client.samosa.api.get_search_results({'tags': queryText}).execute(
-            function(resp){             	
-
-            	_this.setState({voices: resp.voices, search_result: false})
+  		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
+            function(resp){             
+            	console.log(resp);
+            	var new_voices = _this.state.voices.concat(resp.voices);
+            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false})
             });
   		}
 
@@ -25,19 +37,19 @@ module.exports = React.createClass({
   			return 'No Videos Found with this tag :( !'
   		}
 	},
-    
-    getInitialState: function() {
-		return {voices: null, search_result:true}
+
+	handleScroll: function() {
+
+		  // you're at the bottom of the page
+		  if ((window.innerHeight + window.scrollY+3) >= document.body.scrollHeight) {
+     		 this.search_by_tags()
+   		 }
 	},
 
 	render: function() {
 
-		if(this.state.search_result) {
-			console.log('hi')
-			{this.search_by_tags()}
-		}
-		else {
-			console.log('bye')
+		if(this.state.search_result){
+			this.search_by_tags();
 		}
 
 		var RightSideBarStyle = {
