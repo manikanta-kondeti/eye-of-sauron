@@ -4,7 +4,7 @@
 
 var React = require('react');
 
-var CircularProgressBarGraphic = React.createClass({
+CircularProgressBarGraphic = React.createClass({
   componentDidMount: function() {
     var context = this.getDOMNode().getContext('2d');
     context.width = this.props.width;
@@ -44,7 +44,7 @@ var CircularProgressBar = React.createClass({
   render: function() {
     if (this.props.percent) {
 
-      return <CircularProgressBarGraphic {...this.props} />
+      return <CircularProgressBarGraphic width={this.props.width} height={this.props.height} style={this.props.style} percent={this.props.percent} lineWidth={this.props.lineWidth} />
     } 
     return <div style={this.props.style} />;
   }
@@ -114,7 +114,7 @@ var AudioPlayer = React.createClass({
     }
 
     //TODO(abhilashi): fix all these magic numbers
-    var padding = 6;
+    var padding = 10;
     var audioPlayerControlsStyle = {
       position: 'absolute',
       left: this.props.frameWidth / 2 - this.props.controlSize / 2 - padding,
@@ -135,8 +135,8 @@ var AudioPlayer = React.createClass({
         {control}
         <CircularProgressBar 
           style={canvasStyle}
-          width={64}
-          height={64}
+          width={36}
+          height={36}
           lineWidth={4}
           percent={Math.min(Math.max(0, this.state.currentTime / this.state.duration || 0), 1)} />
       </div>

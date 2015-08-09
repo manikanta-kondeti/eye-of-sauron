@@ -3,6 +3,7 @@
 'use strict'
 
 var React = require('react')
+var RedButton = require('../components/RedButton');
 
 module.exports = React.createClass({
 
@@ -62,7 +63,6 @@ module.exports = React.createClass({
     		top: '0px',
      		width: '100%',
      		height: '100%',
-     		textAlign: 'center',
  		    zIndex: '300',
  		    background: 'rgba(0, 0, 0, 0.8)'
  		}
@@ -76,23 +76,52 @@ module.exports = React.createClass({
      		backgroundColor: '#fff',
     		border: '1px solid #000',
      		padding: '15px',
-     		textAlign: 'center',
             zIndex: '500'
 		}
 
+        var loginMessageStyle = {
+            display : 'block',
+            textAlign: 'center'
+        }
+
+        var selectLanguageStyle = {
+            display : 'block'
+        }
+
+        var submitStyle = {
+            width: '100px',
+            height: '30px'
+        }
+
+        if(!sessionStorage.getItem('samosa_key')) {
+             selectLanguageStyle['display'] = 'none'
+        }
+        else{
+             loginMessageStyle['display'] = 'none' ;
+        }
 
 		return (
             <div>
             <div onClick={this.blur} style={overlayStyle}></div>
-     			<div style={modalStyle}>
-                     SELECT LANGUAGES <hr/>
-                
-                    <input type="checkbox" className="checkbox" value="hindi"/>Hindi<br/>
-                    <input type="checkbox" className="checkbox" value="tamil"/>Tamil<br/>
-          			<input type="checkbox" className="checkbox" value="telugu"/>Telugu<br/>
-                    <input type="checkbox" className="checkbox" value="kannada"/>Kannada<br/>
-                    <input type="checkbox" className="checkbox" value="malayalam"/>Malayalam<br/>
-                    <input onClick={this.changeLanguage} type="submit" value="Submit"/>
+
+
+                <div style={modalStyle}>
+                    <div style ={loginMessageStyle}>
+                        Please Login To Access This Feature
+                    </div>
+                    <div style = {selectLanguageStyle} >
+                         SELECT LANGUAGES <hr/>
+                     
+                        <input type="checkbox" className="checkbox" value="hindi"/>Hindi<br/>
+                        <input type="checkbox" className="checkbox" value="tamil"/>Tamil<br/>
+           	    		<input type="checkbox" className="checkbox" value="telugu"/>Telugu<br/>
+                        <input type="checkbox" className="checkbox" value="kannada"/>Kannada<br/>
+                        <input type="checkbox" className="checkbox" value="malayalam"/>Malayalam<br/>
+                        <br/>
+                        <div style={submitStyle} onClick={this.changeLanguage}>
+                            <RedButton text="SUBMIT" />
+                        </div>
+                   </div>
   			   </div>
             </div>  
 			

@@ -5,7 +5,7 @@
     "deploy": "webpack -p --config webpack.config.js",
 
     "start": "npm run gapi_start | npm run dev",
-    "dev": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8080",
+    "dev": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8888",
     "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
   },
   "author": "vamshi",

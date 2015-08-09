@@ -7,7 +7,7 @@ module.exports = React.createClass({
 
     popular_now: function() {
     var _this = this
-      var popular_voices = gapi.client.samosa.api.expressions.popular_by_rank().execute(
+      var popular_by_rank = gapi.client.samosa.api.expressions.popular_by_rank().execute(
       function(resp) {
                 _this.setState({voices: resp.voices, popular_now: false})
             });

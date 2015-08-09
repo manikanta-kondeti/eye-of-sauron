@@ -19,11 +19,8 @@ module.exports = React.createClass({
 
 	most_recent: function() {
 	var _this = this;
-	   console.log('old_cursor'+this.state.cursor);
 	  var most_recent = gapi.client.samosa.api.expressions.recent({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
       function(resp) {
-    			console.log(resp);
-      			console.log(resp.cursor);
       			var new_voices = _this.state.voices.concat(resp.voices);
       			_this.setState({voices: new_voices, cursor: resp.cursor});
 

@@ -5,8 +5,7 @@ var ShowClips = require('./ShowClips');
 
 module.exports = React.createClass({
 
-	getInitialState: function(){
-		console.log('hi')
+	getInitialState: function() {	
 		return {voices: [], cursor: '', auth_key:''}
 	},
 
@@ -33,7 +32,6 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-
 
 		var RightSideBarStyle = {
 			position: 'absolute',

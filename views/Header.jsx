@@ -15,10 +15,12 @@ var LanguageModal = require('../views/LanguageModal');
 module.exports = React.createClass({
 
 	getInitialState: function() {
-		return { queryText:null, open_modal: null};
+		return { queryText: null, open_modal: null, login: false};
 	},
 
 	componentDidMount: function() {
+
+		this.checkLogin();
 
 		window.fbAsyncInit = function() {
 			FB.init({
@@ -60,6 +62,10 @@ module.exports = React.createClass({
 	// successful.  See statusChangeCallback() for when this call is made.
 	testAPI: function(response) {
 
+		//if the session is now set then fetch the user details and set the cookie
+
+		if(!sessionStorage.getItem('samosa_key')) {
+
 			console.log('Welcome!  Fetching your information.... ');
 			var _this = this;
 			var access_token = response.authResponse.accessToken;
@@ -67,7 +73,8 @@ module.exports = React.createClass({
 			FB.api('/me', function(response) {
 				_this.setCookie(access_token, response);
 			});
-		},
+		 }
+	},
 
 		// This is called with the results from from FB.getLoginStatus().
 		statusChangeCallback: function(response) {
@@ -100,8 +107,6 @@ module.exports = React.createClass({
 	},
 
 	setCookie: function(access_token, response) {
-	    		
-	    		console.log('hi');
 
 	    		var responseArray = {
 	    			'facebook_id':response.id,
@@ -111,16 +116,23 @@ module.exports = React.createClass({
                		'facebook_token': access_token
         		};
 
+        		var _this = this;
 			    gapi.client.samosa.api.auth.fb.login(responseArray).execute(
            			function(resp){             			
         				sessionStorage.setItem('samosa_key', resp.auth_key);
-
+        				_this.checkLogin();
            		});
 
 	},
 
 	handleLoginClick: function() {
 		FB.login(this.checkLoginState,{scope: 'public_profile,email'});	
+	},
+
+	handleLogoutClick: function() {
+		FB.logout();
+		sessionStorage.setItem('samosa_key', '');
+		this.setState({'login': false});
 	},
 
 	handleSubmimt: function(e) {
@@ -142,7 +154,9 @@ module.exports = React.createClass({
 	},
 
 	checkLogin: function() {
-		this.setState({ login: true});
+		if(sessionStorage.getItem('samosa_key')) {
+			this.setState({login: true});
+		}
 	},
 
 	render: function() {
@@ -188,11 +202,20 @@ module.exports = React.createClass({
 	
 		}
 
-		var buttonStyle = {
+		var buttonStyleLogin = {
 			float: 'left',
 			width: '100px',
 			height: '30px',
-			marginLeft: '38px'
+			marginLeft: '38px',
+			display: 'block',
+		}
+
+		var buttonStyleLogout = {
+			float: 'left',
+			width: '100px',
+			height: '30px',
+			marginLeft: '38px',
+			display: 'block',
 		}
 
 		var langStyle = {
@@ -215,6 +238,12 @@ module.exports = React.createClass({
 
 		}
 
+		if(this.state.login) {
+			buttonStyleLogin['display'] = 'none';	
+		}
+		else{
+			buttonStyleLogout['display'] = 'none';
+		}
 	
 		return (
 
@@ -230,10 +259,12 @@ module.exports = React.createClass({
 						 	<InputField ref="search" placeholder = "Search For Audio Clips" />
 						 </form>
 					 </div>
+
 				 	<div style= {rightblockStyle}>
+					
 						 <div onClick={this.openModal} style = {langStyle}><LinkTo text="SELECT LANGUAGES" color="black" hover_color="#cc181e" /> </div>
-					 	 <div onClick={this.handleLoginClick} style = {buttonStyle}> <RedButton text = "LOGIN"/>  </div>
-					 	 <div style={myAccountStyle}>My Account </div>
+					 	 <div onClick={this.handleLoginClick} style = {buttonStyleLogin}> <RedButton text = "LOGIN"/>  </div>
+					 	 <div onClick={this.handleLogoutClick} style = {buttonStyleLogout}> <RedButton text = "LOGOUT"/> </div>
 				 	</div>
 				</div>
 			</div>

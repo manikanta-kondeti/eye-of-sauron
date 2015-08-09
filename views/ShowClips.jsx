@@ -80,7 +80,7 @@ var Clip = React.createClass({
 		}
 
 		var overlayStyle = {
-	    	background: 'rgba(0, 0, 0, .75)',
+	    	background: 'rgba(0, 0, 0, .2)',
 	 	    textAlign: 'center',	  
 	   	    width: '100%',
 	   	    height: '100%', 
