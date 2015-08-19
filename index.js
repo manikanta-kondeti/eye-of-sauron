@@ -23,9 +23,11 @@ var app = express();
 
 app.use('/static/', express.static(path.join(__dirname, '.')));
 
+var og_tags;
 var page_template = ' <!DOCTYPE html>' +
-	'<html>' +
-		'<head>' +
+	'<html>' 
+
+var head_template = '<head>' +
 		    '<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>' +
 		    '<script src="/static/node_modules/react/dist/react-with-addons.js"></script>' +
 			'<script src="/static/bundle.js"></script>' +		
@@ -35,8 +37,9 @@ var page_template = ' <!DOCTYPE html>' +
 				'var loaded = function() {' +		
 					'Parse.initialize("d8mjGklf1CYE5qpGK6TKPz3cnHAIcPdMQCYD7waZ", "J3mVxkaDa4W4zDs9pujKjwXEMblyCBS9wKfVzy0v")' +
 				'}' +
-			'</script>' +
-		'</head>' +
+			'</script>' 
+
+ var body_template = 
 		'<body onload="loaded();">' +
 			'<div id="header">' +
 			'</div>' +
@@ -50,7 +53,7 @@ var page_template = ' <!DOCTYPE html>' +
 		'</body>' +
 	'</html>'
 
-
+var page_template = head_template  + body_template;
 
 app.get('/play/:key', function(req,res) {
 
@@ -70,36 +73,38 @@ app.get('/play/:key', function(req,res) {
      			proxyResponse.on('end',function(){
      				var obj	 = JSON.parse(output);
 
-     				var URL  = 'http://app.getsamosa.com/play/'+ key;
-
+     				var URL  = 'https://web-dot-the-tasty-samosa.appspot.com/play/'+ key;
      				var twitterURL = URL.replace('/play/', '/play/twitter/');
     
    	 				var imageURL = obj['poster_url'];
+                    var transcript = obj['transcript'];
 
 			 		res.setHeader('Content-Type', 'text/html');
-
-     				var og_template = page_template + 
+                    
+     				var URL  = 'https://web-dot-the-tasty-samosa.appspot.com/play/'+ key;
+     				var og_template =  head_template + 
    										'<meta property="fb:app_id" content="580678502050494" />' + 
-        								'<meta property="og:url" content=' + URL +'/>' +
+        								'<meta property="og:url" content=https://web-dot-the-tasty-samosa.appspot.com/play/'+ key  +' />' +
         								'<meta property="og:type"   content="video.other" />' +
         								'<meta property="og:video:height" content="260" />' + 
         								'<meta property="og:video:width" content="420" />'+
        									'<meta property="og:video:type" content="application/x-shockwave-flash" />' +
-        								'<meta property="og:title" content="music" />' +
-       								 	'<meta property="og:image" content='+ imageURL +'/>' +
-        								'<meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL +'&share_link=' + URL + '/>' +
-        								'<meta property="og:video:secure_url" content="https://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL + '&share_link=' + URL + '/>' + 
-        								'<meta property="twitter:site" content="@SamosaApp" />' +
-        								'<meta property="twitter:image" content='+imageURL +'/>' +
+        								'<meta property="og:title" content='+ transcript +' />' +
+       								 	'<meta property="og:image" content='+ imageURL +' />' +
+                                        '<meta property="og:video:secure_url" content="https://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL + '&share_link=' + URL + '" />' +
+                                        '<meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL +'&share_link=https://web-dot-the-tasty-samosa.appspot.com/play/'+ key + '"/>'+
+                                        '<meta property="twitter:site" content="@SamosaApp" />' +
+        								'<meta property="twitter:image" content='+imageURL +' />' +
         								'<meta property="twitter:player" content='+twitterURL+ '/>' +
         								'<meta property="twitter:player:width" content="512" />' +
         								'<meta property="twitter:player:height" content="512" />' +
         								'<meta property="twitter:card" content="player" />' +
-        								'<meta property="twitter:title" content='+ obj["transcript"] +'/>' +
+        								'<meta property="twitter:title" content='+ obj["transcript"] +' />' +
         								'<meta property="twitter:app:name:googleplay" content="Samosa" />' +
-        								'<meta property="twitter:app:id:googleplay" content="com.getsamosa" />'
-      							
-
+        								'<meta property="twitter:app:id:googleplay" content="com.getsamosa" />'+
+      							        '</head>' +
+                                        body_template
+                                
      				res.send(og_template)
 
      				res.end()
