@@ -14,10 +14,22 @@ module.exports = React.createClass({
     	window.addEventListener('scroll', this.handleScroll);
 	},
 
+	componentDidUpdate: function() {
+		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
+    	var windowInnerHeight = window.innerHeight
+    	console.log(showCLipsHeight);
+    	console.log(windowInnerHeight);
+    	if(showCLipsHeight < windowInnerHeight) {
+    			console.log('update');
+    		this.popular_now();
+    	}
+	},
+
 	popular_now: function() {
 	var _this = this;
 	  var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
       function(resp) {
+      			console.log(resp.voices);
       			var new_voices = _this.state.voices.concat(resp.voices);
       			_this.setState({voices: new_voices, cursor: resp.cursor});
             });

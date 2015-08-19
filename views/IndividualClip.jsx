@@ -4,12 +4,13 @@ var React = require('react');
 var AudioPlayer = require('../components/AudioPlayer');
 var ShowClips = require('./ShowClips');
 var OgMetaTags = require('./OgMetaTags');
+var InputField = require('../components/InputField');
 
 
 var showClip = React.createClass({
 
     getInitialState: function() {
-        return({related_voices: []})
+        return({related_voices: [], iframe_width:0, iframe_height:0, preview_url: false})
     },
 
     componentDidMount: function() {
@@ -20,16 +21,39 @@ var showClip = React.createClass({
             });
     },
 
+    handleIframeSubmit: function() {
+
+        var iframe_height = this.refs.iframe_height.getDOMNode().value;
+        var iframe_width = this.refs.iframe_width.getDOMNode().value;
+
+        if(!iframe_width){
+            iframe_width = 0
+        }
+        if(!iframe_height) {
+            iframe_height=0
+        }
+
+        this.refs.preview_url.getDOMNode().value="<iframe src='https://dashboard-dev-dot-the-tasty-samosa.appspot.com/embed/"+this.props.voice.key+"' width='"+iframe_width+"' height='"+
+                                                 iframe_height+ "' border='0' scrolling='no' frameBorder='0'></iframe>";
+
+        this.setState({
+                iframe_height: iframe_height,
+                iframe_width: iframe_width,
+                preview_url: true
+            })
+    },
+
     render: function() {
 
         var poster_url = this.props.voice.poster_url;
 
         var imgStyle = {
+            position: 'relative',
             backgroundImage: 'url('+ poster_url +')',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             height: '355px',
-            width: '370px'
+            overflow: 'hidden'
         }
 
         var socialIconsStyle = {
@@ -102,6 +126,16 @@ var showClip = React.createClass({
               return previousValue + ', ' + currentValue;  
         });
 
+        var previewUrlStyle = {
+            display: 'none',   
+            width:'350px'
+        }
+
+        if(this.state.preview_url){
+            previewUrlStyle['display'] = 'block'
+        }
+
+        var iframe_src = "/embed/"+this.props.voice.key
 
         return (
         <div>
@@ -115,12 +149,11 @@ var showClip = React.createClass({
                             frameHeight={355}
                             controlSize={10} />
             </div>
-            
              <div style={captionStyle}>
                 {this.props.voice.transcript}                       
                 <div style={socialIconsStyle}> 
                         <div style={heartsStyle}>
-                        <img style={iconStyle} src="/public/images/heart.png" />
+                        <img style={iconStyle} src="/static/images/heart.png" />
                         <span style={iconFontStyle}> {this.props.voice.hearts} </span>
                     </div>
                     <div style={sharesStyle}>
@@ -135,23 +168,34 @@ var showClip = React.createClass({
              </div>
              <div style={tagsFontStyle}> {tags} </div>
             
+             Embed Clip: <hr/>
+             
+             <input placeholder="width" ref="iframe_width" />
+             <input placeholder="height" ref="iframe_height"  />
+             <button onClick={this.handleIframeSubmit}>Preview</button><br/>
+             <br/>
+             Preview Url: <hr/>
+
+             <div style={previewUrlStyle}>
+               <InputField ref="preview_url" placeholder = "preview url" />
+             </div>
+
+             <br/>
+
+            <iframe src={iframe_src} width={this.state.iframe_width} height={this.state.iframe_height} border="0" scrolling="no" frameBorder="0"></iframe>
+       
 
           </div>
-
-          
-
-
 
           <div style={relatedVideosStyle}>
             RELEATED VIDEOS <hr/>
                 <ShowClips clips = {this.state.related_voices} />
           </div>    
+
         </div>
         )
       }
 });
-
-
 
 
 module.exports = React.createClass({
@@ -196,34 +240,6 @@ module.exports = React.createClass({
 
         if(this.state.voice){
             var Clip = <showClip voice={this.state.voice}/>
-     
-            var poster = this.state.voice.caption;
-            var name = "";
-            if (poster != null) {
-                name = poster
-                name = name.substring(42);
-                if (name.length > 42) {
-                    name = name.substring(42);
-                }
-                name = name.substring(0, name.length - 4);
-                if (name == "poster") {
-                    name = "";
-                }
-            }
-            var URL = 'http://app.getsamosa.com/play/' + this.state.voice.key;
-            
-            React.renderComponent( <OgMetaTags 
-                message={'found Voice Story with id: ' + this.state.voice.key}
-                imageURL= {this.state.voice.poster_url}
-                opusURL= {this.state.voice.poster_url}
-                mp3URL= {this.state.voice.mp3_url}
-                URL= {URL}
-                name= {name}
-                hearts= {this.state.voice.hearts == null ? 0 : this.state.voice.hearts}
-                listens = {this.state.voice.listens == null ? 0 : this.state.voice.listens}
-                tags = {this.state.voice.tags}
-               />, document.getElementsByTagName('head')[0]);
-
         }
 
         return (

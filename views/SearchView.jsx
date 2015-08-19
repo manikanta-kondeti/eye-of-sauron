@@ -13,6 +13,15 @@ module.exports = React.createClass({
 	componentDidMount: function() {
 		this.search_by_tags();
     	window.addEventListener('scroll', this.handleScroll);
+    },
+
+	componentDidUpdate: function() {
+		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
+    	var windowInnerHeight = window.innerHeight
+    	if(showCLipsHeight < windowInnerHeight) {
+    			console.log('update');
+    		this.search_by_tags();
+    	}
 	},
 
 	componentWillReceiveProps: function(newProps, oldProps) {
@@ -47,10 +56,6 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-
-		if(this.state.search_result){
-			this.search_by_tags();
-		}
 
 		var RightSideBarStyle = {
 			position: 'absolute',

@@ -1,7 +1,8 @@
 var path = require('path');
 
 module.exports = {
-    entry: './index.jsx',
+    name: 'client-side rendering',
+    entry: './index_copy.jsx',
     output: {
         filename: 'bundle.js'
 
@@ -23,4 +24,5 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     }
-}
+
+ }

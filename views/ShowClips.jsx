@@ -1,6 +1,7 @@
 'use strict'
 
-var React = require('react')
+var React = require('react');
+var Page = require('page');
 var RedButton = require('../components/RedButton')
 var AudioPlayer = require('../components/AudioPlayer');
 
@@ -26,6 +27,10 @@ var Clip = React.createClass({
     	);
   	},
 
+  	navigate: function(url) {
+		Page(url);
+	},
+
 	render: function() {
 
 		var poster_url = this.props.data.poster_url;
@@ -44,6 +49,8 @@ var Clip = React.createClass({
 		}
 
 		var imgStyle = {
+			position: 'relative',
+			overflow: 'hidden',
 			backgroundImage: 'url('+ poster_url +')',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: '150px 150px',
@@ -130,13 +137,13 @@ var Clip = React.createClass({
 								    <AudioPlayer
 							        	opusURL={this.props.data.opus_url}
            							    mp3URL={this.props.data.mp3_url}
-             						    frameWidth={151}
-              							frameHeight={151}
-              						 	controlSize={23} />
+             						    frameWidth={150}
+              							frameHeight={150}
+              						 	controlSize={10} />
 								</div>
                             </div>
                             <div>
-			    				<p style={titleStyle} > {this.processText(this.props.data.caption)} </p>
+			    				<p onClick={this.navigate.bind(this,'/play/'+this.props.data.key)} style={titleStyle} > {this.processText(this.props.data.caption)} </p>
                     	        <hr style={hrStyle}/>
                             </div>
 
@@ -146,7 +153,7 @@ var Clip = React.createClass({
 
 							<div style={socialIconsStyle}> 
 								<div style={heartsStyle}>
-									<img style={iconStyle} src="/public/images/heart.png" />
+									<img style={iconStyle} src="/static/images/heart.png" />
 									<span style={iconFontStyle}> {this.props.data.hearts} </span>
 								</div>
 								<div style={sharesStyle}>
@@ -167,6 +174,10 @@ module.exports = React.createClass({
 
 	render: function() {
 
+		var showClipsStyle = {
+			overflow: 'hidden'
+		}
+
 		if(this.props.clips) {
 
 			var clips = this.props.clips.map(function(data, index) {
@@ -178,7 +189,7 @@ module.exports = React.createClass({
 
 		return (
 
-				<div>
+				<div style={showClipsStyle} id="show-clips">
 					{clips}
  				</div>
 		)

@@ -2,20 +2,26 @@
   "name": "samosa-web-application",
   "version": "0.1.0",
   "scripts": {
-    "deploy": "webpack -p --config webpack.config.js",
-
-    "start": "npm run gapi_start | npm run dev",
-    "dev": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8888",
+    "start": "node index.js",
+    "deploy": "gcloud preview app deploy app.yaml",
+    "node": "node index.js | ~/google_appengine/dev_appserver.py --port 9999  ./",
+    "deploy_dev": "webpack -p --config webpack.config.js",
+    "start_dev": "npm run gapi_start | npm run start_server",
+    "start_server": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8888",
     "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
   },
   "author": "vamshi",
   "dependencies": {
-    "react": "~0.11.2",
-    "page": "~1.6.3"
+    "react": "~0.12.2",
+    "page": "~1.6.3",
+    "express": "^4.12.0",
+    "path": "0.11.14",
+    "node-jsx": "0.13.3" 
   },
   "devDependencies": {
     "webpack": "~1.4.4",
     "webpack-dev-server": "~1.6.5",
-    "jsx-loader": "~0.11.2"
+    "jsx-loader": "~0.11.2",
+    "expose-loader": "~0.7.0"
   }
 }

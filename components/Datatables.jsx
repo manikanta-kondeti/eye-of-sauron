@@ -2,7 +2,11 @@
 /**
 	this.props.data = coloums of the table to be displayed
 	this.props.tags = headings of the table and key values in the json file
+	this.props.actions = They are buttons which have to be displayed with [name: , action: ] feature where name atrr referst to name on the button
+
 **/
+
+
 'use strict'
 
 var React = require('react')
@@ -11,6 +15,24 @@ var Img = require('./Image');
 var BasicPlayer = require('./BasicPlayer');
 var RedButton = require('./RedButton');
 
+
+var actionButton = React.createClass({
+
+	handleOnClick: function() { 
+		this.props.action(this.props.tag_value);
+	},
+
+	render: function() {
+
+			return (
+					<div onClick={this.handleOnClick} >
+						<RedButton text = {this.props.text} />
+					</div>
+
+				)
+	}
+})
+
 var tdItem = React.createClass({
 
 	/**
@@ -18,9 +40,12 @@ var tdItem = React.createClass({
 	 */
 	render: function() {
 
+
 			var tdStyle = {
 				textAlign: 'center',
-				padding: '5px'
+				padding: '5px',
+				borderBottom: '1px solid #cbcbcb'
+
 			}
 
 			if(this.props.data) {
@@ -29,17 +54,21 @@ var tdItem = React.createClass({
 				var audio_formats = ['opus', 'mp3'];
 ;
 
-
 				if(image_formats.indexOf(this.props.data.split('.').pop())!= -1){
 						var data =  <Img width="80" src={this.props.data} />
 				}	
 				else if(audio_formats.indexOf(this.props.data.split('.').pop())!= -1){
 						var data =  <BasicPlayer src={this.props.data} />
 				}	
-				
+
 				else{
-					var data = this.props.data;
+						var data = this.props.data;
+
 				}
+			}
+
+			if(this.props.action){
+				var data = <actionButton tag_value={this.props.tag_value} text = {this.props.name}  action = {this.props.action} />
 			}
 
 			return (
@@ -61,6 +90,8 @@ var trItem = React.createClass({
 	 */
 	searchResult: function() {
 
+		if(this.props.tdData) {
+
 		 for(var key in this.props.tdData) {	
 
 				if(this.props.tags.indexOf(key) != -1) {
@@ -69,12 +100,15 @@ var trItem = React.createClass({
 
           			var regex = new RegExp(this.props.search_value, 'gi');
 
-          			if(attrValue.match(regex)){
-          				return true;
+          			if(attrValue) {
+        	  			if(attrValue.match(regex)){
+          					return true;
+          				}
           			}
          		}	
         	}
         	return false;
+        }
 	},
 
 	/**
@@ -96,9 +130,16 @@ var trItem = React.createClass({
 					var attrValue = (this.props.tdData[tag_value] != null) ?  this.props.tdData[tag_value] : null;
 			
 					tdArray.push( <tdItem data = {attrValue}/> );
-				}		
-			}
+				}
 
+				if(this.props.actions){
+					for(var i in this.props.actions) { 
+						var action = this.props.actions[i];
+						var tag = action['tag'];
+						tdArray.push(<tdItem tag_value={this.props.tdData[tag]} name={action['name']} action={action['function']} />)
+					}
+				}
+			}
 		}
 
 		return(
@@ -173,7 +214,7 @@ module.exports = React.createClass({
 
 			var trItems = this.props.data.map(function(data, index) {
 				
-				return <trItem search_value={_this.state.search_value} tdData={data} key={index} tags={_this.props.tags} />
+				return <trItem actions={_this.props.actions} search_value={_this.state.search_value} tdData={data} key={index} tags={_this.props.tags} />
 			});
 		}
 

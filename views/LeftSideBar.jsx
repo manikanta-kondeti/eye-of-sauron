@@ -48,7 +48,7 @@ module.exports = React.createClass({
 				 		<a href ="https://itunes.apple.com/in/app/samosa-chat/id973054666?mt=8">
 				 		 <img width="100" src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
 						</a><br/><br/>
-						<a href="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0">	
+						<a href	="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0">	
 							<img width="100" src="https://i-msdn.sec.s-msft.com/dynimg/IC795460.png" />
 						</a><br/><br/>	
 						<a href ="https://chrome.google.com/webstore/detail/samosa/acghjnlbnackkloofkiebcicedbfipbg?hl=en">

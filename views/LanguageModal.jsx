@@ -7,11 +7,8 @@ var RedButton = require('../components/RedButton');
 
 module.exports = React.createClass({
 
-
     componentDidMount: function() {
-
         window.addEventListener('keyup', this.handleKeyUp);
-
     },
 
     /**
@@ -102,9 +99,7 @@ module.exports = React.createClass({
 
 		return (
             <div>
-            <div onClick={this.blur} style={overlayStyle}></div>
-
-
+              <div onClick={this.blur} style={overlayStyle}></div>
                 <div style={modalStyle}>
                     <div style ={loginMessageStyle}>
                         Please Login To Access This Feature

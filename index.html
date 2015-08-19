@@ -7,7 +7,7 @@
     <title>SAMOSA</title>
     
     <script src="/node_modules/react/dist/react-with-addons.js"></script>
-
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 </head>
 <body>
@@ -41,9 +41,21 @@
 
     <!-- include the bundle that contains all our scripts, produced by webpack -->
     <!-- the bundle is served by the webpack-dev-server -->
-    <script type="text/javascript" src="/bundle.js"></script>
- 
+
+    <script type="text/javascript" src="/parse.js"></script>
+
+    <script src="/bundle.js"></script>
+
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
   
+   
+    <script>
+
+      $(document).ready(function() {
+            
+            Parse.initialize('d8mjGklf1CYE5qpGK6TKPz3cnHAIcPdMQCYD7waZ', 'J3mVxkaDa4W4zDs9pujKjwXEMblyCBS9wKfVzy0v');   
+      });
+    </script>
+
 </body>
 </html>

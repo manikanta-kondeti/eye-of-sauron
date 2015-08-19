@@ -1,5 +1,5 @@
 application: the-tasty-samosa
-version: web-dev
+version: web-dev-samosa
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -9,8 +9,9 @@ builtins:
 
 handlers:
 - url: /
-  static_files: index.html
-  upload: index\.html
+  static_files: index.js
+  upload: index\.js
+
 - url: /node_modules/react/dist/react-with-addons.js
   static_files: node_modules/react/dist/react-with-addons.js
   upload: node_modules/react/dist/react-with-addons\.js

@@ -17,6 +17,15 @@ module.exports = React.createClass({
 		window.addEventListener('scroll', this.handleScroll);
 	},
 
+	componentDidUpdate: function() {
+		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
+    	var windowInnerHeight = window.innerHeight
+    	if(showCLipsHeight < windowInnerHeight) {
+    			console.log('update');
+    		this.most_recent();
+    	}
+	},
+
 	most_recent: function() {
 	var _this = this;
 	  var most_recent = gapi.client.samosa.api.expressions.recent({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(

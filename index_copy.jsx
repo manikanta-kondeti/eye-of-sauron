@@ -4,9 +4,12 @@
 
 window.init = function() {
      
+     console.log('ho');
+
     var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
 
+    console.log('Root');
 
 		var React = require('react');
 		var page = require('page');
@@ -18,9 +21,12 @@ window.init = function() {
 		var LoginView = require('./views/LoginView');
 		var MostRecent = require('./views/MostRecent');
 		var IndividualClip = require('./views/IndividualClip');
+    var IframePlayer = require('./views/IframePlayer');
+
+		var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');		
 		var viewPopularNow = require('./views/admin/viewPopularNow');
-		var viewSearchByTags = require('./views/admin/viewSearchByTags');	
-		var viewPopularByRank = require('./views/admin/viewPopularByRank');
+		var viewApproved = require('./views/admin/viewApproved');	
+		var viewUnApproved = require('./views/admin/viewUnApproved');
 
 
 		var Router = React.createClass({
@@ -37,13 +43,22 @@ window.init = function() {
 
       				var url = route[0];
       				var Component = route[1];
-
      				page(url, function (ctx) {
+     						
 
-						document.getElementById('left-side-bar').style.display = 'block';
-						document.getElementById('wrapper').style.display = 'block';
+     						var regex = new RegExp('/admin/dashboard', 'gi');
+     						
+          					if(url.match(regex)){
+          							React.renderComponent(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
+          					}
+          					else{
+          						React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
+          					}
 
-     				  _this.setState({ component: <Component params={ctx.params} /> });
+          					console.log('hi');
+          					document.getElementById('left-side-bar').style.display = 'block';
+							document.getElementById('wrapper').style.display = 'block';
+     					   _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			   });
 
@@ -58,26 +73,23 @@ window.init = function() {
 	});
 
 	var routes = [
- 		 ['/', PopularNow],
+ 		 ['', PopularNow],
  		 ['/popular-now',PopularNow],
  		 ['/most-recent',MostRecent],
  		 ['/search/:queryText', SearchView],
  		 ['/login', LoginView],
  		 ['/play/:key', IndividualClip],
+     ['/embed/:key', IframePlayer],
 
 
- 		 ['/dashboard/:view-popular-by-rank', viewPopularByRank],
- 		 ['/dashboard/:view-popular-now', viewPopularNow],
- 		 ['/dashboard/:view-search-tags', viewSearchByTags]
+ 		 ['/admin/dashboard', viewUnApproved],
+ 		 ['/admin/dashboard/:view-approved', viewApproved]
 
 	];
 
 	React.renderComponent(<Header />, document.getElementById('header'));
 
-	React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
-
 	React.renderComponent(<Router routes={routes} />, document.getElementById('right-side-bar'));
-
 		
     }, ROOT);
 

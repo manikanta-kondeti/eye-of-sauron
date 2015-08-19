@@ -56,6 +56,7 @@ var PlayerStates = {
   LOADING: 1, 
   PLAYING: 2,
   PAUSED: 3,
+  ENDED: 4
 };
 
 var Sound = typeof Audio !== 'undefined' ? new Audio() : null;
@@ -68,8 +69,16 @@ var AudioPlayer = React.createClass({
       duration: 0
     };
   },
+
   onClick: function() {
-    if (this.state.currentState == PlayerStates.STOPPED) {
+    if (this.state.currentState == PlayerStates.STOPPED || this.state.currentState == PlayerStates.ENDED) {
+
+        console.log('listen');
+
+         Parse.Analytics.track('Listens', {
+            device: 'Iframe'
+        });
+
       if (!!Sound.canPlayType('audio/ogg; codecs="opus"').replace(/^no$/, '')) {
         Sound.src = this.props.opusURL;
       } else if (!!Sound.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
@@ -97,28 +106,41 @@ var AudioPlayer = React.createClass({
     }
   },
   onEnded: function() {
-    this.setState({currentState: PlayerStates.STOPPED , currentTime: 0});
+    console.log('hi');
+    this.setState({currentState: PlayerStates.ENDED , currentTime: 0});
   },
   componentDidMount: function() {
     if (this.props.autoPlay) {
       this.onClick();
     }
   },
+
+  handleDownloadIconClick: function(download_redirect){
+
+        console.log('hi')
+
+       Parse.Analytics.track('DownloadIconClick', {
+            device: 'Iframe',
+            download_redirect: download_redirect
+        });
+  },
+
   render: function() {
-    var control = <img width='35' src="../public/images/play.png" />;
+    var control = <img width='35' src="/static/images/play.png" />;
     if (this.state.currentState == PlayerStates.LOADING) {
       // use time update event to show this; show spinner until this point
-      control = <img width='35' src="../public/images/spinner.gif" />;
+      control = <img width='35' src="/static/images/spinner.gif" />;
     } else if (this.state.currentState == PlayerStates.PLAYING) {
-      control = <img width='35' src="../public/images/pause.png" />;
+
+      control = <img width='35' src="/static/images/pause.png" />;
     }
 
     //TODO(abhilashi): fix all these magic numbers
     var padding = 10;
     var audioPlayerControlsStyle = {
       position: 'absolute',
-      left: this.props.frameWidth / 2 - this.props.controlSize / 2 - padding,
-      top: this.props.frameHeight / 2 - this.props.controlSize / 2 - padding,
+      left: '43%',
+      top: '40%',
       background: 'rgba(0, 0, 0, 0.7)',
       borderRadius: '8px',
       padding: padding,
@@ -130,7 +152,31 @@ var AudioPlayer = React.createClass({
       left: padding,
     };
     
+    var download_icon_width = this.props.frameWidth/6;
+
+    var download_icon_padding = download_icon_width/4;
+
+
+    var downloadIconsWrapper={
+      display: 'none',
+      width: '100%',
+      position: 'absolute',
+      background: 'rgba(0, 0, 0, 0.7)',
+      bottom: '0px',
+      padding: '5px'
+    }
+
+    var downloadIconStyle = {
+      width: '20%',
+      marginLeft: '5%'   
+    }
+
+    if (this.state.currentState == PlayerStates.ENDED) {
+      downloadIconsWrapper['display'] = 'block';
+    }
+
     return (
+    <div>
       <div style={audioPlayerControlsStyle} onClick={this.onClick} >
         {control}
         <CircularProgressBar 
@@ -140,6 +186,23 @@ var AudioPlayer = React.createClass({
           lineWidth={4}
           percent={Math.min(Math.max(0, this.state.currentTime / this.state.duration || 0), 1)} />
       </div>
+
+      <div style={downloadIconsWrapper}>
+              <div style={{color: 'white', marginBottom: '12px', marginLeft: '10px', fontSize: '14px'}}> To share this clip on Whatsapp</div>
+              <a onClick = {this.handleDownloadIconClick.bind(this,'android')} target='_top' href="https://play.google.com/store/apps/details?id=com.getsamosa">
+                <img style={downloadIconStyle} src="https://www.gstatic.com/android/market_images/web/play_logo_x2.png" />
+              </a>
+              <a onClick = {this.handleDownloadIconClick.bind(this,'apple')}  target='_top' href ="https://itunes.apple.com/in/app/samosa-chat/id973054666?mt=8">
+                <img style={downloadIconStyle} src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
+              </a>
+              <a onClick = {this.handleDownloadIconClick.bind(this,'windows')} target='_top' href ="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0"> 
+                <img style={downloadIconStyle} src="https://i-msdn.sec.s-msft.com/dynimg/IC795460.png" />
+              </a>  
+              <a onClick = {this.handleDownloadIconClick.bind(this,'chrome-plugin')} target='_top' href ="https://chrome.google.com/webstore/detail/samosa/acghjnlbnackkloofkiebcicedbfipbg?hl=en">
+                <img style={downloadIconStyle} src="https://www.mailvelope.com/img/ChromeWebStore_Badge_v2_340x96.png" />
+              </a>
+      </div> 
+    </div>
     );
   }
 });
