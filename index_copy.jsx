@@ -57,8 +57,8 @@ window.init = function() {
 
           					console.log('hi');
           					document.getElementById('left-side-bar').style.display = 'block';
-							document.getElementById('wrapper').style.display = 'block';
-     					   _this.setState({ component: <Component params={ctx.params} /> });
+					       		document.getElementById('wrapper').style.display = 'block';
+     					      _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			   });
 
@@ -74,6 +74,7 @@ window.init = function() {
 
 	var routes = [
  		 ['', PopularNow],
+     ['/search', PopularNow],
  		 ['/popular-now',PopularNow],
  		 ['/most-recent',MostRecent],
  		 ['/search/:queryText', SearchView],

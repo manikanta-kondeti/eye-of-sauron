@@ -28,6 +28,19 @@ var page_template = '<!DOCTYPE html>' +
 	'<html>' 
 
 var head_template = '<head>' +
+        '<style>'+
+          'body { background: #eff3fa !important;overflow-y: scroll;'+
+            'font-family: sans-serif !important;'+
+            'border: 0;'+
+            'line-height: 1.5;'+
+            'height: 100%;'+
+            'font-weight:100;'+
+            'font-size: 17px;'+
+            'margin: 0;'+
+            'padding: 0;'+
+            'letter-spacing: 0.01em;'+
+          '}'+
+    '</style>' +
 		    '<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>' +
 		    '<script src="/node_modules/react/dist/react-with-addons.js"></script>' +
 			'<script src="/bundle.js"></script>' +		

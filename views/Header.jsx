@@ -191,7 +191,8 @@ module.exports = React.createClass({
 		var searchBoxStyle = {
 			float: 'left',
 			width: '43%',
-			marginTop: '3px'
+			marginTop: '3px',
+			height: '45px'
 		}
 
 		var rightblockStyle = {

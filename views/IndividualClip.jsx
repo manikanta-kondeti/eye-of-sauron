@@ -144,11 +144,16 @@ var showClip = React.createClass({
 module.exports = React.createClass({
 
     getInitialState: function() {
-        return {voice: null, search_result:true, related_voices: []}
+        console.log('hello');
+        return {voice: null}
     },
 
     componentDidMount: function(){
         this.search_by_key();
+    },
+
+    componentDidUpdate: function() {
+        console.log('hiiww');
     },
 
     search_by_key: function() {
