@@ -126,30 +126,32 @@ var AudioPlayer = React.createClass({
   },
 
   render: function() {
-    var control = <img width='35' src="/static/images/play.png" />;
+    var control = <img width='35px' src="/static/images/play.png" />;
     if (this.state.currentState == PlayerStates.LOADING) {
       // use time update event to show this; show spinner until this point
-      control = <img width='35' src="/static/images/spinner.gif" />;
+      control = <img width='35px' src="/static/images/spinner.gif" />;
     } else if (this.state.currentState == PlayerStates.PLAYING) {
 
-      control = <img width='35' src="/static/images/pause.png" />;
+      control = <img width='35px' src="/static/images/pause.png" />;
     }
 
     //TODO(abhilashi): fix all these magic numbers
-    var padding = 10;
+    var padding = 5;
     var audioPlayerControlsStyle = {
+      width: '40px',
       position: 'absolute',
-      left: '43%',
-      top: '40%',
+      left: '38%',
+      top: '35%',
       background: 'rgba(0, 0, 0, 0.7)',
       borderRadius: '8px',
-      padding: padding,
+      padding: '5%',
       cursor: 'pointer',
     };
     var canvasStyle = {
       position: 'absolute',
-      top: padding,
-      left: padding,
+      top: '40%',
+      left: '43%',
+      zIndex: '1000px'
     };
     
     var download_icon_width = this.props.frameWidth/6;
@@ -177,18 +179,19 @@ var AudioPlayer = React.createClass({
 
     return (
     <div>
+
       <div style={audioPlayerControlsStyle} onClick={this.onClick} >
-        {control}
-        <CircularProgressBar 
+        {control}     
+      </div>
+               <CircularProgressBar 
           style={canvasStyle}
-          width={36}
-          height={36}
+          width={37}
+          height={37}
           lineWidth={4}
           percent={Math.min(Math.max(0, this.state.currentTime / this.state.duration || 0), 1)} />
-      </div>
 
       <div style={downloadIconsWrapper}>
-              <div style={{color: 'white', marginBottom: '12px', marginLeft: '10px', fontSize: '14px'}}> To share this clip on Whatsapp</div>
+              <div style={{color: 'white', fontSize:this.props.fontSize}}> To share this clip on Whatsapp</div>
               <a onClick = {this.handleDownloadIconClick.bind(this,'android')} target='_top' href="https://play.google.com/store/apps/details?id=com.getsamosa">
                 <img style={downloadIconStyle} src="https://www.gstatic.com/android/market_images/web/play_logo_x2.png" />
               </a>

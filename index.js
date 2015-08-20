@@ -21,18 +21,18 @@ var https = require('https');
 
 var app = express();
 
-app.use('/static/', express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, '.')));
 
 var og_tags;
-var page_template = ' <!DOCTYPE html>' +
+var page_template = '<!DOCTYPE html>' +
 	'<html>' 
 
 var head_template = '<head>' +
 		    '<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>' +
-		    '<script src="/static/node_modules/react/dist/react-with-addons.js"></script>' +
-			'<script src="/static/bundle.js"></script>' +		
+		    '<script src="/node_modules/react/dist/react-with-addons.js"></script>' +
+			'<script src="/bundle.js"></script>' +		
 			'<script src="https://apis.google.com/js/client.js?onload=init"></script>' +
-			'<script type="text/javascript" src="/static/parse.js"></script>' +
+			'<script type="text/javascript" src="/parse.js"></script>' +
 			'<script>' +			
 				'var loaded = function() {' +		
 					'Parse.initialize("d8mjGklf1CYE5qpGK6TKPz3cnHAIcPdMQCYD7waZ", "J3mVxkaDa4W4zDs9pujKjwXEMblyCBS9wKfVzy0v")' +
