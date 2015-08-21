@@ -138,20 +138,18 @@ var AudioPlayer = React.createClass({
     //TODO(abhilashi): fix all these magic numbers
     var padding = 5;
     var audioPlayerControlsStyle = {
-      width: '40px',
       position: 'absolute',
-      left: '38%',
-      top: '35%',
+      left: '43%',
+      top: '40%',
       background: 'rgba(0, 0, 0, 0.7)',
       borderRadius: '8px',
-      padding: '5%',
+      padding: '10px',
       cursor: 'pointer',
     };
     var canvasStyle = {
       position: 'absolute',
-      top: '40%',
-      left: '43%',
-      zIndex: '1000px'
+      top: '10px',
+      left: '10px'
     };
     
     var download_icon_width = this.props.frameWidth/6;
@@ -165,7 +163,6 @@ var AudioPlayer = React.createClass({
       position: 'absolute',
       background: 'rgba(0, 0, 0, 0.7)',
       bottom: '0px',
-      padding: '5px'
     }
 
     var downloadIconStyle = {
@@ -181,27 +178,29 @@ var AudioPlayer = React.createClass({
     <div>
 
       <div style={audioPlayerControlsStyle} onClick={this.onClick} >
-        {control}     
-      </div>
-               <CircularProgressBar 
+        {control}   
+      <CircularProgressBar 
           style={canvasStyle}
           width={37}
           height={37}
           lineWidth={4}
           percent={Math.min(Math.max(0, this.state.currentTime / this.state.duration || 0), 1)} />
+  
+      </div>
+      
 
       <div style={downloadIconsWrapper}>
               <div style={{color: 'white', fontSize:this.props.fontSize}}> To share this clip on Whatsapp</div>
-              <a onClick = {this.handleDownloadIconClick.bind(this,'android')} target='_top' href="https://play.google.com/store/apps/details?id=com.getsamosa">
+              <a onClick = {this.handleDownloadIconClick.bind(this,'android')}  target="_blank" href="https://bit.ly/samosa-android">
                 <img style={downloadIconStyle} src="https://www.gstatic.com/android/market_images/web/play_logo_x2.png" />
               </a>
-              <a onClick = {this.handleDownloadIconClick.bind(this,'apple')}  target='_top' href ="https://itunes.apple.com/in/app/samosa-chat/id973054666?mt=8">
+              <a onClick = {this.handleDownloadIconClick.bind(this,'apple')}   target="_blank" href ="https://bit.ly/samosa-ios">
                 <img style={downloadIconStyle} src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
               </a>
-              <a onClick = {this.handleDownloadIconClick.bind(this,'windows')} target='_top' href ="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0"> 
+              <a onClick = {this.handleDownloadIconClick.bind(this,'windows')}  target="_blank" href ="https://bit.ly/samosa-windows"> 
                 <img style={downloadIconStyle} src="https://i-msdn.sec.s-msft.com/dynimg/IC795460.png" />
               </a>  
-              <a onClick = {this.handleDownloadIconClick.bind(this,'chrome-plugin')} target='_top' href ="https://chrome.google.com/webstore/detail/samosa/acghjnlbnackkloofkiebcicedbfipbg?hl=en">
+              <a onClick = {this.handleDownloadIconClick.bind(this,'chrome-plugin')}  target="_blank" href ="https://bit.ly/samosa-chrome">
                 <img style={downloadIconStyle} src="https://www.mailvelope.com/img/ChromeWebStore_Badge_v2_340x96.png" />
               </a>
       </div> 

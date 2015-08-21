@@ -91,6 +91,7 @@ module.exports = React.createClass({
             display: 'block',
             width: '100%',
             backgroundImage: 'url('+ poster_url +')',
+            backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover'
       }

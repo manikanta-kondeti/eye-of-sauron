@@ -7,7 +7,7 @@ var ShowClips = require('./ShowClips')
 module.exports = React.createClass({
 
 	getInitialState: function() {
-		return {voices: [], cursor: '',search_result: false}
+		return {voices: [], cursor: '',search_result: false, more: true}
 	},
 
 	componentDidMount: function() {
@@ -20,7 +20,9 @@ module.exports = React.createClass({
     	var windowInnerHeight = window.innerHeight
     	if(showCLipsHeight < windowInnerHeight) {
     			console.log('update');
-    		this.search_by_tags();
+    		if(this.state.more) {
+    			this.search_by_tags();
+    		}
     	}
 	},
 
@@ -28,17 +30,17 @@ module.exports = React.createClass({
 		this.setState({voices: [], cursor: '', search_result: true})
 	},
 
-
-   search_by_tags: function(queryText) {
+   	search_by_tags: function(queryText) {
 
    		var queryText = this.props.params.queryText;
+
   		if(queryText) {
   		  var _this = this
   		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
             function(resp){             
             	console.log(resp);
             	var new_voices = _this.state.voices.concat(resp.voices);
-            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false})
+            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false, more: resp.more})
             });
   		}
 

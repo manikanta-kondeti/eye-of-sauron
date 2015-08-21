@@ -86,7 +86,7 @@ app.get('/play/:key', function(req,res) {
      			proxyResponse.on('end',function(){
      				var obj	 = JSON.parse(output);
 
-     				var URL  = 'https://web-dot-the-tasty-samosa.appspot.com/play/'+ key;
+     				var URL  = 'https://app.getsamosa.com/play/'+ key;
      				var twitterURL = URL.replace('/play/', '/play/twitter/');
     
    	 				var imageURL = obj['poster_url'];
@@ -94,10 +94,10 @@ app.get('/play/:key', function(req,res) {
 
 			 		res.setHeader('Content-Type', 'text/html');
                     
-     				var URL  = 'https://web-dot-the-tasty-samosa.appspot.com/play/'+ key;
+     				var URL  = 'https://app.getsamosa.com/play/'+ key;
      				var og_template =  head_template + 
    										'<meta property="fb:app_id" content="580678502050494" />' + 
-        								'<meta property="og:url" content=https://web-dot-the-tasty-samosa.appspot.com/play/'+ key  +' />' +
+        								'<meta property="og:url" content=https://app.getsamosa.com/play/'+ key  +' />' +
         								'<meta property="og:type"   content="video.other" />' +
         								'<meta property="og:video:height" content="260" />' + 
         								'<meta property="og:video:width" content="420" />'+
@@ -105,7 +105,7 @@ app.get('/play/:key', function(req,res) {
         								'<meta property="og:title" content='+ transcript +' />' +
        								 	'<meta property="og:image" content='+ imageURL +' />' +
                                         '<meta property="og:video:secure_url" content="https://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL + '&share_link=' + URL + '" />' +
-                                        '<meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL +'&share_link=https://web-dot-the-tasty-samosa.appspot.com/play/'+ key + '"/>'+
+                                        '<meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file=' + obj['mp3_url'] + '&image_file=' + imageURL +'&share_link=https://app..getsamosa.com/play/'+ key + '"/>'+
                                         '<meta property="twitter:site" content="@SamosaApp" />' +
         								'<meta property="twitter:image" content='+imageURL +' />' +
         								'<meta property="twitter:player" content='+twitterURL+ '/>' +
@@ -140,7 +140,7 @@ app.get('*', function(req, res) {
 
 // [START server]
 /* Start the server */
-var server = app.listen(process.env.PORT || '8888', '0.0.0.0', function() {
+var server = app.listen(process.env.PORT || '8080', '0.0.0.0', function() {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
   console.log("Press Ctrl+C to quit.");
 });

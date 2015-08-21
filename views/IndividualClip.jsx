@@ -32,7 +32,7 @@ var showClip = React.createClass({
             iframe_height=0
         }
 
-        this.refs.preview_url.getDOMNode().value="<iframe src='https://dashboard-dev-dot-the-tasty-samosa.appspot.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
+        this.refs.preview_url.getDOMNode().value="<iframe src='https://app-dot-the-tasty-samosa.appspot.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
                                                  iframe_height+ "' border='0' scrolling='no' frameBorder='0'></iframe>";
 
          this.setState({
@@ -56,7 +56,7 @@ var showClip = React.createClass({
         var relatedVideosStyle = {
             float: 'right',
             background : 'white',
-            height: '100%',
+            height: 'auto',
             border: '1px solid #e8e8e8',
             padding: '10px',
             width: '40%'
@@ -77,7 +77,8 @@ var showClip = React.createClass({
         });
 
         var previewUrlStyle = {  
-            width:'90%'
+            width:'90%',
+            height: '55px'
         }
 
         var iframeBlockStyle = {
@@ -131,7 +132,7 @@ var showClip = React.createClass({
             </div>
           </div>  
           <div style={relatedVideosStyle}>
-             RELEATED VIDEOS <hr/>
+             RELEATED CLIPS <hr/>
              <ShowClips clips = {this.state.related_voices} />
           </div>    
 
