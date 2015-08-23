@@ -43,13 +43,13 @@ module.exports = React.createClass({
 					Available In <hr/><br/>
 
 						<a href="https://play.google.com/store/apps/details?id=com.getsamosa"> 
-				 		 <img width="100" src="https://www.gstatic.com/android/market_images/web/play_logo_x2.png" />
+				 		    <img width="100" src="https://www.gstatic.com/android/market_images/web/play_logo_x2.png" />
 				 		</a><br/> <br/>
 				 		<a href ="https://itunes.apple.com/in/app/samosa-chat/id973054666?mt=8">
-				 		 <img width="100" src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
+				 		    <img width="100" src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
 						</a><br/><br/>
-						<a href	="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0">	
-							<img width="100" src="https://i-msdn.sec.s-msft.com/dynimg/IC795460.png" />
+						<a href	="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0"> 	
+							<img width="100" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7Tg4qXdHWu0tIEOYMjXe-coWZ2IooFRz5-OzKrfMcioSqmVj68Q" />
 						</a><br/><br/>	
 						<a href ="https://chrome.google.com/webstore/detail/samosa/acghjnlbnackkloofkiebcicedbfipbg?hl=en">
 				 		 <img width="100" src="https://www.mailvelope.com/img/ChromeWebStore_Badge_v2_340x96.png" />

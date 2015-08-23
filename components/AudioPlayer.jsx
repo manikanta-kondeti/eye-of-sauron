@@ -199,7 +199,7 @@ var AudioPlayer = React.createClass({
                 <img style={downloadIconStyle} src="http://www.yallatruck.com/wp-content/uploads/2014/08/apple-app-store-icon.jpg" />
               </a>
               <a onClick = {this.handleDownloadIconClick.bind(this,'windows')} target='_top' href ="https://www.microsoft.com/en-us/store/apps/samosa-chat/9nblggh0lcd0"> 
-                <img style={downloadIconStyle} src="https://i-msdn.sec.s-msft.com/dynimg/IC795460.png" />
+                <img style={downloadIconStyle} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7Tg4qXdHWu0tIEOYMjXe-coWZ2IooFRz5-OzKrfMcioSqmVj68Q" />
               </a>  
               <a onClick = {this.handleDownloadIconClick.bind(this,'chrome-plugin')} target='_top' href ="https://chrome.google.com/webstore/detail/samosa/acghjnlbnackkloofkiebcicedbfipbg?hl=en">
                 <img style={downloadIconStyle} src="https://www.mailvelope.com/img/ChromeWebStore_Badge_v2_340x96.png" />
