@@ -18,7 +18,6 @@ module.exports = React.createClass({
 		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
     	var windowInnerHeight = window.innerHeight
     	if(showCLipsHeight < windowInnerHeight) {
-    		console.log('update');
     		this.popular_now();
     	}
 	},
@@ -27,7 +26,6 @@ module.exports = React.createClass({
 	var _this = this;
 	  var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
       function(resp) {
-      			console.log(resp.voices);
       			var new_voices = _this.state.voices.concat(resp.voices);
       			_this.setState({voices: new_voices, cursor: resp.cursor});
             });
@@ -36,9 +34,18 @@ module.exports = React.createClass({
 	handleScroll: function() {
 
 		  // you're at the bottom of the page
-		  if ((window.innerHeight + window.scrollY+3) >= document.body.scrollHeight) {
+		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
      		 this.popular_now();
    		 }
+	},
+
+	getDocHeight: function() {
+   		var D = document;
+   	 	return Math.max(
+    	    Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        	Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+       		Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    	);	
 	},
 
 	render: function() {

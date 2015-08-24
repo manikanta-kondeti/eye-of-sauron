@@ -73,8 +73,6 @@ var AudioPlayer = React.createClass({
   onClick: function() {
     if (this.state.currentState == PlayerStates.STOPPED || this.state.currentState == PlayerStates.ENDED) {
 
-        console.log('listen');
-
          Parse.Analytics.track('Listens', {
             device: 'Iframe'
         });
@@ -106,7 +104,6 @@ var AudioPlayer = React.createClass({
     }
   },
   onEnded: function() {
-    console.log('hi');
     this.setState({currentState: PlayerStates.ENDED , currentTime: 0});
   },
   componentDidMount: function() {
@@ -116,8 +113,6 @@ var AudioPlayer = React.createClass({
   },
 
   handleDownloadIconClick: function(download_redirect){
-
-        console.log('hi')
 
        Parse.Analytics.track('DownloadIconClick', {
             device: 'Iframe',

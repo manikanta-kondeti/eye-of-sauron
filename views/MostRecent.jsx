@@ -36,14 +36,23 @@ module.exports = React.createClass({
             });
 	},
 
+	
 	handleScroll: function() {
 
 		  // you're at the bottom of the page
-		  if ((window.innerHeight + window.scrollY+3) >= document.body.scrollHeight) {
-     	  		this.most_recent();
-     	  }
+		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
+     		 this.most_recent();
+   		 }
 	},
 
+	getDocHeight: function() {
+   		var D = document;
+   	 	return Math.max(
+    	    Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        	Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+       		Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    	);	
+	},
 	render: function() {
 
 		var RightSideBarStyle = {

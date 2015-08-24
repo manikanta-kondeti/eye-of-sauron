@@ -2,12 +2,8 @@
   "name": "samosa-web-application",
   "version": "0.1.0",
   "scripts": {
-    "start": "node index.js",
-    "deploy": "gcloud preview app deploy app.yaml",
-    "node": "node index.js",
-    "deploy_dev": "webpack -p --config webpack.config.js",
-    "start_dev": "npm run gapi_start | npm run start_server",
-    "start_server": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8080",
+    "deploy": "webpack -p --config webpack.config.js",
+    "start": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8080",
     "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
   },
   "author": "vamshi",

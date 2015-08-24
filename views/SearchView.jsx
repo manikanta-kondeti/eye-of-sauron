@@ -30,7 +30,7 @@ module.exports = React.createClass({
 		this.setState({voices: [], cursor: '', search_result: true})
 	},
 
-   	search_by_tags: function(queryText) {
+   	search_by_tags: function() {
 
    		var queryText = this.props.params.queryText;
 
@@ -49,12 +49,22 @@ module.exports = React.createClass({
   		}
 	},
 
+	
 	handleScroll: function() {
 
 		  // you're at the bottom of the page
-		  if ((window.innerHeight + window.scrollY+3) >= document.body.scrollHeight) {
-     		 this.search_by_tags()
+		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
+     		 this.search_by_tags();
    		 }
+	},
+
+	getDocHeight: function() {
+   		var D = document;
+   	 	return Math.max(
+    	    Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        	Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+       		Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    	);	
 	},
 
 	render: function() {

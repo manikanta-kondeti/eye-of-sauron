@@ -45,11 +45,12 @@ var showClip = React.createClass({
     render: function() {
 
         var boxStyle ={
+            position: 'fixed',
             float: 'left',
             background: 'white',
             border: '1px solid #e8e8e8',
             padding:'5px', 
-            width: '50%' 
+            width: '41%' 
         }
 
 
@@ -59,7 +60,7 @@ var showClip = React.createClass({
             height: 'auto',
             border: '1px solid #e8e8e8',
             padding: '10px',
-            width: '40%'
+            width: '47%'
         }
 
         var tagsStyle = {
@@ -149,21 +150,18 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function(){
-        this.search_by_key();
+        this.search_by_key(this.props.params.key);
     },
 
-    componentDidUpdate: function() {
-        console.log('componentDidUpdate');
+    componentWillReceiveProps: function(newProps, oldProps) {
+        this.search_by_key(newProps.params.key);
     },
 
-    search_by_key: function() {
+    search_by_key: function(key) {
        var _this = this;
-       console.log(this.props.params.key);
-
        //Here response is a single voice object
-       gapi.client.samosa.api.get_expression_by_key({'id': this.props.params.key}).execute(
+       gapi.client.samosa.api.get_expression_by_key({'id': key}).execute(
             function(resp){
-                    console.log(resp);
                     _this.setState({voice: resp});
                 });
     },
@@ -172,15 +170,15 @@ module.exports = React.createClass({
 
         var RightSideBarStyle = {
             position: 'absolute',
-            marginLeft: '20%',
-            top: '60px',
+            marginLeft: '200px',
+            top: '70px',
             bottom: '0px',
             display: 'block',
             padding: '9px',
-            width: '78%'
+            width: '83%'
         }
 
-        if(this.state.voice){
+        if(this.state.voice) {
             var Clip = <showClip data={this.state.voice}/>
         }
 

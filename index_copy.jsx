@@ -4,12 +4,8 @@
 
 window.init = function() {
      
-     console.log('ho');
-
     var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
-
-    console.log('Root');
 
 		var React = require('react');
 		var page = require('page');
@@ -41,11 +37,11 @@ window.init = function() {
   				var _this = this;
    		 		this.props.routes.forEach(function (route) {
 
-      				var url = route[0];
-      				var Component = route[1];
+      			var url = route[0];
+      			var Component = route[1];
+    
      				page(url, function (ctx) {
      						
-
      						var regex = new RegExp('/admin/dashboard', 'gi');
      						
           					if(url.match(regex)){
@@ -55,14 +51,11 @@ window.init = function() {
           						React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
           					}
 
-          					console.log('hi');
           					document.getElementById('left-side-bar').style.display = 'block';
 					       		document.getElementById('wrapper').style.display = 'block';
      					      _this.setState({ component: <Component params={ctx.params} /> });
      				});
-   			   });
-
-
+   			  });
   			page.start();
  		 },
 

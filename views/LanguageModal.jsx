@@ -51,8 +51,6 @@ module.exports = React.createClass({
 
 	render: function() {
 		  
-        console.log(sessionStorage.getItem('samosa_key'))
-
 		var overlayStyle = {
     		visibility: 'visible',
      		position: 'absolute',
