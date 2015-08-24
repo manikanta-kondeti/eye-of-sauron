@@ -132,7 +132,7 @@ var showClip = React.createClass({
             </div>
           </div>  
           <div style={relatedVideosStyle}>
-             RELEATED CLIPS <hr/>
+             RELATED CLIPS <hr/>
              <ShowClips clips = {this.state.related_voices} />
           </div>    
 
@@ -145,7 +145,6 @@ var showClip = React.createClass({
 module.exports = React.createClass({
 
     getInitialState: function() {
-        console.log('hello');
         return {voice: null}
     },
 
@@ -154,7 +153,7 @@ module.exports = React.createClass({
     },
 
     componentDidUpdate: function() {
-        console.log('hiiww');
+        console.log('componentDidUpdate');
     },
 
     search_by_key: function() {
@@ -167,7 +166,6 @@ module.exports = React.createClass({
                     console.log(resp);
                     _this.setState({voice: resp});
                 });
-
     },
 
     render: function() {

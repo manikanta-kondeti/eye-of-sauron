@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 
 <html>
+{% autoescape true %}
 <head>
 
 
     <title>SAMOSA</title>
     
+    <meta property="fb:app_id" content="580678502050494" /> 
+    <meta property="og:url" content={{ URL }} /> 
+    <meta property="og:type" content="video.other" /> 
+    <meta property="og:video:height" content="260" />
+    <meta property="og:video:width" content="420" />
+    <meta property="og:video:type" content="application/x-shockwave-flash" />
+    <meta property="og:title" content={{transcript}} /> 
+    <meta property="og:image" content={{imageURL}} />
+    <meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file={{mp3_url}}&image_file={{imageURL}}&share_link={{URL}}"/>
+    <meta property="og:video:secure_url" content="https://samosa.parseapp.com/Main.swf?audio_file={{mp3_url}}&image_file={{imageURL}}&share_link={{URL}}"/>
+    <meta property="twitter:site" content="@SamosaApp" />
+    <meta property="twitter:image" content={{imageURL}} />
+    <meta property="twitter:player" content={{twitterURL}} />   
+    <meta property="twitter:player:width" content="512" />
+    <meta property="twitter:player:height" content="512" />
+    <meta property="twitter:card" content="player" />
+    <meta property="twitter:title" content={{transcript}} />
+    <meta property="twitter:app:name:googleplay" content="Samosa" />
+    <meta property="twitter:app:id:googleplay" content="com.getsamosa" />
+
     <script src="/node_modules/react/dist/react-with-addons.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 

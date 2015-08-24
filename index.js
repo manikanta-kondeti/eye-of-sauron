@@ -83,7 +83,8 @@ app.get('/play/:key', function(req,res) {
 
      			 	output += chunk
       			});
-     			proxyResponse.on('end',function(){
+     			
+          proxyResponse.on('end',function(){
      				var obj	 = JSON.parse(output);
 
      				var URL  = 'https://app.getsamosa.com/play/'+ key;
@@ -92,7 +93,7 @@ app.get('/play/:key', function(req,res) {
    	 				var imageURL = obj['poster_url'];
                     var transcript = obj['transcript'];
 
-			 		res.setHeader('Content-Type', 'text/html');
+			 		  res.setHeader('Content-Type', 'text/html');
                     
      				var URL  = 'https://app.getsamosa.com/play/'+ key;
      				var og_template =  head_template + 

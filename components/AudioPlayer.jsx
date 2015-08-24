@@ -126,30 +126,34 @@ var AudioPlayer = React.createClass({
   },
 
   render: function() {
-    var control = <img width='35px' src="/static/images/play.png" />;
+    var control = <img style={{margin: '7px'}} width='35px' src="/static/images/play.png" />;
     if (this.state.currentState == PlayerStates.LOADING) {
       // use time update event to show this; show spinner until this point
-      control = <img width='35px' src="/static/images/spinner.gif" />;
+      control = <img style={{margin: '7px'}} width='35px' src="/static/images/spinner.gif" />;
     } else if (this.state.currentState == PlayerStates.PLAYING) {
 
-      control = <img width='35px' src="/static/images/pause.png" />;
+      control = <img style={{margin: '7px'}} width='35px' src="/static/images/pause.png" />;
     }
 
     //TODO(abhilashi): fix all these magic numbers
     var padding = 5;
     var audioPlayerControlsStyle = {
       position: 'absolute',
-      left: '43%',
-      top: '40%',
+      left: '50%',
+      top: '50%',
+      width: '50px',
+      height: '50px',
+      marginLeft: '-25px',
+      borderRadius: '5px',
+      marginTop: '-24px',
       background: 'rgba(0, 0, 0, 0.7)',
-      borderRadius: '8px',
-      padding: '10px',
       cursor: 'pointer',
     };
+
     var canvasStyle = {
       position: 'absolute',
-      top: '10px',
-      left: '10px'
+      top: '6px',
+      left: '7px'
     };
     
     var download_icon_width = this.props.frameWidth/6;

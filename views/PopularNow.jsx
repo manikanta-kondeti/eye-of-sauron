@@ -17,10 +17,8 @@ module.exports = React.createClass({
 	componentDidUpdate: function() {
 		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
     	var windowInnerHeight = window.innerHeight
-    	console.log(showCLipsHeight);
-    	console.log(windowInnerHeight);
     	if(showCLipsHeight < windowInnerHeight) {
-    			console.log('update');
+    		console.log('update');
     		this.popular_now();
     	}
 	},
