@@ -4,71 +4,8 @@
 {% autoescape true %}
 <head>
 
-
-        <title>SAMOSA</title>
-
-        <meta property="fb:app_id" content="580678502050494" /> 
-        <meta property="og:url" content={{ URL }} /> 
-        <meta property="og:type" content="video.other" /> 
-        <meta property="og:video:height" content="260" />
-        <meta property="og:video:width" content="420" />
-        <meta property="og:video:type" content="application/x-shockwave-flash" />
-        <meta property="og:title" content={{transcript}} /> 
-        <meta property="og:image" content={{imageURL}} />
-        <meta property="og:video" content="http://samosa.parseapp.com/Main.swf?audio_file={{mp3_url}}&image_file={{imageURL}}&share_link={{URL}}"/>
-        <meta property="og:video:secure_url" content="https://samosa.parseapp.com/Main.swf?audio_file={{mp3_url}}&image_file={{imageURL}}&share_link={{URL}}"/>
-        <meta property="twitter:site" content="@SamosaApp" />
-        <meta property="twitter:image" content={{imageURL}} />
-        <meta property="twitter:player" content={{twitterURL}} />   
-        <meta property="twitter:player:width" content="512" />
-        <meta property="twitter:player:height" content="512" />
-        <meta property="twitter:card" content="player" />
-        <meta property="twitter:title" content={{transcript}} />
-        <meta property="twitter:app:name:googleplay" content="Samosa" />
-        <meta property="twitter:app:id:googleplay" content="com.getsamosa" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon.png">
-        <script src="/react-with-addons.js"></script>
-        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-        
-        <script>
-        var isMobile = {
-        Android: function() {
-        return navigator.userAgent.match(/Android/i);
-        },
-        Windows: function() {
-        return navigation.userAgent.match(/Windows/i);
-        },
-        iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-        },
-        Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-
-        };
-
-       
-        if ( isMobile.Android() ) {
-        window.location.assign("http://bit.ly/samosa-android");
-        }
-        else if(isMobile.iOS())
-        {
-        window.location.assign("http://bit.ly/samosa-ios");
-        }
-        else if(isMobile.Windows()){
-        window.location.assign("http://bit.ly/samosa-windows");
-        }
+    <title>SAMOSA</title>
     
-<<<<<<< HEAD
     <meta property="fb:app_id" content="580678502050494" /> 
     <meta property="og:url" content={{ URL }} /> 
     <meta property="og:type" content="video.other" /> 
@@ -97,14 +34,6 @@
     <style>
         body {
             background: #eff3fa !important;
-=======
-    </script>
-    </head>
-    <body>
-        <style>
-            body {
-            background: #eff3fa  !important;
->>>>>>> 7718a9ec8a1e1fe80a55ea717dc02bb745a0afdd
             overflow-y: scroll;
             font-family: sans-serif !important;
             border: 0;
@@ -116,38 +45,37 @@
             padding: 0;
             letter-spacing: 0.01em;
 
-            }
-        </style>
+        }
+    </style>
 
-        <div id="header">
-            <!-- this is where the root react component header will get rendered -->
-        </div>
+    <div id="header">
+        <!-- this is where the root react component header will get rendered -->
+    </div>
 
-        <div id= "left-side-bar">
-            <!-- this is where the root react component left side bar will be rendered will get rendered -->
-        </div>
+    <div id= "left-side-bar">
+         <!-- this is where the root react component left side bar will be rendered will get rendered -->
+    </div>
 
-        <div id = "right-side-bar">
-        </div>
+    <div id = "right-side-bar">
+    </div>
 
-        <!-- include the bundle that contains all our scripts, produced by webpack -->
-        <!-- the bundle is served by the webpack-dev-server -->
+    <!-- include the bundle that contains all our scripts, produced by webpack -->
+    <!-- the bundle is served by the webpack-dev-server -->
 
-        <script type="text/javascript" src="/parse.js"></script>
+    <script type="text/javascript" src="/parse.js"></script>
 
-        <script src="/bundle.js"></script>
+    <script src="/bundle.js"></script>
 
-        <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+  
+   
+    <script>
 
+      $(document).ready(function() {
+            
+            Parse.initialize('d8mjGklf1CYE5qpGK6TKPz3cnHAIcPdMQCYD7waZ', 'J3mVxkaDa4W4zDs9pujKjwXEMblyCBS9wKfVzy0v');   
+      });
+    </script>
 
-        <script>
-
-            $(document).ready(function() {
-
-                Parse.initialize('d8mjGklf1CYE5qpGK6TKPz3cnHAIcPdMQCYD7waZ', 'J3mVxkaDa4W4zDs9pujKjwXEMblyCBS9wKfVzy0v');   
-            });
-        </script>
-
-    </body>
+</body>
 </html>
-{% endautoescape %}
