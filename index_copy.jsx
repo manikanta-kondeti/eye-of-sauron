@@ -23,7 +23,8 @@ window.init = function() {
 		var viewPopularNow = require('./views/admin/viewPopularNow');
 		var viewApproved = require('./views/admin/viewApproved');	
 		var viewUnApproved = require('./views/admin/viewUnApproved');
-
+    var createPushNotification = require('./views/admin/createPushNotification');
+    var getPushNotificationId = require('./views/admin/getPushnotificationId');
 
 		var Router = React.createClass({
 
@@ -32,7 +33,7 @@ window.init = function() {
   			  return { component: '<div />'};
  		 	},
 
-  			componentDidMount: function () {
+  		componentDidMount: function () {
 
   				var _this = this;
    		 		this.props.routes.forEach(function (route) {
@@ -45,7 +46,8 @@ window.init = function() {
      						var regex = new RegExp('/admin/dashboard', 'gi');
      						
           					if(url.match(regex)){
-          							React.renderComponent(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
+          							console.log('match');
+                        React.renderComponent(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
           					}
           					else{
           						React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
@@ -75,9 +77,10 @@ window.init = function() {
  		 ['/play/:key', IndividualClip],
      ['/embed/:key', IframePlayer],
 
-
+     ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
  		 ['/admin/dashboard', viewUnApproved],
- 		 ['/admin/dashboard/:view-approved', viewApproved]
+ 		 ['/admin/dashboard/:view-approved', viewApproved],
+     ['/admin/dashboard/create_push_notification', createPushNotification]
 
 	];
 

@@ -42,7 +42,7 @@ module.exports = React.createClass({
 
 
 		return (
-			<input onKeyUp={this.keyUp} onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
+			<input id={this.props.id} onKeyUp={this.keyUp} onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
 		)
 	}
 

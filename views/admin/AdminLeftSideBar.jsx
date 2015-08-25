@@ -24,7 +24,8 @@ module.exports = React.createClass({
 
 		var data = [
 			{name: 'Unapproved', url: 'admin/dashboard/', image_url:''},
-			{name: 'Approved', url: 'admin/dashboard/view-approved', image_url:''}
+			{name: 'Approved', url: 'admin/dashboard/view-approved', image_url:''},
+			{name: 'Push Notifcation', url:'admin/dashboard/create_push_notification', image_url:''}
 		]
 
 		var downloadIcons = {

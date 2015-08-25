@@ -38,7 +38,6 @@ module.exports = React.createClass({
   		  var _this = this
   		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
             function(resp){             
-            	console.log(resp);
             	var new_voices = _this.state.voices.concat(resp.voices);
             	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false, more: resp.more})
             });

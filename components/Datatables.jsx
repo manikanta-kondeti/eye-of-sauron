@@ -19,7 +19,7 @@ var RedButton = require('./RedButton');
 var actionButton = React.createClass({
 
 	handleOnClick: function() { 
-		this.props.action(this.props.tag_value);
+		this.props.action(this.props.data);
 	},
 
 	render: function() {
@@ -52,12 +52,13 @@ var tdItem = React.createClass({
 
 				var image_formats = ['png', 'jpg'];
 				var audio_formats = ['opus', 'mp3'];
-;
 
-				if(image_formats.indexOf(this.props.data.split('.').pop())!= -1){
+				var data = String(this.props.data);
+
+				if(image_formats.indexOf(data.split('.').pop())!= -1){
 						var data =  <Img width="80" src={this.props.data} />
 				}	
-				else if(audio_formats.indexOf(this.props.data.split('.').pop())!= -1){
+				else if(audio_formats.indexOf(data.split('.').pop())!= -1){
 						var data =  <BasicPlayer src={this.props.data} />
 				}	
 
@@ -68,7 +69,9 @@ var tdItem = React.createClass({
 			}
 
 			if(this.props.action){
-				var data = <actionButton tag_value={this.props.tag_value} text = {this.props.name}  action = {this.props.action} />
+
+				var data = <actionButton data={this.props.data} text = {this.props.name}  action = {this.props.action} />
+
 			}
 
 			return (
@@ -96,7 +99,7 @@ var trItem = React.createClass({
 
 				if(this.props.tags.indexOf(key) != -1) {
 
-          			var attrValue = this.props.tdData[key];
+          			var attrValue = String(this.props.tdData[key]);
 
           			var regex = new RegExp(this.props.search_value, 'gi');
 
@@ -132,11 +135,13 @@ var trItem = React.createClass({
 					tdArray.push( <tdItem data = {attrValue}/> );
 				}
 
-				if(this.props.actions){
+				if(this.props.actions) {
+
 					for(var i in this.props.actions) { 
+						
 						var action = this.props.actions[i];
-						var tag = action['tag'];
-						tdArray.push(<tdItem tag_value={this.props.tdData[tag]} name={action['name']} action={action['function']} />)
+
+						tdArray.push(<tdItem data={this.props.tdData} name={action['name']} action={action['function']} />);
 					}
 				}
 			}
@@ -159,7 +164,7 @@ module.exports = React.createClass({
 	},
 
 	/**
-	 * sets the search_value state to input box value
+	 * sets the search_value state to input box value and the set state is passed to trItem 
 	 * @param  {[input box search value]}
 	 * @return {[none]}
 	 */
@@ -194,8 +199,6 @@ module.exports = React.createClass({
 		if(this.props.buttons) {
 
 			var voices = this.props.data;
-			console.log(voices);
-			
 		}
 
 		if(this.props.data) {
@@ -213,7 +216,7 @@ module.exports = React.createClass({
 			}
 
 			var trItems = this.props.data.map(function(data, index) {
-				
+
 				return <trItem actions={_this.props.actions} search_value={_this.state.search_value} tdData={data} key={index} tags={_this.props.tags} />
 			});
 		}
@@ -237,8 +240,6 @@ module.exports = React.createClass({
 				return <th onClick={_this.thOnClick.bind(_this,data)} style={thStyle}>{data}</th>
 			});
 		}
-
-
 
 		return (
 

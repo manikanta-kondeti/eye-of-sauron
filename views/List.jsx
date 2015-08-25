@@ -20,9 +20,7 @@ var ListItem = React.createClass({
 		this.setState({hover_flag: !this.state.hover_flag})
 	},
 
-
 	render: function() {
-
 
 		var imageStyle = {
 			width:'20px',
