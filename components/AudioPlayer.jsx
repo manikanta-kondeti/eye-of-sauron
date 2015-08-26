@@ -59,11 +59,41 @@ var PlayerStates = {
   ENDED: 4
 };
 
-var Sound = typeof Audio !== 'undefined' ? new Audio() : null;
+var SoundClass = (function () {
+    var instance;
+
+    function createInstance() {
+        var object = new Audio();
+        return object;
+    }
+    
+    return {
+        getInstance: function (newPlayerCell) {
+            if (!instance) {
+                instance = createInstance();
+            }
+            // if an instance already exists stop it before returning
+            return instance;
+        },
+        loadInstance:  function (src){
+          if (instance){
+          instance.src = src;
+        }
+          if (instance.src != null && instance.ontimeupdate) {
+               instance.ontimeupdate();
+          }
+          
+          return instance;
+    }
+}
+})();
+    
+Sound = SoundClass.getInstance(); 
 
 var AudioPlayer = React.createClass({
   getInitialState: function() {
     return {
+      audioSrc: null,
       currentState: PlayerStates.STOPPED, 
       currentTime: 0, 
       duration: 0
@@ -71,36 +101,44 @@ var AudioPlayer = React.createClass({
   },
 
   onClick: function() {
+    
     if (this.state.currentState == PlayerStates.STOPPED || this.state.currentState == PlayerStates.ENDED) {
 
          Parse.Analytics.track('Listens', {
             device: 'Iframe'
         });
 
+      Sound = SoundClass.getInstance();
       if (!!Sound.canPlayType('audio/ogg; codecs="opus"').replace(/^no$/, '')) {
-        Sound.src = this.props.opusURL;
+        Sound = SoundClass.loadInstance(this.props.opusURL);
       } else if (!!Sound.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-        Sound.src = this.props.mp3URL;
+        Sound = SoundClass.loadInstance(this.props.mp3URL);
       }
-      Sound.play();
+      Sound.play();      
+      this.state.audioSrc = Sound.src;
       Sound.onended = this.onEnded;
       Sound.ontimeupdate = this.onTimeUpdate;
       this.setState({currentState:  PlayerStates.LOADING});
     } else if (this.state.currentState == PlayerStates.PLAYING) {
-      Sound.pause();
-      this.setState({currentState:  PlayerStates.PAUSED});
-    } else if (this.state.currentState == PlayerStates.PAUSED) {
-      Sound.play();
-      this.setState({currentState:  PlayerStates.PLAYING});
-    }
+      Sound.load();
+      this.setState({currentState:  PlayerStates.STOPPED, currentTime: 0});
+    } 
   },
   onTimeUpdate: function(e) {
-    if (this.state.currentState !== PlayerStates.PAUSED) {
+    // check if the component is mounted
+    if (!this.isMounted()) {
+      return;
+    }
+    // This piece of code is to ensure that circular bar is present  
+    if ((this.state.audioSrc == Sound.src) || (this.state.audioSrc == Sound.src) ) {
       this.setState({
         duration: Sound.duration,
         currentState: PlayerStates.PLAYING, 
         currentTime: Sound.currentTime
       });
+    }
+    else {
+      this.setState({currentState:  PlayerStates.STOPPED, currentTime: 0});
     }
   },
   onEnded: function() {
