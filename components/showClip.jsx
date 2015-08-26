@@ -20,7 +20,7 @@ module.exports = React.createClass({
  	handleCopyClick: function(storyId) {
  	  	   window.prompt(
     	  "Copy to clipboard: Ctrl+C, Enter", 
-     		 "http://app.getsamosa.com/play/" + storyId
+     		 "http://getsamosa.com/play/" + storyId
     	);
   	},
 
