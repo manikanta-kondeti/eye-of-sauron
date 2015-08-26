@@ -27,7 +27,6 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps: function(newProps, oldProps) {
-		console.log('props recived');
 		this.setState({voices: [], cursor: '', search_result: true, more: true})
 	},
 
@@ -55,7 +54,10 @@ module.exports = React.createClass({
 
 		  // you're at the bottom of the page
 		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
-     		 this.search_by_tags();
+		  	 //if there are more clips only call the search tags function
+		  	 if(this.state.more) { 
+     		 	this.search_by_tags();
+     		 }
    		 }
 	},
 
