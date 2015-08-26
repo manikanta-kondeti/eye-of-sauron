@@ -4,7 +4,7 @@
 
 window.init = function() {
      
-    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
+    var ROOT = 'https://mani-dev-dot-the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
 
 		var React = require('react');
@@ -25,6 +25,8 @@ window.init = function() {
 		var viewUnApproved = require('./views/admin/viewUnApproved');
     var createPushNotification = require('./views/admin/createPushNotification');
     var getPushNotificationId = require('./views/admin/getPushnotificationId');
+    var viewClips = require('./views/admin/viewClips');
+    var editClip = require('./views/admin/editClip');
 
 		var Router = React.createClass({
 
@@ -77,11 +79,12 @@ window.init = function() {
  		 ['/play/:key', IndividualClip],
      ['/embed/:key', IframePlayer],
 
+     ['/admin/dashboard/view_clips', viewClips],
      ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
  		 ['/admin/dashboard', viewUnApproved],
  		 ['/admin/dashboard/:view-approved', viewApproved],
-     ['/admin/dashboard/create_push_notification', createPushNotification]
-
+     ['/admin/dashboard/create_push_notification', createPushNotification],
+     ['/admin/dashboard/edit_clip/:key', editClip]
 	];
 
 	React.renderComponent(<Header />, document.getElementById('header'));

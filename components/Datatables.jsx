@@ -245,7 +245,7 @@ module.exports = React.createClass({
 
 			<div>
 				<div style={inputStyle}>
-					<InputField placeholder="search for tags" keyup={this.searchTags}/>
+					<InputField placeholder="search in the table" keyup={this.searchTags}/>
 				</div>
 				<table className="table" style={tableStyle}>
 					<tr>{thItems}</tr>
