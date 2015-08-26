@@ -27,7 +27,8 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps: function(newProps, oldProps) {
-		this.setState({voices: [], cursor: '', search_result: true})
+		console.log('props recived');
+		this.setState({voices: [], cursor: '', search_result: true, more: true})
 	},
 
    	search_by_tags: function() {
@@ -35,7 +36,8 @@ module.exports = React.createClass({
    		var queryText = this.props.params.queryText;
 
   		if(queryText) {
-  		  var _this = this
+  		  var _this = this;
+  		  console.log(queryText);
   		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
             function(resp){             
             	var new_voices = _this.state.voices.concat(resp.voices);
