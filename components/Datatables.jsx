@@ -91,10 +91,6 @@ var trItem = React.createClass({
 	 * check whether search box value is present in atleast on td element of tr.  
 	 * @return {[boolean]}
 	 */
-	componentDidUpdate: function() {
-		console.log('hello');
-	},
-
 	searchResult: function() {
 
 		if(this.props.tdData) {
@@ -216,7 +212,7 @@ module.exports = React.createClass({
 			/**
 			 * sorting the json on click of th tag
 			 */
-			if(this.state.sort_tag){
+			if(this.state.sort_tag) {
 
 				this.props.data.sort(function(clip1,clip2){
 					return (_this.state.sort_ascending) ? clip1[_this.state.sort_tag] - clip2[_this.state.sort_tag] : clip2[_this.state.sort_tag] - clip1[_this.state.sort_tag]
@@ -229,6 +225,7 @@ module.exports = React.createClass({
 			});
 		}
 
+		console.log(trItems);
 		/**
 		 * create heading elements in the table
 		 */
