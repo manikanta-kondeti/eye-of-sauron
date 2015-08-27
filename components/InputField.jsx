@@ -6,7 +6,12 @@ var React = require('react')
 
 module.exports = React.createClass({
 
+  getDefaultProps: function(){
+  		return {keyUp: null }
+  },
+
   getInitialState: function() {
+  	console.log(this.props.keyUp);
     return {focus_flag: false};
   },
 
@@ -15,7 +20,9 @@ module.exports = React.createClass({
   },
 
   keyUp: function(e) {
-  	this.props.keyup(e.target.value);
+  	if(this.props.keyup) {
+  		this.props.keyup(e.target.value);
+  	}
   },
 
 

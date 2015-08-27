@@ -91,6 +91,10 @@ var trItem = React.createClass({
 	 * check whether search box value is present in atleast on td element of tr.  
 	 * @return {[boolean]}
 	 */
+	componentDidUpdate: function() {
+		console.log('hello');
+	},
+
 	searchResult: function() {
 
 		if(this.props.tdData) {
@@ -161,6 +165,10 @@ module.exports = React.createClass({
 
 	getInitialState: function() {
 		return {search_value: '', sort_tag: '',sort_ascending: 'false'}
+	},
+
+	componentDidUpdate: function() {
+		console.log('datatable updated');
 	},
 
 	/**
@@ -236,7 +244,6 @@ module.exports = React.createClass({
 			}
 
 			var thItems = this.props.tags.map(function(data, index) {
-						
 				return <th onClick={_this.thOnClick.bind(_this,data)} style={thStyle}>{data}</th>
 			});
 		}

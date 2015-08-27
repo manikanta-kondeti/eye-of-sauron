@@ -105,12 +105,6 @@ module.exports = React.createClass({
 
             var _this = this;
 
-
-            console.log(_this.state.prev_cursor);
-            console.log(_this.state.present_cursor);
-
-
-
             gapi.client.samosa.api.get_search_results({'tags': push_search }).execute(
             function(resp){             
                 _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})

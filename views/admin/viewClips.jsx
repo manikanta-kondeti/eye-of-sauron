@@ -70,6 +70,8 @@ module.exports = React.createClass({
     
     render: function() {
 
+        console.log(this.state.voices);
+
         var RightSideBarStyle = {
             position: 'absolute',
             marginLeft: '200px',

@@ -27,6 +27,7 @@ window.init = function() {
     var getPushNotificationId = require('./views/admin/getPushnotificationId');
     var viewClips = require('./views/admin/viewClips');
     var editClip = require('./views/admin/editClip');
+    var addRelationShip = require('./views/admin/addRelationShip')
 
 		var Router = React.createClass({
 
@@ -49,10 +50,10 @@ window.init = function() {
      						
           					if(url.match(regex)){
           							console.log('match');
-                        React.renderComponent(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
+                        React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
           					}
           					else{
-          						React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
+          						React.render(<LeftSideBar />,  document.getElementById('left-side-bar'));
           					}
 
           					document.getElementById('left-side-bar').style.display = 'block';
@@ -84,12 +85,13 @@ window.init = function() {
  		 ['/admin/dashboard', viewUnApproved],
  		 ['/admin/dashboard/:view-approved', viewApproved],
      ['/admin/dashboard/create_push_notification', createPushNotification],
-     ['/admin/dashboard/edit_clip/:key', editClip]
+     ['/admin/dashboard/edit_clip/:key', editClip],
+     ['/admin/dashboard/add_relationship', addRelationShip]
 	];
 
-	React.renderComponent(<Header />, document.getElementById('header'));
+	React.render(<Header />, document.getElementById('header'));
 
-	React.renderComponent(<Router routes={routes} />, document.getElementById('right-side-bar'));
+	React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
 		
     }, ROOT);
 
