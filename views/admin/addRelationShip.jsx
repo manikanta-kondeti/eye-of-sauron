@@ -4,22 +4,31 @@ var React = require('react');
 var Page = require('page');
 var Autocomplete = require('react-autocomplete');
 var RedButton = require('../../components/RedButton');
+var Datatable = require('../../components/Datatables');
+
 
 module.exports = React.createClass({
 
+    /**
+     * getInitialState gets initial state of the component
+     * @return {states}
+     */
     getInitialState: function () {
-        return ({ tags: [], movies: [], actors: [] })
+        return ({clips:[],  tags: [], movies: [], actors: [], cursor:[], accepted_clips: [], more: false })
     },
 
+    /**
+     * [handleKeyUpTags fetchs tags suggestion to implement auto-complete]
+     * @param  {[string]} value [the value of the input field onChange]
+     * @return {[null]}       [sets state]
+     */
     handleKeyUpTags: function(value) {
-
         var _this = this;
-
         gapi.client.samosa.api.get_autocomplete_search({value: value}).execute(function(resp) {
 
             var values = resp['values'];
-
-            var value_dict = values.map(function(value){
+ 
+            var value_dict = values.map(function(value) {
                 return {'name': value}
             })
 
@@ -28,10 +37,13 @@ module.exports = React.createClass({
         });
     },
 
+    /**
+     * [handleKeyUpMovies fetchs movies suggestions to implement auto-complete]
+     * @param  {[string]} value [the value of the input field onChange]
+     * @return {[null]}       [sets state]
+     */
     handleKeyUpMovies: function(value) {
-
         var _this = this;
-
         gapi.client.samosa.api.get_autocomplete_movie({value: value}).execute(function(resp) {
 
             var values = resp['values'];
@@ -42,9 +54,13 @@ module.exports = React.createClass({
 
             _this.setState({movies: value_dict});
         });
-
     },
 
+    /**
+     * [handleKeyUpActors fetchs actors suggestions to implement auto-complete]
+     * @param  {[string]} value [the value of the input field onChange]
+     * @return {[null]}       [sets state]
+     */
     handleKeyUpActors: function(value) {
 
         var _this = this;
@@ -61,31 +77,98 @@ module.exports = React.createClass({
         });
     },
 
+    /**
+     * [handleSubmit onClick submit, send the post request for insertion of the relation in datastore]
+     * @return {[null]} 
+     */
     handleSubmit: function() {
+
+        var tag1 = $($(this.refs.tag1.getDOMNode()).children()[0]).val();
+        var tag2 = $($(this.refs.tag2.getDOMNode()).children()[0]).val();
+        var tag3 = $($(this.refs.tag3.getDOMNode()).children()[0]).val();
         
-        var tag = [$($(this.refs.tag.getDOMNode()).children()[0]).val()];
- 
-        var actor = $($(this.refs.actor.getDOMNode()).children()[0]).val();
+        var tag = tag1+ ' '+ tag2+ ' ' +tag3;
+        var _this = this;
 
-        var movie = $($(this.refs.movie.getDOMNode()).children()[0]).val();
-
-        console.log(tag);
-
-        console.log(actor);
-
-        console.log(movie);
-
-        $.get('https://web-og-tags-dot-the-tasty-samosa.appspot.com/dashboard_insert_relation', {'tags':tag,'actor':actor,'movie':movie}, function(response){
-
-                 alert('tag has been added');    
-
-         })
-        
+        gapi.client.samosa.api.get_search_results({'tags': tag}).execute(
+            function(resp){             
+                _this.setState({clips: resp.voices, cursor: resp.cursor, more: resp.more})
+            });
     },
 
-    render: function() {
+    /**
+     * [reject removes the unwanted clips from the datatables]
+     * @param  {[obj]} object [array of voices]
+     * @return {[null]}  
+     */
+    reject: function(object) {
 
-        console.log(this.state.actors);
+        var accepted_clips = this.state.clips;
+
+        var new_accepted_clips = [];
+
+        for(var i=0; i< accepted_clips.length; i++) {
+
+            if(accepted_clips[i]['key'] != object['key']) {
+                new_accepted_clips.push(accepted_clips[i]);
+            }
+            else{
+                console.log('rejected');
+            }
+        }
+        this.setState({clips: new_accepted_clips });
+        
+    }, 
+
+    /**
+     * [handleNext get next clips and load them in the datatable by changing component's state]
+     * @return {[null]}
+     */
+    handleNext: function() {
+
+        var _this = this;
+
+        var tag1 = $($(this.refs.tag1.getDOMNode()).children()[0]).val();
+        var tag2 = $($(this.refs.tag2.getDOMNode()).children()[0]).val();
+        var tag3 = $($(this.refs.tag3.getDOMNode()).children()[0]).val();
+
+        var tag = tag1+ ' '+ tag2+ ' ' +tag3
+
+        gapi.client.samosa.api.get_search_results({'tags': tag, 'cursor': this.state.cursor}).execute(
+            function(resp){             
+                 var accepted_clips = _this.state.clips.concat(_this.state.accepted_clips)
+                _this.setState({clips: resp.voices, cursor: resp.cursor, accepted_clips: accepted_clips, more: resp.more });
+            });
+    },
+
+    /**
+     * [handleCreateRelation create relation by sending movie, actor and expressions]
+     * @return {[type]} [description]
+     */
+    handleCreateRelation: function() {
+
+        var final_expressions = this.state.clips.concat(this.state.accepted_clips);
+        var actor = $($(this.refs.actor.getDOMNode()).children()[0]).val();
+        var movie = $($(this.refs.movie.getDOMNode()).children()[0]).val();
+
+        var expression_keys = final_expressions.map(function(data, index) {
+                return data['key'];
+        });
+
+        var r = confirm("The following clips are going to be associated with actor "+ actor +" from the movie "+ movie +"!!");
+        if (r == true) {
+            $.get('https://web-og-tags-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
+                                  'expression_keys':expression_keys,
+                                  'actor':actor,
+                                  'movie':movie
+                  }, function(response){
+                          alert('tag has been added !!!');    
+            })
+        }
+    },
+ 
+
+    render: function() {
 
         var RightSideBarStyle = {
             position: 'absolute',
@@ -97,6 +180,39 @@ module.exports = React.createClass({
             width: '83%'      
         }
 
+        var item = {
+            padding: '2px 6px',
+            cursor: 'default'
+        }
+
+        var highlightedItem = {
+            color: 'white',
+            background: 'hsl(200, 50%, 50%)',
+            padding: '2px 6px',
+            cursor: 'default'
+        }
+
+        var menu = {
+            border: 'solid 1px #ccc'
+        }
+
+        var topElementsStyle = {
+            float: 'left',
+            margin: '5px'
+        }
+
+        var datatableStyle = {
+            marginTop: '80px',
+            width: '100%'
+        }
+
+        var nextStyle = {
+            display: 'none'
+        }
+
+        if(this.state.more) {
+            nextStyle['display'] = 'block'
+        }
 
         return (
 
@@ -104,24 +220,53 @@ module.exports = React.createClass({
             
                     Add RelationShip <hr/>
 
-                    <div style={{float: 'left'}}>
-                     Tags &nbsp; 
-                     
+                    <div style={topElementsStyle}>
+                     Tags &nbsp;                           
                           <Autocomplete
-                                    ref="tag"
+                                    ref="tag1"
                                     getItemValue={(item) => item.name}
                                     items={this.state.tags}
                                     onChange={(event, value) => {
                                         this.handleKeyUpTags(value);
                                     }}
                                     renderItem={(item, isHighlighted) => (
-                                        <div>{item.name}</div>
+                                        <div
+                                            style={isHighlighted ? highlightedItem : item}
+                                        >{item.name}</div>
+                                    )}
+                                />
+
+                             <Autocomplete
+                                    ref="tag2"
+                                    getItemValue={(item) => item.name}
+                                    items={this.state.tags}
+                                    onChange={(event, value) => {
+                                        this.handleKeyUpTags(value);
+                                    }}
+                                    renderItem={(item, isHighlighted) => (
+                                        <div
+                                            style={isHighlighted ? highlightedItem : item}
+                                        >{item.name}</div>
+                                    )}
+                                />
+
+                             <Autocomplete
+                                    ref="tag3"
+                                    getItemValue={(item) => item.name}
+                                    items={this.state.tags}
+                                    onChange={(event, value) => {
+                                        this.handleKeyUpTags(value);
+                                    }}
+                                    renderItem={(item, isHighlighted) => (
+                                        <div
+                                            style={isHighlighted ? highlightedItem : item}
+                                        >{item.name}</div>
                                     )}
                                 />
                    
                      </div>
         
-                    <div style={{float:'left'}}>
+                    <div style={topElementsStyle}>
                         Movies &nbsp; 
 
                           <Autocomplete
@@ -132,14 +277,14 @@ module.exports = React.createClass({
                                         this.handleKeyUpMovies(value);
                                     }}
                                     renderItem={(item, isHighlighted) => (
-                                        <div>{item.name}</div>
+                                        <div
+                                        style={isHighlighted ? highlightedItem : item}
+                                        >{item.name}</div>
                                     )}
                                 />
-                     
-      
                     </div>
 
-                      <div style={{float:'left'}}>
+                      <div style={topElementsStyle}>
                                 Actors &nbsp;
                                <Autocomplete
                                     ref="actor"
@@ -149,14 +294,33 @@ module.exports = React.createClass({
                                         this.handleKeyUpActors(value);
                                     }}
                                     renderItem={(item, isHighlighted) => (
-                                        <div>{item.name}</div>
+                                        <div
+                                        style={isHighlighted ? highlightedItem : item}
+                                        >{item.name}</div>
                                     )}
                                 />
                       </div>
 
-                    <div style={{width:'100px', marginTop:'50px', height: '30px'}} onClick={this.handleSubmit}>
+                    <div style={topElementsStyle} onClick={this.handleSubmit}>
                         <RedButton text="submit" />
                     </div>
+
+                    <div style={datatableStyle}>
+
+                        <button style={nextStyle} onClick={this.handleNext}>Next</button> 
+
+                        <Datatable 
+                        tags= {['transcript','listens','shares','poster_url','mp3_url']} 
+                        actions={[{'name': 'Reject', 'function': this.reject}]} 
+                        data = {this.state.clips} />
+                
+
+                        <div style={{width:'100px', marginTop:'50px', height: '30px'}} onClick={this.handleCreateRelation}>
+                            <RedButton text="create relation" />
+                        </div>
+
+                    </div>
+
                 </div>
 
             )

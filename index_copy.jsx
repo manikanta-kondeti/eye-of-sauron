@@ -47,9 +47,12 @@ window.init = function() {
      				page(url, function (ctx) {
      						
      						var regex = new RegExp('/admin/dashboard', 'gi');
-     						
+
+     						    document.getElementById('wrapper').style.display = 'block';
+
           					if(url.match(regex)){
           							console.log('match');
+                        document.getElementById('wrapper').style.display = 'none';
                         React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
           					}
           					else{
@@ -57,7 +60,6 @@ window.init = function() {
           					}
 
           					document.getElementById('left-side-bar').style.display = 'block';
-					       		document.getElementById('wrapper').style.display = 'block';
      					      _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			  });

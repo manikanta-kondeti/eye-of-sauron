@@ -70,7 +70,7 @@ var tdItem = React.createClass({
 
 			if(this.props.action){
 
-				var data = <actionButton data={this.props.data} text = {this.props.name}  action = {this.props.action} />
+				var data = React.createElement(actionButton, {data:this.props.data, text:this.props.name,  action:this.props.action})
 
 			}
 
@@ -81,7 +81,7 @@ var tdItem = React.createClass({
 				)
 	}
 
- })
+ });
 
 
 
@@ -132,20 +132,22 @@ var trItem = React.createClass({
 
 					var attrValue = (this.props.tdData[tag_value] != null) ?  this.props.tdData[tag_value] : null;
 			
-					tdArray.push( <tdItem data = {attrValue}/> );
+					tdArray.push(React.createElement(tdItem, {data:attrValue} ));
 				}
 
 				if(this.props.actions) {
 
-					for(var i in this.props.actions) { 
-						
+					for(var i in this.props.actions) { 		
+				
 						var action = this.props.actions[i];
 
-						tdArray.push(<tdItem data={this.props.tdData} name={action['name']} action={action['function']} />);
+						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, name:action['name'], action:action['function']}));
 					}
 				}
 			}
 		}
+
+		console.log(tdArray);
 
 		return(
 				<tr>
@@ -163,10 +165,6 @@ module.exports = React.createClass({
 		return {search_value: '', sort_tag: '',sort_ascending: 'false'}
 	},
 
-	componentDidUpdate: function() {
-		console.log('datatable updated');
-	},
-
 	/**
 	 * sets the search_value state to input box value and the set state is passed to trItem 
 	 * @param  {[input box search value]}
@@ -177,10 +175,14 @@ module.exports = React.createClass({
 		this.setState({search_value: value});
 	},
 
+
+	/**
+	 * [thOnClick set the flag to ascending or desending using set state method]
+	 * @param  {[type]} tag_value [key, listens etc which has to be sorted]
+	 * @return {[null]}     
+	 */
 	thOnClick: function(tag_value) {
-
 		this.setState({sort_tag: tag_value, sort_ascending: !this.state.sort_ascending});
-
 	},
 
 	/**
@@ -188,7 +190,6 @@ module.exports = React.createClass({
 	 * @return {[none]}
 	 */
 	render: function() {
-
 
 		var tableStyle = {
 			border: '1px solid #cbcbcb',
@@ -221,11 +222,11 @@ module.exports = React.createClass({
 
 			var trItems = this.props.data.map(function(data, index) {
 
-				return <trItem actions={_this.props.actions} search_value={_this.state.search_value} tdData={data} key={index} tags={_this.props.tags} />
+				return React.createElement(trItem, {actions:_this.props.actions, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
+
 			});
 		}
 
-		console.log(trItems);
 		/**
 		 * create heading elements in the table
 		 */
