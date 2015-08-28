@@ -20,7 +20,7 @@ module.exports = React.createClass({
         var keys = this.props.params.keys.split(',')
         var _this = this;
 
-        $.get('https://web-og-tags-dot-the-tasty-samosa.appspot.com/get_push_notification_id',
+        $.get('https://the-tasty-samosa.appspot.com/get_push_notification_id',
             {
                 'title': $('#push_title').val(),
                 'text': $('#push_text').val(),

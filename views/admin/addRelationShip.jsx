@@ -157,7 +157,7 @@ module.exports = React.createClass({
 
         var r = confirm("The following clips are going to be associated with actor "+ actor +" from the movie "+ movie +"!!");
         if (r == true) {
-            $.get('https://web-og-tags-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
+            $.get('https://the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
                                   'expression_keys':expression_keys,
                                   'actor':actor,
                                   'movie':movie

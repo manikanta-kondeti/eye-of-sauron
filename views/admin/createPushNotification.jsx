@@ -92,7 +92,7 @@ module.exports = React.createClass({
 
             var _this = this;
 
-            $.get('https://web-og-tags-dot-the-tasty-samosa.appspot.com/create_push_notification', {'language': language} , function(response) {
+            $.get('https://the-tasty-samosa.appspot.com/create_push_notification', {'language': language} , function(response) {
                     
                 console.log(response);
 
