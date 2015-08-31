@@ -17,9 +17,14 @@ module.exports = React.createClass({
         });
     },
 
-    approve: function(key) {
+    /**
+     * Aprrove function takes clicked voice object as input
+    */
+    approve: function(object) {
 
         var _this = this;
+
+        var key = object['key'];
 
         $.ajax({
              type:    "POST",
