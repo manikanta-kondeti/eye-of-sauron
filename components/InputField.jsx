@@ -21,15 +21,14 @@ module.exports = React.createClass({
 
   keyUp: function(e) {
   	if(this.props.keyup) {
-  		this.props.keyup(e.target.value);
+  		  	this.props.keyup(e);
   	}
   },
 
-
-	render: function() {
+render: function() {
 
 		var inputStyle = {
-			width: '100%',
+			width: '96%',
 			height: '100%',
 			lineHeight: '38px',
 			paddingLeft: '10px',

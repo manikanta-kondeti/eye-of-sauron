@@ -10,7 +10,8 @@ window.init = function() {
 		var React = require('react');
 		var page = require('page');
 
-		var Header = require('./views/Header');
+    var HeaderHome = require('./views/HeaderHome');
+		var HeaderOther = require('./views/HeaderOther');
 		var LeftSideBar = require('./views/LeftSideBar');
 		var PopularNow = require('./views/PopularNow');
 		var SearchView = require('./views/SearchView');
@@ -18,8 +19,9 @@ window.init = function() {
 		var MostRecent = require('./views/MostRecent');
 		var IndividualClip = require('./views/IndividualClip');
     var IframePlayer = require('./views/IframePlayer');
-    // Viewing push notification for sending mail 
     var PushNotificationOnWeb = require('./views/PushViewOnWeb')
+    var PopularNowIframe = require('./views/PopularNowIframe');
+    var EmbedPopularNow = require('./views/EmbedPopularNow');
 
 		var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');		
 		var viewPopularNow = require('./views/admin/viewPopularNow');
@@ -50,24 +52,39 @@ window.init = function() {
       			var Component = route[1];
     
      				page(url, function (ctx) {
-     						
+
+                if(url == "/" || url =="/popular-now" || url =="" || url=="/most-recent") {
+                    React.render(<HeaderHome />, document.getElementById('header'));
+                }					
+
+                else if(url == "/popular-now-iframe"){
+                  $('#header').html('')
+                  
+                }
+                
+                else {
+                    console.log('nonon');
+                    React.render(<HeaderOther />, document.getElementById('header'));
+                }
+
+
+
      						var regex = new RegExp('/admin/dashboard', 'gi');
 
-     						    document.getElementById('wrapper').style.display = 'block';
 
           					if(url.match(regex)){
-          							console.log('match');
-                        document.getElementById('wrapper').style.display = 'none';
-                        React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
+
+                        //React.renderComponent(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));          						
           					}
           					else{
-          						React.render(<LeftSideBar />,  document.getElementById('left-side-bar'));
+          						//React.renderComponent(<LeftSideBar />,  document.getElementById('left-side-bar'));
           					}
 
-          					document.getElementById('left-side-bar').style.display = 'block';
      					      _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			  });
+
+
   			page.start();
  		 },
 
@@ -87,6 +104,8 @@ window.init = function() {
  		 ['/play/:key', IndividualClip],
      ['/embed/:key', IframePlayer],
      ['/notification/:key', PushNotificationOnWeb],
+     ['/embed-popular-now', EmbedPopularNow],
+     ['/popular-now-iframe', PopularNowIframe],
 
      ['/admin/dashboard/view_clips', viewClips],
      ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
@@ -99,8 +118,6 @@ window.init = function() {
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie]
 
 	];
-
-	React.render(<Header />, document.getElementById('header'));
 
 	React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
 		

@@ -1,0 +1,209 @@
+<html>
+
+<head>
+	<style>
+	body {
+				width: 100%;
+				margin: 0 auto;
+				top: 0px;
+				left: 0px;
+			}
+
+	.header {
+				background: url(header_bg.png) no-repeat center center;
+				margin: 0 auto;
+				height: 200px;
+				width: 100%;
+				background-size: cover;
+			}
+			.logo {
+				position: absolute;
+    			background: url(logo.png) no-repeat center center;
+   	 			background-size: cover;
+    			width: 110px;
+    			height: 110px;
+    			top: 60px;
+    			left: 50px;
+    			cursor: pointer;
+			}
+			.title {
+				position: absolute;
+ 				background: url(title.png) no-repeat center center;
+    			background-size: cover;
+    			top: 85px;
+    			left: 160px;
+    			width: 160px;
+    			height: 50px;
+			}
+
+			.wrapper {
+				position: relative;
+			    width: auto;
+    			margin: 0 auto;
+    			padding: 0;
+    			height: 450px;
+			}
+
+			.headerBtns {
+				width: 220px;
+    			height: 50px;
+    			right: 0px;
+    			position: absolute;
+    			top: 30px;
+			}
+
+			.searchBoxWrapper {
+				position: absolute;
+				width: 400px;
+				height: 40px;
+				top: 90px;
+				margin-left: -200px;
+				left: 50%;
+			}
+
+			.searchBox {
+				width: 100%;
+				height: 100%;
+				padding: 10px;
+				border-radius: 5px;
+			}
+
+			.languagesBtn {
+					-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+				-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+				box-shadow:inset 0px 1px 0px 0px #ffffff;
+				background-color:#ffffff;
+				-moz-border-radius:30px;
+				-webkit-border-radius:30px;
+				border-radius:30px;
+				border:1px solid #dcdcdc;
+				display:inline-block;
+				cursor:pointer;
+				color:#666666;
+				font-family:Arial;
+				font-size:10px;
+				padding:8px 16px;
+				text-decoration:none;
+				text-shadow:0px 0px 0px #ffffff;
+			}
+			.languagesBtn:hover {
+				background-color:#f6f6f6;
+			}
+			.languagesBtn:active {
+				position:relative;
+				top:1px;
+			}
+
+	.loginBtn {
+	-moz-box-shadow: 0px 0px 0px 1px #9fb4f2;
+	-webkit-box-shadow: 0px 0px 0px 1px #9fb4f2;
+	box-shadow: 0px 0px 0px 1px #9fb4f2;
+	background-color:#7892c2;
+	-moz-border-radius:30px;
+	-webkit-border-radius:30px;
+	border-radius:30px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:10px;
+	padding:8px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #283966;
+}
+.loginBtn:hover {
+	background-color:#476e9e;
+}
+.loginBtn:active {
+	position:relative;
+	top:1px;
+}
+
+.container {
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+	}
+
+	.rightSideWrapper {
+		height: auto;
+		float: left;
+		width: 70%;
+		height: 300px;
+		margin-left: 50px;
+		margin-top: 20px;
+	}
+
+	.content {
+		height: auto;
+		width: 100%;
+		padding-left: 50px;
+	}
+
+	.leftSideWrapper {
+		float: left;
+		height: auto;
+		width: 25%;
+		height: 300px;
+		margin-top: 20px;
+	}
+
+	
+
+
+	</style>
+
+</head>
+
+<body>
+		<div class="header">
+			<div class = "wrapper">
+				<div class="logo"></div>
+				<div class="title"></div>
+			
+				<div class="headerBtns">
+					<a href="#" class="languagesBtn">Select Languages</a> &nbsp;
+					<a href="#" class="loginBtn">Login</a>
+				</div>
+			
+				<div class="searchBoxWrapper">
+					<input class="searchBox" placeholder = "Search for audio clips, dialouges, proverbs" />
+				</div>
+
+			</div>
+		</div>
+
+		<div class ="container">
+			<div class="content">
+				<p> Embed Samosa in your website</p>
+				<p> Add Samosa to your website using the tool below. Select your configuration options and paste the code in the HTML of your page </p>
+			</div>
+			<div class = "rightSideWrapper">
+				Configuration
+				
+				<p class="formControl">
+					Width
+					<input class="searchBox" placeholder= "width" />
+				</p>
+				<p class="formControl">
+					Height
+					<input class="searchBox" placeholder= "height" />	
+				</p>
+				<p class="formControl">
+					Language
+					<input class="searchBox" placeholder= "language" />
+				</p>
+				<p class="formControl">
+					Code
+					<textarea placeholder = "code" />
+				</p>
+
+			</div>
+			<div class="leftSideWrapper">
+				Preview
+			</div>
+		</div>
+
+</body>
+</html>

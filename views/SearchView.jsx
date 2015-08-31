@@ -19,7 +19,6 @@ module.exports = React.createClass({
 		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
     	var windowInnerHeight = window.innerHeight
     	if(showCLipsHeight < windowInnerHeight) {
-    			console.log('update');
     		if(this.state.more) {
     			this.search_by_tags();
     		}
@@ -36,7 +35,6 @@ module.exports = React.createClass({
 
   		if(queryText) {
   		  var _this = this;
-  		  console.log(queryText);
   		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
             function(resp){             
             	var new_voices = _this.state.voices.concat(resp.voices);
@@ -72,19 +70,17 @@ module.exports = React.createClass({
 
 	render: function() {
 
-		var RightSideBarStyle = {
-			position: 'absolute',
-			marginLeft: '200px',
-			top: '60px',
-			bottom: '0px',
-			display: 'block',
-			padding: '9px',
-			width: 'auto'
+		var container = {
+			width: '100%',
+			top: '0px',
+			left: '0px',
+			margin: '2%'
 		}
 
 		return (
 
-				<div style = {RightSideBarStyle}>
+				<div style = {container}>
+					 Search Results For {this.props.params.queryText} <hr/>
 					<ShowClips clips = {this.state.voices} />
 				</div>
 		)

@@ -46,12 +46,13 @@ var ShowClipWithEmbed = React.createClass({
     render: function() {
 
         var boxStyle ={
-            position: 'fixed',
+            position: 'absolute',
+            borderRadius: '4px',
+            margin: '2%',
             float: 'left',
             background: 'white',
             border: '1px solid #e8e8e8',
-            padding:'5px', 
-            width: '41%' 
+            width: '52%' 
         }
 
 
@@ -61,7 +62,9 @@ var ShowClipWithEmbed = React.createClass({
             height: 'auto',
             border: '1px solid #e8e8e8',
             padding: '10px',
-            width: '47%'
+            width: '40%',
+            margin: '2%',
+            borderRadius: '4px'
         }
 
         var tagsStyle = {
@@ -71,7 +74,24 @@ var ShowClipWithEmbed = React.createClass({
         var tagsFontStyle = {
             float:'left',
             margin: '12px',
-            width: '40%'
+            width: '60%'
+        }
+
+        var searchBox =  {
+                width: '40%',
+                height: '100%',
+                padding: '10px',
+                borderRadius: '5px',
+                margin: '3px',
+                border: '1px solid #eee'
+        }
+
+        var submitBtn = {
+                float: 'right',
+                margin: '20px',
+                width: '150px',
+                height: '10px',
+                cursor: 'pointer'
         }
 
         var tags = this.props.data.tags.reduce(function(previousValue, currentValue) {
@@ -117,15 +137,15 @@ var ShowClipWithEmbed = React.createClass({
                 
 
             <div style ={embedClipStyle}>
-                Embed Clip: <hr/>
+                Embed Clip: <hr style={{border: '1px solid #eee'}}/>
              
-                <input placeholder="width" ref="iframe_width" />
-                <input placeholder="height" ref="iframe_height"  />
-                <input value="Get Preview !" type="submit" onClick={this.handleIframeSubmit} />
+                <input style={searchBox} placeholder="width" ref="iframe_width" />
+                <input style={searchBox} placeholder="height" ref="iframe_height"  />
+                <input style={submitBtn} value="Get Preview !" type="submit" onClick={this.handleIframeSubmit} />
              </div>
 
             <div style={iframeBlockStyle}>
-                Preview Url: <hr/>
+                Preview Url: <hr style={{border: '1px solid #eee'}}/>
                 <div style={previewUrlStyle}>
                     <InputField ref="preview_url" placeholder = "preview url" />
                 </div>
@@ -134,7 +154,7 @@ var ShowClipWithEmbed = React.createClass({
             </div>
           </div>  
           <div style={relatedVideosStyle}>
-             RELATED CLIPS <hr/>
+             RELATED CLIPS <hr style={{border: '1px solid #eee'}}/>
              <ShowClips clips = {this.state.related_voices} />
           </div>    
 
@@ -169,25 +189,20 @@ module.exports = React.createClass({
 
     render: function() {
 
-        var RightSideBarStyle = {
-            position: 'absolute',
-            marginLeft: '200px',
-            top: '70px',
-            bottom: '0px',
-            display: 'block',
-            padding: '9px',
-            width: '83%'
+        var container = {
+            width: '100%',
+            top: '0px',
+            left: '0px'
         }
         var ClipOnPlayPage;
         if(this.state.voice) {
-            console.log('clipOnPlayPage.. This component should render now')
             ClipOnPlayPage = <ShowClipWithEmbed data = {this.state.voice}/>
         }
 
         return (
             <div>
-                <div style = {RightSideBarStyle}>
-                    {ClipOnPlayPage}
+                <div style = {container}>
+                     {ClipOnPlayPage}
                 </div>
             </div>
         )

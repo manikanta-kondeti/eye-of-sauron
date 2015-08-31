@@ -103,7 +103,7 @@ module.exports = React.createClass({
 		var iconStyle = {
 			marginRight: '4px',
 			float: 'left',
-			width: '12px'
+			width: '20px'
 		}
 
 		var iconFontStyle = {
@@ -155,7 +155,7 @@ module.exports = React.createClass({
 									<span style={iconFontStyle}> {this.props.data.hearts} </span>
 								</div>
 								<div style={sharesStyle}>
-									<img style={iconStyle}  src="https://d3pl14o4ufnhvd.cloudfront.net/v2/uploads/67b846c5-9b77-4a95-a2dd-d693142ec62c/248efd9e468170fdaec1a1025760c23f0fe3adaa_original.png" />
+									<img style={iconStyle}  src="/static/images/share.png" />
 									<span style={iconFontStyle}> {this.props.data.shares} </span>
 								</div>
 							</div>

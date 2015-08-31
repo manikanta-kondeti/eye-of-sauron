@@ -1,7 +1,8 @@
 'use strict'
 
-var React = require('react')
-var ShowClips = require('./ShowClips')
+var React = require('react');
+var Page = require('page');
+var ShowClips = require('./ShowClips');
 
 module.exports = React.createClass({
 
@@ -53,23 +54,102 @@ module.exports = React.createClass({
        		Math.max(D.body.clientHeight, D.documentElement.clientHeight)
     	);	
 	},
+
+	navigate: function(url) {
+		Page(url);
+	},
+
 	render: function() {
 
-		var RightSideBarStyle = {
+		var container = {
+			width: '100%',
+			top: '0px',
+			left: '0px',
+		}
+
+	    var rightSideWrapper  = {
+	    	float: 'left',
+			height: 'auto',
+			width: '68%',
+			paddingLeft: '2%'
+		}
+
+		var leftSideWrapper = {
+			position: 'relative',
+			float: 'left',
+			width: '30%',
+			background: 'white',
+			height: '500px'
+		}
+
+		var selectItemWrapper = {
+			padding: '10px'
+		}
+
+		var selectItem = {
+			padding: '10px',
+			marginRight: '25px',
+			cursor: 'pointer',
+			textDecoration: 'none',
+			color: 'black',
+			fontFamily: "'Roboto', sans-serif"
+		}
+		
+		var selectItemClicked = {
+			padding: '10px',
+			marginRight: '25px',
+			cursor: 'pointer',
+			textDecoration: 'none',
+			color: 'black',
+			borderBottom: '2px solid #50E3C2',
+			fontFamily: "'Roboto', sans-serif"
+		}
+
+		var embedTitle = {
+			textAlign: 'center',
+			marginTop: '10px'
+		}
+
+		var content = {
+			marginTop: '20px'
+		}
+
+		var iframeEmbed = {
+			width: '300px',
+			height: '360px',
 			position: 'absolute',
-			marginLeft: '200px',
-			top: '60px',
-			bottom: '0px',
-			display: 'block',
-			padding: '9px',
-			width: 'auto'
+			left: '50%',
+			marginLeft: '-150px',
+			marginTop: '30px'
+		}
+
+		var embedButton ={
+			
 		}
 
 		return (
+			<div style= {container}>	
+				<div style = {rightSideWrapper}>
+					<div style={selectItemWrapper}>
+						<a onClick={this.navigate.bind(this, '/popular-now')} style={selectItem} href = "">TRENDING</a>
+						<a onClick={this.navigate.bind(this, '/most-recent')} style={selectItemClicked} href = "">MOST RECENT</a>
+					</div>
+					<div style={content}>
+						<ShowClips clips = {this.state.voices} />
+					</div>
+				</div>
+				<div style={leftSideWrapper}>
+					<div style={embedTitle}>
+						SAMOSA FOR WEBSITES
+						<div style={iframeEmbed}>
 
-			<div style={RightSideBarStyle}>
-			<ShowClips clips = {this.state.voices}/> < /div>
-
+							<div style={embedButton}>
+								<button onClick={this.navigate.bind(this, '/embed-popular-now')}> Embed on your site </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		)
 	}
 });
