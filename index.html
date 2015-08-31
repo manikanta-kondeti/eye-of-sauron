@@ -28,6 +28,43 @@
 
     <script src="/node_modules/react/dist/react-with-addons.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+        var isMobile = {
+        Android: function() {
+        return navigator.userAgent.match(/Android/i);
+        },
+        Windows: function() {
+        return navigation.userAgent.match(/Windows/i);
+        },
+        iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+        },
+        Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+        };
+       
+        if ( isMobile.Android() ) {
+        window.location.assign("http://bit.ly/samosa-android");
+        }
+        else if(isMobile.iOS())
+        {
+        window.location.assign("http://bit.ly/samosa-ios");
+        }
+        else if(isMobile.Windows()){
+        window.location.assign("http://bit.ly/samosa-windows");
+        }
+    
+    </script>
 
 </head>
 <body>
