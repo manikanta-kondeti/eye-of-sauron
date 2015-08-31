@@ -13,7 +13,6 @@ module.exports = React.createClass({
         console.log('componentDidMount');
         var _this = this;
         $.get('https://dashboard-dev-dot-the-tasty-samosa.appspot.com/dashboard_get_unapproved', function(response) {
-            console.log(response.voices);
             _this.setState({voices: response.voices, cursor: response.cursor});
         });
     },
@@ -55,9 +54,8 @@ module.exports = React.createClass({
 
     handleClickNext: function() {
         var _this =  this;
-        $.get('https://dashboard-dev-dot-the-tasty-samosa.appspot.com/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) {
-            var new_voices = _this.state.voices.concat(response.voices);  
-            _this.setState({voices: new_voices, cursor: response.cursor});
+        $.get('https://dashboard-dev-dot-the-tasty-samosa.appspot.com/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
+            _this.setState({voices: response.voices, cursor: response.cursor});
         });
     },
 
