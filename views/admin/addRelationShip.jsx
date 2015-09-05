@@ -44,7 +44,7 @@ module.exports = React.createClass({
      */
     handleKeyUpMovies: function(value) {
         var _this = this;
-        gapi.client.samosa.api.get_autocomplete_movie({value: value}).execute(function(resp) {
+        gapi.client.samosa.api.get_movie_suggestions({value: value}).execute(function(resp) {
 
             var values = resp['values'];
 
@@ -65,7 +65,7 @@ module.exports = React.createClass({
 
         var _this = this;
 
-        gapi.client.samosa.api.get_autocomplete_actor({value: value}).execute(function(resp) {
+        gapi.client.samosa.api.get_actor_suggestions({value: value}).execute(function(resp) {
 
             var values = resp['values'];
 
@@ -90,6 +90,8 @@ module.exports = React.createClass({
         var tag = tag1+ ' '+ tag2+ ' ' +tag3;
         var _this = this;
 
+        _this.state.clips = []
+        _this.state.accepted_clips = []
         gapi.client.samosa.api.get_search_results({'tags': tag}).execute(
             function(resp){             
                 _this.setState({clips: resp.voices, cursor: resp.cursor, more: resp.more})
@@ -155,15 +157,38 @@ module.exports = React.createClass({
                 return data['key'];
         });
 
-        var r = confirm("The following clips are going to be associated with actor "+ actor +" from the movie "+ movie +"!!");
+        var r = confirm("The following clips are going to be associated with actor "+ actor +" from the movie "+ movie +"....Total number of keys:  "+ expression_keys.length);
         if (r == true) {
-            $.get('https://the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
+            //GET
+            /*
+            $.get('https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
                                   'expression_keys':expression_keys,
                                   'actor':actor,
                                   'movie':movie
                   }, function(response){
                           alert('tag has been added !!!');    
             })
+            */
+            //POST
+            
+            $.ajax({
+                 type:    "POST",
+                 dataType: "json",
+                 url:     "https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation",
+                 data:    {
+                            "expression_keys": expression_keys,
+                            "actor": actor,
+                            "movie" : movie 
+                        },
+                success: function(response) {
+                        alert(response['status']);
+
+                },
+                // vvv---- This is the new bit
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            }); 
         }
     },
  
@@ -198,12 +223,13 @@ module.exports = React.createClass({
 
         var topElementsStyle = {
             float: 'left',
-            margin: '5px'
+            margin: '5px',
         }
 
         var datatableStyle = {
             marginTop: '80px',
-            width: '100%'
+            width: '100%',
+            zIndex: -1
         }
 
         var nextStyle = {
@@ -221,7 +247,7 @@ module.exports = React.createClass({
                     Add RelationShip <hr/>
 
                     <div style={topElementsStyle}>
-                     Tags &nbsp;                           
+                     Tags :                           
                           <Autocomplete
                                     ref="tag1"
                                     getItemValue={(item) => item.name}
@@ -267,7 +293,7 @@ module.exports = React.createClass({
                      </div>
         
                     <div style={topElementsStyle}>
-                        Movies &nbsp; 
+                        Movies :  
 
                           <Autocomplete
                                     ref="movie"
@@ -285,7 +311,7 @@ module.exports = React.createClass({
                     </div>
 
                       <div style={topElementsStyle}>
-                                Actors &nbsp;
+                                Actors :
                                <Autocomplete
                                     ref="actor"
                                     getItemValue={(item) => item.name}
@@ -302,15 +328,15 @@ module.exports = React.createClass({
                       </div>
 
                     <div style={topElementsStyle} onClick={this.handleSubmit}>
-                        <RedButton text="submit" />
+                        <RedButton text="GetSearchResults" />
                     </div>
-
+                
                     <div style={datatableStyle}>
-
+                        <p>Total number of accepted clips: <b> {this.state.clips.concat(this.state.accepted_clips).length}</b> </p>
                         <button style={nextStyle} onClick={this.handleNext}>Next</button> 
 
                         <Datatable 
-                        tags= {['transcript','listens','shares','poster_url','mp3_url']} 
+                        tags= {['mp3_url','transcript','actor_key','movie_key','poster_url','key']} 
                         actions={[{'name': 'Reject', 'function': this.reject}]} 
                         data = {this.state.clips} />
                 

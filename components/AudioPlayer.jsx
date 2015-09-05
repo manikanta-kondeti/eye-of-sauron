@@ -240,7 +240,7 @@ var AudioPlayer = React.createClass({
               <a onClick = {this.handleDownloadIconClick.bind(this,'chrome-plugin')}  target="_blank" href ="https://bit.ly/samosa-chrome">
                 <img style={downloadIconStyle} src="https://www.mailvelope.com/img/ChromeWebStore_Badge_v2_340x96.png" />
               </a>
-      </div> 
+              </div> 
     </div>
     );
   }
