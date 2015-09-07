@@ -23,9 +23,11 @@ module.exports = React.createClass({
 		}
 
 		var data = [
-			{name: 'Unapproved', url: 'admin/dashboard/', image_url:''},
-			{name: 'Approved', url: 'admin/dashboard/view-approved', image_url:''},
-			{name: 'Push Notifcation', url:'admin/dashboard/create_push_notification', image_url:''}
+			{name: 'Unapproved', url: 'admin/dashboard/', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			//{name: 'Approved', url: 'admin/dashboard/view-approved', image_url:''},
+			{name: 'Push', url:'admin/dashboard/create_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'View Clips', url:'admin/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Actor/Movie', url:'admin/dashboard/add_relationship', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {

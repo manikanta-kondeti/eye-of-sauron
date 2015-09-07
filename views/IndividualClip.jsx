@@ -6,9 +6,10 @@ var ShowClips = require('./ShowClips')
 var InputField = require('../components/InputField');
 var Clip = require('../components/showClip');
 
-var showClip = React.createClass({
+var ShowClipWithEmbed = React.createClass({
 
     getInitialState: function() {
+        console.log("This should get called")
         return({related_voices: [], iframe_width:0, iframe_height:0, preview_clip: false})
     },
 
@@ -32,7 +33,7 @@ var showClip = React.createClass({
             iframe_height=0
         }
 
-        this.refs.preview_url.getDOMNode().value="<iframe src='https://app-dot-the-tasty-samosa.appspot.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
+        this.refs.preview_url.getDOMNode().value="<iframe src='https://web-dont-touch-dot-the-tasty-samosa.appspot.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
                                                  iframe_height+ "' border='0' scrolling='no' frameBorder='0'></iframe>";
 
          this.setState({
@@ -177,15 +178,16 @@ module.exports = React.createClass({
             padding: '9px',
             width: '83%'
         }
-
+        var ClipOnPlayPage;
         if(this.state.voice) {
-            var Clip = <showClip data={this.state.voice}/>
+            console.log('clipOnPlayPage.. This component should render now')
+            ClipOnPlayPage = <ShowClipWithEmbed data = {this.state.voice}/>
         }
 
         return (
             <div>
                 <div style = {RightSideBarStyle}>
-                     {Clip}
+                    {ClipOnPlayPage}
                 </div>
             </div>
         )

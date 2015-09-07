@@ -4,7 +4,7 @@
 
 window.init = function() {
      
-    var ROOT = 'https://akshaym1-dot-the-tasty-samosa.appspot.com/_ah/api';
+    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
 
 		var React = require('react');

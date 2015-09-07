@@ -162,11 +162,15 @@ module.exports = React.createClass({
             //GET
             /*
             $.get('https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
+        var r = confirm("The following clips are going to be associated with actor "+ actor +" from the movie "+ movie +". Total number of clips "+this.state.clips.concat(this.state.accepted_clips).length);
+        if (r == true) {
+            $.post('https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation',{
+>>>>>>> React version changed+dashboard text added+everything is working
                                   'expression_keys':expression_keys,
                                   'actor':actor,
                                   'movie':movie
                   }, function(response){
-                          alert('tag has been added !!!');    
+                          alert(response['status']);    
             })
             */
             //POST
@@ -293,7 +297,8 @@ module.exports = React.createClass({
                      </div>
         
                     <div style={topElementsStyle}>
-                        Movies :  
+
+                        Movies :
 
                           <Autocomplete
                                     ref="movie"
@@ -337,6 +342,7 @@ module.exports = React.createClass({
 
                         <Datatable 
                         tags= {['mp3_url','transcript','actor_key','movie_key','poster_url','key']} 
+
                         actions={[{'name': 'Reject', 'function': this.reject}]} 
                         data = {this.state.clips} />
                 

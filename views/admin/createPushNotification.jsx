@@ -9,7 +9,7 @@ var Clip = require('../../components/showClip');
 
 
 
-var acceptedClip = React.createClass({
+var AcceptedClip = React.createClass({
 
     handleOnClick: function() {
         this.props.reject();
@@ -206,7 +206,7 @@ module.exports = React.createClass({
         var _this = this;
 
         var accepted_clips = this.state.accepted_clips.map(function(data, index) {
-               return  <acceptedClip reject={_this.reject.bind(_this, data)} data={data} />
+               return  <AcceptedClip reject={_this.reject.bind(_this, data)} data={data} />
                     
         });
 
@@ -229,7 +229,7 @@ module.exports = React.createClass({
 		  
                 <div style={inputFieldStyle}> <InputField id="push_search" placeholder="search for clip" /></div>
 
-        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <RedButton text = "SUBMIT"/> </div>
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <RedButton text = "GetSearchResults"/> </div>
           
                 <div style={pushButtonStyle} onClick={this.handlePushNotif}> <RedButton text = "CREATE PUSH NOTIFICATION"/> </div>
           
@@ -245,6 +245,7 @@ module.exports = React.createClass({
 
 
                 <div style={dataTableStyle}>
+                    <p> Total accepted clips: <b>{this.state.accepted_clips.length}</b></p>
                     <Datatable 
                         tags= {['transcript','listens','shares','poster_url','mp3_url']} 
                         actions={[{'name': 'Accept', 'function': this.accept}]} 
