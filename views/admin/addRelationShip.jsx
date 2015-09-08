@@ -136,10 +136,17 @@ module.exports = React.createClass({
 
         var tag = tag1+ ' '+ tag2+ ' ' +tag3
 
+       
         gapi.client.samosa.api.get_search_results({'tags': tag, 'cursor': this.state.cursor}).execute(
             function(resp){             
-                 var accepted_clips = _this.state.clips.concat(_this.state.accepted_clips)
-                _this.setState({clips: resp.voices, cursor: resp.cursor, accepted_clips: accepted_clips, more: resp.more });
+                     console.log("State clips length "+_this.state.clips.length);
+                     if (resp.more){
+                     var accepted_clips = _this.state.clips.concat(_this.state.accepted_clips);
+                    _this.setState({clips: resp.voices, cursor: resp.cursor, accepted_clips: accepted_clips, more: resp.more });
+                    }else{
+                           _this.setState({more: resp.more});  
+                    }
+
             });
     },
 

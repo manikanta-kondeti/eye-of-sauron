@@ -27,11 +27,7 @@ module.exports = React.createClass({
         var key = object['key'];
 
         console.log(key);
-
         console.log(object);
-
-        
-
         $.ajax({
              type:    "POST",
              url:     "https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_unapproved",
@@ -51,6 +47,7 @@ module.exports = React.createClass({
                 _this.setState({
                     voices: new_state_voices
                 });
+                 alert(data['status']);
             },
             // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
@@ -59,7 +56,38 @@ module.exports = React.createClass({
         });
     },
 
-    reject: function() {
+    reject: function(object) {
+        var _this = this;
+        var key = object['key'];
+        console.log(key);
+        console.log(object);   
+        $.ajax({
+             type:    "POST",
+             url:     "https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_unapproved",
+             data:    {"expression_key": key,"approval_status": 2 },
+            success: function(data) {
+
+                var state_voices = _this.state.voices;
+
+                var new_state_voices = []
+
+                for (var i = 0; i < state_voices.length; i++) {
+                    if (state_voices[i]['key'] != key) {
+                        new_state_voices.push(state_voices[i]);
+                    }
+                }
+
+                _this.setState({
+                    voices: new_state_voices
+                });
+
+                alert(data['status']);
+            },
+            // vvv---- This is the new bit
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
 
     },
 
