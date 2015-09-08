@@ -28,6 +28,7 @@ window.init = function() {
     var viewClips = require('./views/admin/viewClips');
     var editClip = require('./views/admin/editClip');
     var addRelationShip = require('./views/admin/addRelationShip')
+    var addNewActorMovie = require('./views/admin/addNewActorMovie')
 
 		var Router = React.createClass({
 
@@ -88,7 +89,8 @@ window.init = function() {
  		 ['/admin/dashboard/:view-approved', viewApproved],
      ['/admin/dashboard/create_push_notification', createPushNotification],
      ['/admin/dashboard/edit_clip/:key', editClip],
-     ['/admin/dashboard/add_relationship', addRelationShip]
+     ['/admin/dashboard/add_relationship', addRelationShip],
+     ['/admin/dashboard/add_new_actor_movie', addNewActorMovie]
 	];
 
 	React.render(<Header />, document.getElementById('header'));

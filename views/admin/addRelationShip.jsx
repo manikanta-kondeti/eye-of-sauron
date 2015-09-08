@@ -143,6 +143,14 @@ module.exports = React.createClass({
             });
     },
 
+    /** [handleNewActor: Need to pass a few params and add this in movie entity]
+    *   @return {[status][description]} 
+    */
+    handleNewActorMovie: function(){
+        console.log("handleNewActor");
+        Page('/admin/dashboard/add_new_actor_movie/')
+    },
+
     /**
      * [handleCreateRelation create relation by sending movie, actor and expressions]
      * @return {[type]} [description]
@@ -207,6 +215,13 @@ module.exports = React.createClass({
             display: 'block',
             padding: '9px',
             width: '83%'      
+        }
+
+        var submitButtonStyle={
+            float:'left', 
+            width:'100px', 
+            height: '30px',
+            marginTop: '10px'
         }
 
         var item = {
@@ -337,7 +352,12 @@ module.exports = React.createClass({
                     </div>
                 
                     <div style={datatableStyle}>
+                        <div>
                         <p>Total number of accepted clips: <b> {this.state.clips.concat(this.state.accepted_clips).length}</b> </p>
+                            <div style={submitButtonStyle} onClick={this.handleNewActorMovie}>
+                              <RedButton text="NewActorMovie" />
+                            </div>
+                        </div>
                         <button style={nextStyle} onClick={this.handleNext}>Next</button> 
 
                         <Datatable 
@@ -346,7 +366,6 @@ module.exports = React.createClass({
                         actions={[{'name': 'Reject', 'function': this.reject}]} 
                         data = {this.state.clips} />
                 
-
                         <div style={{width:'100px', marginTop:'50px', height: '30px'}} onClick={this.handleCreateRelation}>
                             <RedButton text="create relation" />
                         </div>
