@@ -28,7 +28,8 @@ module.exports = React.createClass({
       			_this.setState({voices: new_voices, cursor: resp.cursor});
             });
 	  */
-	$.get('https://tasty-samosa.appspot.com/view_push_notification_on_web/'+key, function(response) {
+
+	$.get('https://the-tasty-samosa.appspot.com/view_push_notification_on_web/'+key, function(response) {
 			console.log(response.notification_title);
             _this.setState({voices: response.voices, notification_title: response.notification_title});
             console.log(response.notification_title);
