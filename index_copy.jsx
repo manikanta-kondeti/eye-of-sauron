@@ -18,6 +18,8 @@ window.init = function() {
 		var MostRecent = require('./views/MostRecent');
 		var IndividualClip = require('./views/IndividualClip');
     var IframePlayer = require('./views/IframePlayer');
+    // Viewing push notification for sending mail 
+    var PushNotificationOnWeb = require('./views/PushViewOnWeb')
 
 		var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');		
 		var viewPopularNow = require('./views/admin/viewPopularNow');
@@ -29,6 +31,7 @@ window.init = function() {
     var editClip = require('./views/admin/editClip');
     var addRelationShip = require('./views/admin/addRelationShip')
     var addNewActorMovie = require('./views/admin/addNewActorMovie')
+
 
 		var Router = React.createClass({
 
@@ -82,6 +85,7 @@ window.init = function() {
  		 ['/login', LoginView],
  		 ['/play/:key', IndividualClip],
      ['/embed/:key', IframePlayer],
+     ['/notification/:key', PushNotificationOnWeb],
 
      ['/admin/dashboard/view_clips', viewClips],
      ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
@@ -91,6 +95,7 @@ window.init = function() {
      ['/admin/dashboard/edit_clip/:key', editClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie]
+
 	];
 
 	React.render(<Header />, document.getElementById('header'));
