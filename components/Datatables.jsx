@@ -50,7 +50,7 @@ var tdItem = React.createClass({
 
 			if(this.props.data) {
 
-				var image_formats = ['png', 'jpg'];
+				var image_formats = ['png', 'jpg', 'jpeg'];
 				var audio_formats = ['opus', 'mp3'];
 
 				var data = String(this.props.data);

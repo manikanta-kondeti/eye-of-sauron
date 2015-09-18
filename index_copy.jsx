@@ -29,6 +29,7 @@ window.init = function() {
     var getPushNotificationId = require('./views/admin/getPushnotificationId');
     var viewClips = require('./views/admin/viewClips');
     var editClip = require('./views/admin/editClip');
+    var editUnapprovedClip = require('./views/admin/editUnapprovedClip');
     var addRelationShip = require('./views/admin/addRelationShip')
     var addNewActorMovie = require('./views/admin/addNewActorMovie')
 
@@ -93,6 +94,7 @@ window.init = function() {
  		 ['/admin/dashboard/:view-approved', viewApproved],
      ['/admin/dashboard/create_push_notification', createPushNotification],
      ['/admin/dashboard/edit_clip/:key', editClip],
+     ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie]
 

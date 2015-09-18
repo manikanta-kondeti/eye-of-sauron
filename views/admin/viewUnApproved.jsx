@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Datatable = require('../../components/Datatables');
+var Page = require('page');
 
 module.exports = React.createClass({
 
@@ -91,6 +92,17 @@ module.exports = React.createClass({
 
     },
 
+
+    edit: function(object) {
+        var _this = this;
+        var key = object['key'];
+        console.log(key);
+        console.log(object);   
+
+        Page('/admin/dashboard/edit_unapproved_clip/'+key);
+
+    },
+
     handleClickNext: function() {
         var _this =  this;
         $.get('https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
@@ -116,7 +128,7 @@ module.exports = React.createClass({
             <button onClick={this.handleClickNext}>NEXT</button>
             <Datatable 
                 tags= {['transcript','hearts','duration','language','listens','shares','poster_url','mp3_url']} 
-                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.reject, 'tag':'key'}]} 
+                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.reject, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
                 data = {this.state.voices} />
          </div>
 
