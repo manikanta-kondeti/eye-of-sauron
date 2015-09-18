@@ -71,7 +71,7 @@ module.exports = React.createClass({
      		backgroundColor: '#fff',
     		border: '1px solid #000',
      		padding: '15px',
-            zIndex: '500'
+            zIndex: '5000'
 		}
 
         var loginMessageStyle = {

@@ -68,18 +68,25 @@ module.exports = React.createClass({
 		}
 
 	    var rightSideWrapper  = {
+	    	position: 'absolute',
+	    	background: '#eff3fa',
+			top: '360px',
 	    	float: 'left',
 			height: 'auto',
 			width: '68%',
+			zIndex: '1000',
 			paddingLeft: '2%'
 		}
 
 		var leftSideWrapper = {
-			position: 'relative',
+			position: 'absolute',
+			top: '360px',
+			right: '0px',
 			float: 'left',
 			width: '30%',
 			background: 'white',
-			height: '500px'
+			zIndex: '1000',
+			height: '100%'
 		}
 
 		var selectItemWrapper = {
@@ -115,16 +122,13 @@ module.exports = React.createClass({
 		}
 
 		var iframeEmbed = {
-			width: '300px',
-			height: '360px',
-			position: 'absolute',
-			left: '50%',
-			marginLeft: '-150px',
 			marginTop: '30px'
 		}
 
 		var embedButton ={
-			
+			background: 'url(/static/images/embed_button.png) no-repeat center center',
+			height: '60px',
+			cursor: 'pointer'
 		}
 
 		return (
@@ -142,11 +146,9 @@ module.exports = React.createClass({
 					<div style={embedTitle}>
 						SAMOSA FOR WEBSITES
 						<div style={iframeEmbed}>
-
-							<div style={embedButton}>
-								<button onClick={this.navigate.bind(this, '/embed-popular-now')}> Embed on your site </button>
-							</div>
-						</div>
+								<iframe src='/popular-now-iframe' width='100%' height='520' border='0' scrolling='no' frameBorder='0'></iframe>
+								<div onClick={this.navigate.bind(this, '/embed-popular-now')} style={embedButton}></div>
+					    </div>
 					</div>
 				</div>
 			</div>

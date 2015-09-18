@@ -19,6 +19,7 @@ module.exports = React.createClass({
 
 		this.checkLogin();
 
+
 		window.addEventListener('scroll', this.handleScroll);
 
 		window.fbAsyncInit = function() {
@@ -109,9 +110,7 @@ module.exports = React.createClass({
 
 		  var opacity = (window.scrollY == 0 ) ? 1 : 30/window.scrollY
 
-		  $('#title').css('opacity', opacity);
 		  $('#downloadIconsWrapper').css('opacity', opacity);
-
 
 		  (window.scrollY >= 280) ? this.fixHeader(true) : this.fixHeader(false) 
 	},
@@ -146,7 +145,8 @@ module.exports = React.createClass({
 	handleLogoutClick: function() {
 		FB.logout();
 		sessionStorage.setItem('samosa_key', '');
-		this.setState({'login': false});
+		$('#login').show();
+		$('#logout').hide();
 	},
 
 	handleSubmimt: function(e) {
@@ -169,7 +169,12 @@ module.exports = React.createClass({
 
 	checkLogin: function() {
 		if(sessionStorage.getItem('samosa_key')) {
-			this.setState({login: true});
+			$('#login').hide();
+			$('#logout').show();
+		}
+		else{
+			$('#login').show();
+			$('#logout').hide();
 		}
 	},
 
@@ -266,6 +271,10 @@ module.exports = React.createClass({
 				border: '1px solid #eee'
 			}
 
+		var modalStyle = {
+			display: 'none'
+		}
+
 		var languagesBtn =  {
 				boxShadow: 'inset 0px 1px 0px 0px #ffffff',
 				backgroundColor: '#ffffff',
@@ -307,23 +316,28 @@ module.exports = React.createClass({
 
 		header['position'] = 'fixed';
 		header['height'] = '80px';
-		 header['zIndex'] = '100';
+		 header['zIndex'] = '2000';
 
 		 title['top'] = '26px';
 		 title['width'] = '115px';
 		 title['left'] = '24%';
 		 title['height'] = '35px';
+		 title['opacity'] = '1';
 
 
 		 logo['top'] = '10px';
 		 logo['width'] = '70px';
 		 logo['height'] = '70px';
-		 logo['opacity'] = '1';
-
+		 
 		 searchBoxWrapper['top'] = '20px';
 		 downloadIconsWrapper['display'] = 'none';
 
 	}
+
+	if(this.state.open_modal) {
+			modalStyle['display'] = 'block'
+	}
+
 		return (
 
 			<div style= {header}>
@@ -332,27 +346,30 @@ module.exports = React.createClass({
 					<div id="title" style= {title}></div>
 					<div id="downloadIconsWrapper" style={downloadIconsWrapper}>
 						<div style={downloadIcons}>
-							<img width="100%" src ="/static/images/android.png" />
+							<a href="https://bit.ly/samosa-android" target="_blank">  <img width="100%" src ="/static/images/android.png" /> </a> 
 						</div>
 						<div style={downloadIcons}>
-							<img width="100%" src ="/static/images/appstore.png" />
+							<a href="https://bit.ly/samosa-ios" target="_blank">  <img width="100%" src ="/static/images/appstore.png" /> </a>
 						</div>
 						<div style={downloadIcons}>
-							<img width="100%" src ="/static/images/windows.png" />
+							<a href="https://bit.ly/samosa-windows" target="_blank"> <img width="100%" src ="/static/images/windows.png" /> </a>
 						</div>
 					</div>
 			
 					<div style={headerBtns}>
-						<a href="#" style={languagesBtn}>Select Languages</a> &nbsp;
-						<a href="#" style={loginBtn}>Login</a>
+						<span  onClick={this.openModal}  style={languagesBtn}>Select Languages</span> &nbsp;
+						<span id="login" onClick={this.handleLoginClick}  href="#" style={loginBtn}>Login</span>
+						<span id="logout" onClick={this.handleLogoutClick} style = {loginBtn}> Logout </span>
 					</div>
 			
 					<div style={searchBoxWrapper}>
 						<input onKeyDown={this.searchQuery} ref="search" style={searchBox} placeholder = "Search for audio clips, dialouges, proverbs" />
 					</div>
 				</div>
-			</div>
+				<div style={modalStyle}> <LanguageModal close_modal={this.closeModal} /> </div>
 
+			</div>
+			
 
 		)
 	}

@@ -10,7 +10,19 @@ var React = require('react');
 module.exports = React.createClass({
 
     getInitialState: function() {
-        return ({});
+        return ({iframe_width: '100%', iframe_height: '520'});
+    },
+
+    handleSubmit: function() {
+
+      var iframe_width = $('#iframe_width').val();
+      var iframe_height = $('#iframe_height').val();
+
+      $('#iframe_code').val("<iframe src='http://getsamosa.com/popular-now-iframe' width='"+iframe_width+"' height='"+
+                                                 iframe_height+ "' border='0' scrolling='no' frameBorder='0'></iframe>");
+
+      this.setState({iframe_width: iframe_width, iframe_height: iframe_height});
+
     },
 
    render: function() {
@@ -84,11 +96,11 @@ module.exports = React.createClass({
             <p style={title}> Configuration</p>
             <p style={formControl}>
               <span style={label}>Width</span>
-              <input style={searchBox} placeholder= "width" />
+              <input id="iframe_width" style={searchBox} placeholder= "width" />
             </p>
             <p style={formControl}>
               <span style={label}>Height</span>
-              <input style={searchBox} placeholder= "height" /> 
+              <input id="iframe_height" style={searchBox} placeholder= "height" /> 
             </p>
             <p style={formControl}>
               <span style={label}>Language</span>
@@ -96,14 +108,17 @@ module.exports = React.createClass({
             </p>
             <p style={formControl}>
               <span style={label}>Code</span><br/>
-              <textarea rows="10" cols="92" placeholder = "code"></textarea>
+              <textarea id="iframe_code" rows="10" cols="92" placeholder = "code"></textarea>
+            </p>
+            <p>
+              <button onClick = {this.handleSubmit}> GET CODE </button>
             </p>
           </div>
       
           <div style={rightSideWrapper}>
             <p style={title}> Preview</p>
             <div style={previewWrapper}>
-                <iframe src='http://localhost:8080/popular-now-iframe' width='100%' height='520' border='0' scrolling='no' frameBorder='0'></iframe>
+                <iframe src='/popular-now-iframe' width={this.state.iframe_width} height={this.state.iframe_height} border='0' scrolling='no' frameBorder='0'></iframe>
             </div>
           </div>
       </div>  

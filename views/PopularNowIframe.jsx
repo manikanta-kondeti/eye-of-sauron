@@ -123,7 +123,7 @@ module.exports = React.createClass({
 
          var container = {
             width: '92%',
-            margin: '54px auto',
+            margin: '60px auto',
             boxShadow: '-1px 0px 9px 1px rgba(0,0,0,0.24)',
             height: 'auto'
          }

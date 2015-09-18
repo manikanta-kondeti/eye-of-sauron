@@ -33,7 +33,7 @@ var ShowClipWithEmbed = React.createClass({
             iframe_height=0
         }
 
-        this.refs.preview_url.getDOMNode().value="<iframe src='https://web-dont-touch-dot-the-tasty-samosa.appspot.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
+        this.refs.preview_url.getDOMNode().value="<iframe src='http://getsamosa.com/embed/"+this.props.data.key+"' width='"+iframe_width+"' height='"+
                                                  iframe_height+ "' border='0' scrolling='no' frameBorder='0'></iframe>";
 
          this.setState({
@@ -117,11 +117,15 @@ var ShowClipWithEmbed = React.createClass({
             marginTop: '11%',
         }
 
-        if(this.state.preview_clip){
-            iframeBlockStyle['display'] = 'block'
+        var iframeStyle = {
+
         }
 
         var iframe_src = "/embed/"+this.props.data.key
+
+        if(this.state.preview_clip){
+            iframeBlockStyle['display'] = 'block'
+        }
 
         return (
         <div>
@@ -150,7 +154,9 @@ var ShowClipWithEmbed = React.createClass({
                     <InputField ref="preview_url" placeholder = "preview url" />
                 </div>
                 <br/>
-                <iframe src={iframe_src} width={this.state.iframe_width} height={this.state.iframe_height} border="0" scrolling="no" frameBorder="0"></iframe>
+                <div style={iframeStyle}>
+                    <iframe src={iframe_src} width={this.state.iframe_width} height={this.state.iframe_height} border="0" scrolling="no" frameBorder="0"></iframe>
+                </div>
             </div>
           </div>  
           <div style={relatedVideosStyle}>
