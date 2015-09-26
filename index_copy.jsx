@@ -23,6 +23,7 @@ window.init = function() {
     var PushNotificationOnWeb = require('./views/PushViewOnWeb')
     var PopularNowIframe = require('./views/PopularNowIframe');
     var EmbedPopularNow = require('./views/EmbedPopularNow');
+    var EditVideos = require('./views/EditVideos');
 
 		var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');		
 		var viewPopularNow = require('./views/admin/viewPopularNow');
@@ -35,7 +36,7 @@ window.init = function() {
     var editUnapprovedClip = require('./views/admin/editUnapprovedClip');
     var addRelationShip = require('./views/admin/addRelationShip')
     var addNewActorMovie = require('./views/admin/addNewActorMovie')
-    var viewCounterEntities = require('./views/admin/viewCounterEntities')
+    var viewCounterEntities = require('./views/admin/viewCounterEntities');
 
 
 		var Router = React.createClass({
@@ -111,6 +112,7 @@ window.init = function() {
      ['/notification/:key', PushNotificationOnWeb],
      ['/embed-popular-now', EmbedPopularNow],
      ['/popular-now-iframe', PopularNowIframe],
+     ['/edit-videos', EditVideos],
 
      ['/admin/dashboard/view_clips', viewClips],
      ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
