@@ -62,6 +62,7 @@ window.init = function() {
 
                 if(url.match(regex)){
                         React.render(<Header />, document.getElementById('header'));
+                        $('#wrapper').html(' ');
                         React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));                      
                 }
 
@@ -81,7 +82,7 @@ window.init = function() {
                   }
                 
                   else {
-                      console.log('nonon');
+
                       React.render(<HeaderOther />, document.getElementById('header'));
                   }
                 } 

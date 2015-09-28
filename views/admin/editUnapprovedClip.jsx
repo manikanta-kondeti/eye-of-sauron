@@ -19,12 +19,11 @@ module.exports = React.createClass({
         var _this = this;
         //Fetch ajax call
         console.log('Component did mount')
-        $.get('https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
-                  $('#transcript').val(response['transcript']);
-                    $('#tags').val(response['tags']);
-                    $('#languages').val(response['language']);
-                    console.log(response.voices)
-                                _this.setState({voices: response.voices});
+        $.get('https://the-tasty-samosa.appspot.com/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
+                  $('#transcript').val(response.voices['transcript']);
+                    $('#tags').val(response.voices['tags']);
+                    $('#languages').val(response.voices['language']);
+                    _this.setState({voice: response.voices});
         });
         /*
         gapi.client.samosa.api.get_expression_by_key({'id': this.props.params.key}).execute(
@@ -48,7 +47,7 @@ module.exports = React.createClass({
 
          $.ajax({
              type:    "POST",
-             url:     "https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_edited_unapproved_clip",
+             url:     "https://the-tasty-samosa.appspot.com/dashboard_post_edited_unapproved_clip",
              data:    {"expression_key": key, "transcript":transcript, "caption": caption, "tags": tags, "languages": languages },
             success: function(data) {
                  alert(data['status']);

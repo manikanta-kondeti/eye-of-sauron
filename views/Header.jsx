@@ -250,7 +250,7 @@ module.exports = React.createClass({
 
 		 <div> 
 			<div style = {headerStyle} > 
-				<div onClick={this.navigate.bind(this,'/')}>
+				<div onClick={this.navigate.bind(this, '/')}>
 					<div style = {logoStyle}> <Logo  src="https://lh5.ggpht.com/oJpCSXfyxWeLDSM8GKN-SHyv8ZK29pF2NURecNkK1aQD_9mH0ZYscux07oNPgxog28RU=w300" width="35" height="35"/> </div>
 					<div style = {titleStyle}> SAMOSA </div>
 				</div>

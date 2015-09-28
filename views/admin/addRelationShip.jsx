@@ -138,15 +138,10 @@ module.exports = React.createClass({
 
        
         gapi.client.samosa.api.get_search_results({'tags': tag, 'cursor': this.state.cursor}).execute(
-            function(resp){             
-                     console.log("State clips length "+_this.state.clips.length);
-                     if (resp.more){
-                     var accepted_clips = _this.state.clips.concat(_this.state.accepted_clips);
+            function(resp) {             
+                    var accepted_clips = _this.state.clips.concat(_this.state.accepted_clips);
                     _this.setState({clips: resp.voices, cursor: resp.cursor, accepted_clips: accepted_clips, more: resp.more });
-                    }else{
-                           _this.setState({more: resp.more});  
-                    }
-
+                    
             });
     },
 
@@ -193,7 +188,7 @@ module.exports = React.createClass({
             $.ajax({
                  type:    "POST",
                  dataType: "json",
-                 url:     "https://mani-dev-dot-the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation",
+                 url:     "https://the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation",
                  data:    {
                             "expression_keys": expression_keys,
                             "actor": actor,
