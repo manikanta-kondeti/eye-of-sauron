@@ -25,14 +25,6 @@ module.exports = React.createClass({
                     $('#languages').val(response.voices['language']);
                     _this.setState({voice: response.voices});
         });
-        /*
-        gapi.client.samosa.api.get_expression_by_key({'id': this.props.params.key}).execute(
-        function(resp){
-                    $('#transcript').val(resp['transcript']);
-                    $('#tags').val(resp['tags']);
-                    _this.setState({voice: resp});
-        });
-        */
     },
 
     handleSubmit: function() {
@@ -48,11 +40,10 @@ module.exports = React.createClass({
          $.ajax({
              type:    "POST",
              url:     "https://the-tasty-samosa.appspot.com/dashboard_post_edited_unapproved_clip",
-             data:    {"expression_key": key, "transcript":transcript, "caption": caption, "tags": tags, "languages": languages },
+             data:    {"expression_key": this.props.params.key, "transcript":transcript, "caption": caption, "tags": tags, "languages": languages },
             success: function(data) {
                  alert(data['status']);
             },
-            // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
             }
