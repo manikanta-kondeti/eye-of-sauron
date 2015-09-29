@@ -135,7 +135,7 @@ module.exports = React.createClass({
 
                 <div style={dataTableStyle}>
                     <Datatable 
-                        tags= {['transcript','actor_key','movie_key','listens','shares','poster_url','mp3_url']} 
+                        tags= {['transcript','poster_url','actor_key','movie_key','listens','shares','mp3_url']} 
                         actions={[{'name': 'Edit', 'function': this.editClip}]} 
                         data = {this.state.voices} />
                 </div>

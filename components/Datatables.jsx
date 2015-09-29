@@ -33,6 +33,53 @@ var actionButton = React.createClass({
 	}
 })
 
+/**
+* Enlarges image when hovers on it 
+*/
+var EnlargeImageOnHover = React.createClass({
+	getInitialState: function(){
+		return {hover: false};
+	},
+
+	mouseEnter: function(){
+		this.setState({hover: true});
+	},
+
+	mouseOut: function(){
+		this.setState({hover: false});
+	},
+
+	/**
+	* OnClick: This method will make sure it becomes small on click
+	*/
+	imgOnClick: function(){
+		if(!this.state.hover) { 
+			this.setState({hover: true});
+		}
+		else {
+			this.setState({hover: false});
+		}
+	},
+
+	render: function(){
+		var Effectfront = {
+  			border: 'none',
+  			margin: '0 auto',
+  			cursor: 'pointer',
+  			zIndex: '1000'
+		}
+ 		
+		if(this.state.hover) {
+			Effectfront['transform'] = 'scale(6)',
+			Effectfront['transition'] = 'all 0.6s'
+		}
+
+		return(
+			<img width="80" style={Effectfront} onClick={this.imgOnClick} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseOut} src={this.props.src} />
+		)		
+	}
+});
+
 var tdItem = React.createClass({
 
 	/**
@@ -56,7 +103,7 @@ var tdItem = React.createClass({
 				var data = String(this.props.data);
 
 				if(image_formats.indexOf(data.split('.').pop())!= -1){
-						var data =  <Img width="80" src={this.props.data} />
+						var data =  <EnlargeImageOnHover src={this.props.data} />
 				}	
 				else if(audio_formats.indexOf(data.split('.').pop())!= -1){
 						var data =  <BasicPlayer src={this.props.data} />

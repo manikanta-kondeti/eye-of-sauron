@@ -127,7 +127,7 @@ module.exports = React.createClass({
          <div style={RightSideBarStyle}> 
             <button onClick={this.handleClickNext}>NEXT</button>
             <Datatable 
-                tags= {['transcript','hearts','duration','language','listens','shares','poster_url','mp3_url']} 
+                tags= {['transcript','poster_url','tags','language','mp3_url','opus_url']} 
                 actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.reject, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
                 data = {this.state.voices} />
          </div>

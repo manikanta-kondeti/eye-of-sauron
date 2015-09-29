@@ -111,7 +111,7 @@ module.exports = React.createClass({
 
         var _this = this;
 
-        $.get('http://the-tasty-samosa.appspot.com/dashboard_get_counter_entity', 
+        $.get('https://the-tasty-samosa.appspot.com/dashboard_get_counter_entity', 
             {start_date: start_date, end_date: end_date},
 
             function(response) {
