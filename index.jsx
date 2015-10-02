@@ -10,7 +10,6 @@ window.init = function() {
 		var React = require('react');
 		var page = require('page');
 
-    var Header = require('./views/Header');
     var HeaderHome = require('./views/HeaderHome');
 		var HeaderOther = require('./views/HeaderOther');
 		var LeftSideBar = require('./views/LeftSideBar');
@@ -24,20 +23,6 @@ window.init = function() {
     var PopularNowIframe = require('./views/PopularNowIframe');
     var EmbedPopularNow = require('./views/EmbedPopularNow');
     var EditVideos = require('./views/EditVideos');
-
-		var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');		
-		var viewPopularNow = require('./views/admin/viewPopularNow');
-		var viewApproved = require('./views/admin/viewApproved');	
-		var viewUnApproved = require('./views/admin/viewUnApproved');
-    var createPushNotification = require('./views/admin/createPushNotification');
-    var getPushNotificationId = require('./views/admin/getPushnotificationId');
-    var viewClips = require('./views/admin/viewClips');
-    var editClip = require('./views/admin/editClip');
-    var editUnapprovedClip = require('./views/admin/editUnapprovedClip');
-    var addRelationShip = require('./views/admin/addRelationShip')
-    var addNewActorMovie = require('./views/admin/addNewActorMovie')
-    var viewCounterEntities = require('./views/admin/viewCounterEntities');
-
 
 		var Router = React.createClass({
 
@@ -113,19 +98,7 @@ window.init = function() {
      ['/notification/:key', PushNotificationOnWeb],
      ['/embed-popular-now', EmbedPopularNow],
      ['/popular-now-iframe', PopularNowIframe],
-     ['/edit-videos', EditVideos],
-
-     ['/admin/dashboard/view_clips', viewClips],
-     ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
- 		 ['/admin/dashboard', viewUnApproved],
- 		 ['/admin/dashboard/:view-approved', viewApproved],
-     ['/admin/dashboard/create_push_notification', createPushNotification],
-     ['/admin/dashboard/edit_clip/:key', editClip],
-     ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
-     ['/admin/dashboard/add_relationship', addRelationShip],
-     ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
-     ['/admin/dashboard/view_counter_entities', viewCounterEntities]
-
+     ['/edit-videos', EditVideos]
 	];
 
 	React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

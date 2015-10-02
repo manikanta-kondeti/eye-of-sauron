@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "deploy": "webpack -p --config webpack.config.js",
+    "deploy_admin": "webpack -p --config webpack_admin.config.js",
     "start": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 8888",
+    "start_admin": "webpack-dev-server --config webpack_admin.config.js  --progress --colors --history-api-fallback --hot --port 8888",
     "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
   },
   "author": "vamshi",

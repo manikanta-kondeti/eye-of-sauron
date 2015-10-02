@@ -2,9 +2,9 @@ var path = require('path');
 
 module.exports = {
     name: 'client-side rendering',
-    entry: './index.jsx',
+    entry: './admin.jsx',
     output: {
-        filename: 'bundle.js'
+        filename: 'admin.js'
 
     },
     module: {
