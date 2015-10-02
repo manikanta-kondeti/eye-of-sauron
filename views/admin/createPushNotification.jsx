@@ -93,8 +93,6 @@ module.exports = React.createClass({
             var _this = this;
 
             $.get('https://the-tasty-samosa.appspot.com/push/create_push_notification', {'language': language} , function(response) {
-                    
-                console.log(response);
 
                 _this.setState({voices: response.voices, accepted_clips: [], search_flag: false })
 
@@ -164,7 +162,7 @@ module.exports = React.createClass({
 
         var submitButtonStyle={
             float:'left', 
-            width:'100px', 
+            width:'112px', 
             height: '30px',
             marginTop: '10px'
         }
@@ -175,20 +173,21 @@ module.exports = React.createClass({
         }
 
         var dataTableStyle = {
-            float: 'left',
             background: 'white',
             border: '1px solid #e8e8e8',
-            padding: '5px',
-            width: '60%'
+            padding: '10px',
+            width: '100%'
         }
 
         var acceptedClipsStyle = {
-            float: 'right',
+            display: 'none',
             background: 'white',
+            marginTop: '100px',
             height: 'auto',
             border: '1px solid #e8e8e8',
             padding: '10px',
-            width: '35%'
+            width: '100%',
+            overflow: 'auto'
         }
 
         var navigateButtonsStyle = {
@@ -213,6 +212,10 @@ module.exports = React.createClass({
         if(this.state.search_flag) {
             navigateButtonsStyle['display'] = 'block'
         }
+
+        if(this.state.accepted_clips.length != 0) {
+            acceptedClipsStyle['display'] = 'block';
+        }
              
         return (
             
@@ -235,6 +238,12 @@ module.exports = React.createClass({
           
             </div>  
             
+
+
+            <div style={acceptedClipsStyle}> 
+                        Accepted Clips <hr/>
+                        {accepted_clips}   
+            </div>
            
 
             <div style={{marginTop: '100px'}}>
@@ -242,7 +251,6 @@ module.exports = React.createClass({
                  <div style={navigateButtonsStyle}>
                     <button onClick={this.getNextClips}> Next </button>
                 </div>
-
 
                 <div style={dataTableStyle}>
                     <p> Total accepted clips: <b>{this.state.accepted_clips.length}</b></p>
@@ -252,10 +260,6 @@ module.exports = React.createClass({
                         data = {this.state.voices} />
                 </div>
 
-                <div style={acceptedClipsStyle}> 
-                        Accepted Clips <hr/>
-                        {accepted_clips}   
-                </div>
             </div>
 
          </div>
