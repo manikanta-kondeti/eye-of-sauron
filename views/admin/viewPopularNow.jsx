@@ -18,10 +18,6 @@ module.exports = React.createClass({
         return {voices: null, popular_now: true}
     },
 
-    action: function() {
-        console.log('hie');
-    },
-
     render: function() {
 
         if(this.state.popular_now) {

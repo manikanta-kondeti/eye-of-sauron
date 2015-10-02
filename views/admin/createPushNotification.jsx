@@ -6,6 +6,7 @@ var Datatable = require('../../components/Datatables');
 var RedButton = require('../../components/RedButton');
 var InputField = require('../../components/InputField');
 var Clip = require('../../components/showClip');
+var config = require('../../config');
 
 
 
@@ -92,7 +93,7 @@ module.exports = React.createClass({
 
             var _this = this;
 
-            $.get('https://the-tasty-samosa.appspot.com/push/create_push_notification', {'language': language} , function(response) {
+            $.get(config.ajax_url + '/push/create_push_notification', {'language': language} , function(response) {
 
                 _this.setState({voices: response.voices, accepted_clips: [], search_flag: false })
 
@@ -255,7 +256,7 @@ module.exports = React.createClass({
                 <div style={dataTableStyle}>
                     <p> Total accepted clips: <b>{this.state.accepted_clips.length}</b></p>
                     <Datatable 
-                        tags= {['transcript','listens','shares','poster_url','mp3_url']} 
+                        tags= {['transcript','poster_url','listens','shares','mp3_url']} 
                         actions={[{'name': 'Accept', 'function': this.accept}]} 
                         data = {this.state.voices} />
                 </div>

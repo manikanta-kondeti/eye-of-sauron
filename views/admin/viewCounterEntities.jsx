@@ -7,6 +7,7 @@ var Datatable = require('../../components/Datatables');
 var RedButton = require('../../components/RedButton');
 var InputField = require('../../components/InputField');
 var Clip = require('../../components/showClip');
+var config = require('../../config');
 
 
 
@@ -111,7 +112,7 @@ module.exports = React.createClass({
 
         var _this = this;
 
-        $.get('https://the-tasty-samosa.appspot.com/dashboard_get_counter_entity', 
+        $.get(config.ajax_url + '/dashboard_get_counter_entity', 
             {start_date: start_date, end_date: end_date},
 
             function(response) {

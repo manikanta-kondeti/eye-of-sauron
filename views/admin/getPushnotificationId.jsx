@@ -5,7 +5,7 @@
 var React = require('react')
 var InputField = require('../../components/InputField');
 var RedButton = require('../../components/RedButton');
-
+var config = require('../../config');
 
 
 
@@ -20,7 +20,7 @@ module.exports = React.createClass({
         var keys = this.props.params.keys.split(',')
         var _this = this;
 
-        $.get('https://the-tasty-samosa.appspot.com/push/get_push_notification_id',
+        $.get(config.ajax_url + '/push/get_push_notification_id',
             {
                 'title': $('#push_title').val(),
                 'text': $('#push_text').val(),

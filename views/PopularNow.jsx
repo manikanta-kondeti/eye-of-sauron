@@ -4,7 +4,6 @@ var React = require('react');
 var Page = require('page');
 var ShowClips = require('./ShowClips');
 
-
 module.exports = React.createClass({
 
 	getInitialState: function() {	

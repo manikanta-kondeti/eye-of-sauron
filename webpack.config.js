@@ -22,6 +22,10 @@ module.exports = {
         'react': 'React'
     },
     resolve: {
+        resolve: {
+            config: '/config.js',
+            extensions: ['', '.js']
+        },
         extensions: ['', '.js', '.jsx']
     }
 

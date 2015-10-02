@@ -5,6 +5,7 @@ var Page = require('page');
 var Autocomplete = require('react-autocomplete');
 var RedButton = require('../../components/RedButton');
 var Datatable = require('../../components/Datatables');
+var config = require('../../config');
 
 
 module.exports = React.createClass({
@@ -188,7 +189,7 @@ module.exports = React.createClass({
             $.ajax({
                  type:    "POST",
                  dataType: "json",
-                 url:     "https://the-tasty-samosa.appspot.com/dashboard_post_actor_movie_relation",
+                 url:     config.ajax_url + "/dashboard_post_actor_movie_relation",
                  data:    {
                             "expression_keys": expression_keys,
                             "actor": actor,

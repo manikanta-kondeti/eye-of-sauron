@@ -4,6 +4,7 @@ var React = require('react');
 var Page = require('page');
 var RedButton = require('../../components/RedButton');
 var InputField = require('../../components/InputField');
+var config = require('../../config');
 
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -19,7 +20,7 @@ module.exports = React.createClass({
 				$.ajax({
                 	 type:    "POST",
                  	dataType: "json",
-                 	url:     "https://the-tasty-samosa.appspot.com/dashboard_post_add_new_actor",
+                 	url:     config.ajax_url + "/dashboard_post_add_new_actor",
                  	data:    {
                             "display_name": $('#display_name_actor').val(),
                             "primary_language": $('#primary_language_actor').val(),
@@ -49,7 +50,7 @@ module.exports = React.createClass({
 				$.ajax({
 	                 type:    "POST",
 	                 dataType: "json",
-	                 url:     "https://the-tasty-samosa.appspot.com/dashboard_post_add_new_movie",
+	                 url:      config.ajax_url + "/dashboard_post_add_new_movie",
 	                 data:    {
                                 "movie_unique_id": $('#movie_unique_id_movie').val(),
 	                            "display_name": $('#display_name_movie').val(),

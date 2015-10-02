@@ -4,6 +4,8 @@ var React = require('react');
 var ShowClips = require('./ShowClips');
 var RedButton = require('../components/RedButton');
 var page = require('page');
+var config = require('../config');
+
 module.exports = React.createClass({
 
 	getInitialState: function() {	
@@ -29,7 +31,7 @@ module.exports = React.createClass({
             });
 	  */
 
-	$.get('https://the-tasty-samosa.appspot.com/view_push_notification_on_web/'+key, function(response) {
+	$.get(config.ajax_url + '/view_push_notification_on_web/'+key, function(response) {
 			console.log(response.notification_title);
             _this.setState({voices: response.voices, notification_title: response.notification_title});
             console.log(response.notification_title);

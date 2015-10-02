@@ -6,6 +6,7 @@ var React = require('react')
 var InputField = require('../../components/InputField');
 var RedButton = require('../../components/RedButton');
 var Clip = require('../../components/showClip');
+var config = require('../../config');
 
 
 
@@ -19,7 +20,7 @@ module.exports = React.createClass({
         var _this = this;
         //Fetch ajax call
         console.log('Component did mount')
-        $.get('https://the-tasty-samosa.appspot.com/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
+        $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
                   $('#transcript').val(response.voices['transcript']);
                     $('#tags').val(response.voices['tags']);
                     $('#languages').val(response.voices['language']);
@@ -39,7 +40,7 @@ module.exports = React.createClass({
 
          $.ajax({
              type:    "POST",
-             url:     "https://the-tasty-samosa.appspot.com/dashboard_post_edited_unapproved_clip",
+             url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
              data:    {"expression_key": this.props.params.key, "transcript":transcript, "caption": caption, "tags": tags, "languages": languages },
             success: function(data) {
                  alert(data['status']);
