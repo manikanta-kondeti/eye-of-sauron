@@ -71,14 +71,14 @@ module.exports = React.createClass({
 		}
 
 		var heartsStyle = {
-			width: '55px',
+			width: '70px',
 			float: 'left',
 			textAlign: 'center',
 			marginLeft: '10px'
 		}
 
 		var sharesStyle = {
-			width: '55px',
+			width: '70px',
 			float: 'right',
 			textAlign: 'center'
 		}

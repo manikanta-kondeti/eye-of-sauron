@@ -41,39 +41,31 @@ module.exports = React.createClass({
 
 	render: function() {
 
-		var RightSideBarStyle = {
-			position: 'absolute',
-			marginLeft: '200px',
-			top: '60px',
-			bottom: '0px',
-			display: 'block',
-			padding: '9px',
-			width: 'auto'
-		}
-		var TitleStyle = {
-			position: 'relative',
-			marginLeft: '350px',
-			top: '10px',
-			bottom: '0px',
-			display: 'block',
-			padding: '9px',
-			width: 'auto'
+		var container = {
+			width: '100%',
+			top: '0px',
+			left: '0px',
+			margin: '2%'
 		}
 
+		var TitleStyle = {
+			margin: '0 auto',
+			width: '500px',
+			textAlign: 'center',
+			padding: '20px'
+		}
 
 		var buttonStyle = {
-			position: 'relative',
-			marginLeft: '450px',
-			float: 'left',
-			width: '100px',
+			width: '200px',
+			margin: '0 auto',
 			height: '30px',
-			display: 'block',
 		}
 
 		return (
+		
 		<div>
 
-		 	<div style={RightSideBarStyle}> 
+		 	<div style={container}> 
 				<h3 align="center" style={TitleStyle} > 
 					{this.state.notification_title}	
 		 		</h3>
