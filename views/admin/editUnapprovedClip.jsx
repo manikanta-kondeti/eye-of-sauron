@@ -32,7 +32,7 @@ module.exports = React.createClass({
         var transcript = $('#transcript').val();
         var caption = transcript.split(' ').join('-');
         var tags = $('#tags').val().split(',');
-        var languages = $('#languages').val().split(',');
+        var languages = $('#languages').val();
         var _this = this;
 
         console.log(tags);
