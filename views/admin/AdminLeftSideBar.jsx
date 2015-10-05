@@ -19,7 +19,8 @@ module.exports = React.createClass({
     		bottom: '0',
     		display: 'block',
 			width: '200px',
-			borderRight: '1px solid #e8e8e8'		
+			borderRight: '1px solid #e8e8e8',
+			zIndex: '999'		
 		}
 
 		var data = [

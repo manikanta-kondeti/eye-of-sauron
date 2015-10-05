@@ -24,6 +24,12 @@ module.exports = React.createClass({
 
     handleSubmit: function() {
 
+        console.log('hi');
+
+        var result  = this.containerVisible(false);
+
+        if(result) {
+
         var legend_val = $('#legend').val();
 
         var regex = new RegExp(legend_val, 'gi');
@@ -42,9 +48,27 @@ module.exports = React.createClass({
 
             }
         }    
+
+        this.containerVisible(true);
+
         window.chart.redraw();
 
         this.checkAll();
+        }
+    },
+
+    containerVisible: function(flag) {
+
+        if(flag) {
+            $('#loading').hide();
+            $('#container').show();
+        }
+        else {
+            $('#loading').show();
+            $('#container').hide();
+        }
+
+        return true;
     },
 
     uncheckAll: function() {
@@ -111,6 +135,8 @@ module.exports = React.createClass({
     drawHighChart: function(start_date, end_date) {
 
         var _this = this;
+
+        this.containerVisible(false)
 
         $.get(config.ajax_url + '/dashboard_get_counter_entity', 
             {start_date: start_date, end_date: end_date},
@@ -233,6 +259,7 @@ module.exports = React.createClass({
                     series: series
                 }
 
+                _this.containerVisible(true);
                 window.chart = new Highcharts.Chart(optionsChart1,highlightSer);
             }
         ,'json')
@@ -250,6 +277,12 @@ module.exports = React.createClass({
             width: '83%'
         }
 
+        var loadingStyle = {
+            position: 'absolute',
+            left: '40%',
+            top: '50%'
+        }
+
         return (
             
          <div style={RightSideBarStyle}>
@@ -262,6 +295,9 @@ module.exports = React.createClass({
                  <span id="date"></span> <b className="caret"></b>
             </div> 
             <div id="container"></div>
+            <div id="loading">
+                <img style={loadingStyle} id="loading" src = "/static/images/loading.gif" />
+            </div>
             <button onClick={this.checkAll}>Check All </button>
             <button onClick={this.uncheckAll}> Uncheck All </button>
          </div>

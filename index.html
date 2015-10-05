@@ -113,15 +113,15 @@
 
         var url = window.location.href;
 
-        if(url.match(regex)){
-            var jsLink = $("<script type='text/javascript' src='/admin.js'>");
+        if(url.match(regex)) {
+            var jsLink = "<script type='text/javascript' src='/admin.js'>";
+            $("head").append(jsLink); 
+        }
+        else {
+            var jsLink = "<script type='text/javascript' src='/bundle.js'>";
             $("head").append(jsLink); 
         }
 
-        else {
-            var jsLink = $("<script type='text/javascript' src='/bundle.js'>");
-            $("head").append(jsLink); 
-        }
     </script>
 
 
