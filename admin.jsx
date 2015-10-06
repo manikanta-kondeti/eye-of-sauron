@@ -41,42 +41,36 @@ window.init = function() {
                 var url = route[0];
                 var Component = route[1];
     
-                    page(url, function (ctx) {
+                page(url, function (ctx) {
 
+                  var regex = new RegExp('/admin/dashboard', 'gi');
 
-                var regex = new RegExp('/admin/dashboard', 'gi');
-
-
-                if(url.match(regex)){
-                        React.render(<Header />, document.getElementById('header'));
-                        $('#wrapper').html(' ');
-                        React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));                      
-                }
-
-                else { 
-
-                  //Only admin has left side bar 
-                  $('#left-side-bar').html('');
-
-                  
-                  
-                  if(url == "/" || url =="/popular-now" || url =="" || url=="/most-recent") {
-                      React.render(<HeaderHome />, document.getElementById('header'));
-                  }                 
-
-                  else if(url == "/popular-now-iframe"){
-                    $('#header').html('')
+                  if(url.match(regex)) {
+                        React.render(<Header search={false} login={false}/>, document.getElementById('header'));
+                        React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));  
                   }
+
+                  else { 
+                   //Only admin has left side bar 
+                    $('#left-side-bar').html('');
+
+                    if(url == "/" || url =="/popular-now" || url =="" || url=="/most-recent") {
+                        React.render(<HeaderHome />, document.getElementById('header'));
+                    }                 
+
+                    else if(url == "/popular-now-iframe") {
+                      $('#header').html('')
+                    }
                 
-                  else {
+                    else {
 
                       React.render(<HeaderOther />, document.getElementById('header'));
-                  }
-                } 
+                    }
+                  } 
 
-                          _this.setState({ component: <Component params={ctx.params} /> });
-                    });
-              });
+                  _this.setState({ component: <Component params={ctx.params} /> });
+                });
+            });
 
 
             page.start();

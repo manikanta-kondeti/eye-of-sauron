@@ -245,7 +245,16 @@ module.exports = React.createClass({
 		else{
 			buttonStyleLogout['display'] = 'none';
 		}
-	
+
+		if(!this.props.search) {
+			searchBoxStyle['display'] = 'none';
+		}
+		
+		if(!this.props.login) {
+			langStyle['display'] = 'none';
+			buttonStyleLogin['display'] = 'none';
+		}
+
 		return (
 
 		 <div> 

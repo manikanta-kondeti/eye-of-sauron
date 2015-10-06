@@ -41,7 +41,6 @@ window.init = function() {
     
      				page(url, function (ctx) {
 
-
                 var regex = new RegExp('/admin/dashboard', 'gi');
 
 

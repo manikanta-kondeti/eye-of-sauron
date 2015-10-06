@@ -194,8 +194,6 @@ var trItem = React.createClass({
 			}
 		}
 
-		console.log(tdArray);
-
 		return(
 				<tr>
 					{tdArray}
@@ -217,9 +215,9 @@ module.exports = React.createClass({
 	 * @param  {[input box search value]}
 	 * @return {[none]}
 	 */
-	searchTags: function(value) {
+	searchTags: function(e) {
 
-		this.setState({search_value: value});
+		this.setState({search_value: e.target.value});
 	},
 
 
@@ -304,6 +302,7 @@ module.exports = React.createClass({
 					{trItems}
 				</table>
 			</div>
+
 			)
 	}
 
