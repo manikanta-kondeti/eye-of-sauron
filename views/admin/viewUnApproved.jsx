@@ -4,15 +4,19 @@ var React = require('react');
 var Datatable = require('../../components/Datatables');
 var Page = require('page');
 var config = require('../../config');
+var RedButton = require('./../../components/RedButton');
 
 module.exports = React.createClass({
 
     getInitialState: function(){
-        return {voices: null, cursor: null}
+        /*
+        * 'clickedNext' is used to keep track whether the next button is clicked.
+        */
+        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false}
     },
 
     componentDidMount: function() {
-        console.log('componentDidMount');
+ 
         var _this = this;
         $.get(config.ajax_url + '/dashboard_get_unapproved', function(response) {
             _this.setState({voices: response.voices, cursor: response.cursor});
@@ -28,8 +32,6 @@ module.exports = React.createClass({
 
         var key = object['key'];
 
-        console.log(key);
-        console.log(object);
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
@@ -61,8 +63,7 @@ module.exports = React.createClass({
     reject: function(object) {
         var _this = this;
         var key = object['key'];
-        console.log(key);
-        console.log(object);   
+  
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
@@ -97,8 +98,7 @@ module.exports = React.createClass({
     edit: function(object) {
         var _this = this;
         var key = object['key'];
-        console.log(key);
-        console.log(object);   
+    
 
         Page('/admin/dashboard/edit_unapproved_clip/'+key);
 
@@ -106,8 +106,26 @@ module.exports = React.createClass({
 
     handleClickNext: function() {
         var _this =  this;
+        var prev_cursors_array = this.state.prev_cursors;
+        prev_cursors_array.push(this.state.cursor);
+        var prev_cursors_length = this.state.prev_cursors.length;
+ 
         $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
-            _this.setState({voices: response.voices, cursor: response.cursor});
+            _this.setState({voices: response.voices, cursor: response.cursor, prev_cursors: prev_cursors_array, clickedNext: true});
+        });
+    },
+
+    handleClickPrev: function() {
+        var _this =  this;
+        var back_pointer = 1;
+        if (this.state.clickedNext){
+            back_pointer = 2;
+        }
+        var prev_cursors_length = this.state.prev_cursors.length;
+        var prev_cursor = this.state.prev_cursors[prev_cursors_length - back_pointer];
+        var prev_cursors_array = this.state.prev_cursors.slice(0, prev_cursors_length - back_pointer);
+        $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: prev_cursor} ,function(response) { 
+            _this.setState({voices: response.voices, cursor: prev_cursor, prev_cursors: prev_cursors_array, clickedNext: false});
         });
     },
 
@@ -123,15 +141,36 @@ module.exports = React.createClass({
             width: 'auto'
         }
 
+        var prevButtonStyle = {
+            width:'100px', 
+            height: '50px',
+            marginTop: '5px',
+            float: 'left',
+            padding: '10px'
+        }
+
+        var nextButtonStyle = {
+            width:'100px', 
+            height: '50px',
+            marginTop: '5px',
+            float: 'left',
+            padding: '10px'
+        }
+
+
         return (
             
          <div style={RightSideBarStyle}> 
-            <button onClick={this.handleClickNext}>NEXT</button>
+            <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
+            <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <Datatable 
-                tags= {['transcript','poster_url','tags','language','mp3_url','opus_url']} 
+                tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key']} 
                 actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.reject, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
                 data = {this.state.voices} />
+            <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
+            <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
          </div>
+
 
         )
     }

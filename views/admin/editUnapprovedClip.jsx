@@ -19,7 +19,6 @@ module.exports = React.createClass({
     componentDidMount: function() {
         var _this = this;
         //Fetch ajax call
-        console.log('Component did mount')
         $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
                   $('#transcript').val(response.voices['transcript']);
                     $('#tags').val(response.voices['tags']);
@@ -28,16 +27,13 @@ module.exports = React.createClass({
         });
     },
 
-    handleSubmit: function() {
+     handleSubmit: function() {
         var transcript = $('#transcript').val();
         var caption = transcript.split(' ').join('-');
         var tags = $('#tags').val().split(',');
         var languages = $('#languages').val();
         var _this = this;
-
-        console.log(tags);
         //Updating ajax call
-
          $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
@@ -45,6 +41,49 @@ module.exports = React.createClass({
             success: function(data) {
                  alert(data['status']);
             },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+
+    },
+
+
+    /**
+     * Aprrove function takes clicked voice object as input
+    */
+    approve: function() {
+        var _this = this;
+        var object = _this.state.voice;
+        var key = object['key'];
+        $.ajax({
+             type:    "POST",
+             url:     config.ajax_url + "/dashboard_post_unapproved",
+             data:    {"expression_key": key,"approval_status": 1 },
+            success: function(data) {
+                 alert(data['status']);
+            },
+            // vvv---- This is the new bit
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    },
+
+    reject: function() {
+        var _this = this;
+        var object = _this.state.voice;
+        var key = object['key'];
+  
+        $.ajax({
+             type:    "POST",
+             url:     config.ajax_url + "/dashboard_post_unapproved",
+             data:    {"expression_key": key,"approval_status": 2 },
+            success: function(data) {
+
+                alert(data['status']);
+            },
+            // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
             }
@@ -87,11 +126,42 @@ module.exports = React.createClass({
             lineHeight: '45px'
         }
 
+         var approveStyle= {
+            width: '100px',
+            height: '30px',
+            margin: '15px',
+            float: 'left'
+        }
+
+        var inputStyle = {
+            width: '96%',
+            height: '100%',
+            lineHeight: '38px',
+            paddingLeft: '10px',
+            color: '#999',
+            border: '1px solid #dcdcdc',
+            fontFamily: 'Helvetica,Arial',
+            fontSize: '12px',
+            margin: '5px',
+            boxShadow: '1px 1px 7px #dcdcdc'
+        }
+
+        var voiceStyle = {
+            float: 'left', 
+            marginLeft: '30px',
+            display: 'block'
+        }
         if(this.state.alert_message) {
-            console.log('alert');
             alertStyle['display'] = 'block'
         }
 
+        if (this.state.voice['approval_status'] == 2 || this.state.voice['approval_status'] == 1){
+            approveStyle['display'] = 'none';
+        }
+
+        if (this.state.voice['type'] == 1){
+            voiceStyle['display'] = 'none'
+        }
         return (
 
                 <div style = {RightSideBarStyle}>
@@ -113,13 +183,23 @@ module.exports = React.createClass({
                         <div style={inputFieldStyle}>
                             Languages
                             <InputField id="languages" placeholder="Languages" />
-                        </div> 
+                        </div>
+                   
                         <div onClick={this.handleSubmit} style={submitStyle}>
                             <RedButton  text = "SUBMIT" />
                         </div>
+
+                        <div onClick={this.approve} style={approveStyle}>
+                            <RedButton  text = "APPROVE" />
+                        </div>
+
+                        <div onClick={this.reject} style={approveStyle}>
+                            <RedButton  text = "REJECT" />
+                        </div>
+
                     </div>
 
-                    <div style={{float: 'left', marginLeft: '30px'}}>
+                    <div style={voiceStyle}>
                         <Clip data ={this.state.voice} />
                     </div>                        
                 </div>
