@@ -24,8 +24,6 @@ module.exports = React.createClass({
 
     handleSubmit: function() {
 
-        console.log('hi');
-
         var result  = this.containerVisible(false);
 
         if(result) {
@@ -84,7 +82,6 @@ module.exports = React.createClass({
 
     checkAll: function() {
         var series = window.chart.series;
-        console.log(window.chart.series)
         for(var i=0; i<series.length; i++) {
             if(series[i].checkbox !==undefined) {
                 series[i].checkbox.checked = true;
@@ -153,7 +150,7 @@ module.exports = React.createClass({
                     var count = counter_entities[i]['count'];
                     var date = counter_entities[i]['date'];
 
-
+        
                     if(x_axis.indexOf(date) === -1) {
                         x_axis.push(date)
                     }   
@@ -203,7 +200,6 @@ module.exports = React.createClass({
 
                 function highlightSer(chart) {
                     var series = chart.series, i;
-                    console.log(series)
                     for(i=0; i<series.length; i++) {
                         series[i].checkbox.checked = true;
                         series[i].selected = true;
@@ -265,6 +261,13 @@ module.exports = React.createClass({
         ,'json')
     },
     
+    getCsv: function() {
+        alert(window.chart.getCSV());
+        window.open();
+        //this line was added to your code to download the CSV
+        window.open("data:text/csv;charset=utf-8," + escape(chart.getCSV()));
+    },
+
     render: function() {
 
         var RightSideBarStyle = {
@@ -289,6 +292,7 @@ module.exports = React.createClass({
             <div style = {{float: 'right'}}>
                 <input id="legend" placeholder="search"/>
                 <button onClick={this.handleSubmit}>Submit</button>
+                <button onClick={this.getCsv}>Get CSV</button>
             </div>
             <div id="reportrange" class="pull-right" style={{background: '#fff', cursor: 'pointer', padding: '5px 10px', border: '1px solid #ccc', width: '30%'}}>
                  <i className="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -298,6 +302,8 @@ module.exports = React.createClass({
             <div id="loading">
                 <img style={loadingStyle} id="loading" src = "/static/images/loading.gif" />
             </div>
+  
+
             <button onClick={this.checkAll}>Check All </button>
             <button onClick={this.uncheckAll}> Uncheck All </button>
          </div>
