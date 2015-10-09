@@ -2,9 +2,9 @@ var path = require('path');
 
 module.exports = {
     name: 'client-side rendering',
-    entry: './admin.jsx',
+    entry: './embed.jsx',
     output: {
-        filename: 'admin.js'
+        filename: 'embed.js'
 
     },
     module: {

@@ -113,9 +113,10 @@ module.exports = React.createClass({
           <AudioPlayer
             frameWidth={frameWidth}
             frameHeight={frameHeight}
-            controlSize={64}
+            controlSize={10}
+            fontSize={9}
             opusURL={this.state.voice.opus_url}
-            mp3URL={this.state.voice.mp3URL} />
+            mp3URL={this.state.voice.mp3_url} />
            <PoweredByMessage />
         </div>
       </div>
