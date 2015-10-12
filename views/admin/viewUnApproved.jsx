@@ -5,6 +5,7 @@ var Datatable = require('../../components/Datatables');
 var Page = require('page');
 var config = require('../../config');
 var RedButton = require('./../../components/RedButton');
+var RejectReasons = require('./rejectReasonUnapproved');
 
 module.exports = React.createClass({
 
@@ -12,7 +13,7 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false}
+        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false, open_modal: false, object: null}
     },
 
     componentDidMount: function() {
@@ -60,14 +61,23 @@ module.exports = React.createClass({
         });
     },
 
-    reject: function(object) {
-        var _this = this;
+    openModal: function(object) {
+        this.setState({open_modal: true, object: object});
+    },
+
+    closeModal: function() {
+        this.setState({open_modal: false});
+    },
+
+    reject: function(reason) {
+        var object = this.state.object;
         var key = object['key'];
   
+        var _this = this;
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
-             data:    {"expression_key": key,"approval_status": 2 },
+             data:    {"expression_key": key,"approval_status": 2, "reject_reason": reason},
             success: function(data) {
 
                 var state_voices = _this.state.voices;
@@ -155,6 +165,13 @@ module.exports = React.createClass({
             padding: '10px'
         }
 
+        var modalStyle = {
+            display: 'none'
+        }
+
+        if(this.state.open_modal) {
+            modalStyle['display'] = 'block';
+        }
 
         return (
             
@@ -163,10 +180,12 @@ module.exports = React.createClass({
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key']} 
-                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.reject, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
+                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
                 data = {this.state.voices} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
+            <div style={modalStyle}> <RejectReasons reject={this.reject} close_modal={this.closeModal} /> </div>
+
          </div>
 
 
