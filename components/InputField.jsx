@@ -48,7 +48,7 @@ render: function() {
 
 
 		return (
-			<input id={this.props.id} onKeyUp={this.keyUp} onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
+			<input value={this.props.value} id={this.props.id} type={this.props.type} onKeyUp={this.keyUp} onFocus = {this.Focus} onBlur = {this.Focus}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} style = {inputStyle}/>
 		)
 	}
 

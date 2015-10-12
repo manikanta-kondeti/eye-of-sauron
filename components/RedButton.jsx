@@ -43,7 +43,7 @@ module.exports = React.createClass({
 
 		return (
 
-			<button onMouseEnter={this.hover} onMouseLeave={this.hover} style={buttonStyle}> {this.props.text} </button>
+			<button id={this.props.id} type={this.props.type} onMouseEnter={this.hover} onMouseLeave={this.hover} style={buttonStyle}> {this.props.text} </button>
 		)
 	}
 
