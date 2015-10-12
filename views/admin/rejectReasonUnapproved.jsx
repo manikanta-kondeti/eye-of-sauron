@@ -12,8 +12,7 @@
 
 'use strict'
 
-var React = require
-('react')
+var React = require('react')
 var RedButton = require('./../../components/RedButton');
 
 module.exports = React.createClass({
@@ -32,21 +31,22 @@ module.exports = React.createClass({
  
         var overlayStyle = {
             visibility: 'visible',
-     	    position: 'absolute',
+     	    position: 'fixed',
             left: '0px',
             top: '0px',
      	    width: '100%',
      	    height: '100%',
- 	        zIndex: '300',
- 	        background: 'rgba(0, 0, 0, 0.8)'
+ 	        zIndex: '1000',
+ 	        background: 'rgba(0, 0, 0, 0.8)',
  	     }
 
         var modalStyle = {
-            position: 'absolute',
+            position: 'fixed',
             width: '600px',
             height: '300px',
             left: '50%',
             top: '50%',
+            marginLeft: '-300px',
             marginTop: '-200px',
      	    backgroundColor: '#fff',
             border: '1px solid #000',
