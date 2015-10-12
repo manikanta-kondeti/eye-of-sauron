@@ -98,10 +98,8 @@ module.exports = React.createClass({
     edit: function(object) {
         var _this = this;
         var key = object['key'];
-    
 
-        Page('/admin/dashboard/edit_unapproved_clip/'+key);
-
+        window.open(config.ajax_url + '/admin/dashboard/edit_unapproved_clip/'+key);
     },
 
     handleClickNext: function() {
