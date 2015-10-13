@@ -16,37 +16,35 @@ module.exports = React.createClass({
     },
 
     //function to check file size before uploading.
-    beforeSubmit: function() {
-    //check whether browser fully supports all File API
+    beforeSubmit: function(){
+        //check whether browser fully supports all File API
         if (window.File && window.FileReader && window.FileList && window.Blob)
         {
-            if( !$('#file').val()) //check empty input filed
+        
+            if($('#file').val()) //check empty input filed
             {
-                $("#output").html("Are you kidding me?");
-                return false
-            }
+                var fsize = $('#file')[0].files[0].size; //get file size
+                var ftype = $('#file')[0].files[0].type; // get file type
         
-            var fsize = $('#file')[0].files[0].size; //get file size
-            var ftype = $('#file')[0].files[0].type; // get file type
-        
+                //allow only valid image file types 
+                if(ftype == "image/jpeg" || ftype =="image/jpg") {
+                
+                    //Allowed file size is less than 1 MB (1048576)
+                    if(fsize>1048576) 
+                    {   
+                        $("#output").html("<b>"+fsize +"</b> Too big Image file! <br />Please reduce the size of your photo using an image editor.");
+                        return false
+                    }
+                
+                    $("#output").html("");  
+               
+                }
+                else {
+                    $("#output").html("Please Upload jpg or jpeg format images");
+                    return false;
+                }
 
-            //allow only valid image file types 
-            switch(ftype)
-            {
-                case 'image/png': case 'image/gif': case 'image/jpeg':
-                    break;
-                default:
-                    $("#output").html("<b>"+ftype+"</b> Unsupported file type!");
-                    return false
             }
-        
-            //Allowed file size is less than 1 MB (1048576)
-            if(fsize>1048576) 
-            {
-                $("#output").html("<b>"+fsize +"</b> Too big Image file! <br />Please reduce the size of your photo using an image editor.");
-                return false
-            }
-            $("#output").html("");  
         }
         else
         {
@@ -56,27 +54,30 @@ module.exports = React.createClass({
         }
     },
 
-
-    handleSubmit: function() {
+    handleSubmit: function(e) {
 
         var keys = this.props.params.keys.split(',')
         var _this = this;
 
         var options = { 
             target:   '#output',                // target element(s) to be updated with server response 
-            beforeSubmit:  this.beforeSubmit,  // pre-submit callback 
+            beforeSubmit:  _this.beforeSubmit,
             url: config.ajax_url + '/push/get_push_notification_id',
+            clearForm: true,       // clear all form fields after successful submit 
+            resetForm: true,        // reset the form after successful submit 
             success:    function(response) { 
                 $('#alert_message').html('Your Push Id is '+response['push_id']);
                 _this.setState({alert_message: true});
-            } 
+            }, 
+            error: function(response) {
+                $('#alert_message').html(' Notification text is not a localised unicode string. Localise the push notification text.');
+            }
+
         }; 
         
-        $('#upload_form').submit(function() { 
-            console.log('hi');
-            $(this).ajaxSubmit(options);  //Ajax Submit form            
-            // return false to prevent standard browser submit and page navigation 
-            return false; 
+        $('#upload_form').submit(function(e) { 
+            $(this).ajaxSubmit(options);  //Ajax Submit form    
+            return false;
         }); 
     },
 
@@ -121,9 +122,7 @@ module.exports = React.createClass({
 
         var expression_list = this.props.params.keys.split(',');
 
-        console.log(this.props.params.keys);
-
-        console.log(expression_list)
+        console.log(expression_list);
 
         return (
 
@@ -136,7 +135,7 @@ module.exports = React.createClass({
                         
                     </div>
 
-                    <form enctype="multipart/form-data" id="upload_form">
+                    <form method="post" enctype="multipart/form-data" id="upload_form">
                         <div style={inputFieldStyle} >
                             <InputField name="title" placeholder="Title" />
                         </div>
@@ -150,10 +149,10 @@ module.exports = React.createClass({
                             <InputField name="file" id="file" type="file" />
                         </div>
                         <div style={inputFieldStyle} >
-                            <InputField name="expression_list[]" value={expression_list}  type="hidden" />
+                            <input name="expression_list[]" value={expression_list}  type="hidden" />
                         </div>
                         <div onClick={this.handleSubmit} style={inputFieldStyle} >
-                            <RedButton  id="submit-btn" text = "Upload" />
+                            <RedButton id="submit-btn" text = "Upload" />
                         </div>
                     </form>   
                     <div id="output"></div>                    
