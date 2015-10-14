@@ -18,8 +18,9 @@ module.exports = React.createClass({
 
     componentDidMount: function() {
         var _this = this;
+        console.log(this.props);
         //Fetch ajax call
-        $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.params.key} ,function(response) { 
+        $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.edit_key} ,function(response) { 
                   $('#transcript').val(response.voices['transcript']);
                     $('#tags').val(response.voices['tags']);
                     $('#languages').val(response.voices['language']);
@@ -37,7 +38,7 @@ module.exports = React.createClass({
          $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
-             data:    {"expression_key": this.props.params.key, "transcript":transcript, "caption": caption, "tags": tags, "languages": languages },
+             data:    {"expression_key": this.props.edit_key, "transcript": transcript, "caption": caption, "tags": tags, "languages": languages },
             success: function(data) {
                  alert(data['status']);
             },
@@ -54,14 +55,16 @@ module.exports = React.createClass({
     */
     approve: function() {
         var _this = this;
-        var object = _this.state.voice;
-        var key = object['key'];
+        var key = this.props.edit_key;
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
              data:    {"expression_key": key,"approval_status": 1 },
             success: function(data) {
+                 _this.props.remove_clip(key);
                  alert(data['status']);
+                _this.props.close_modal();
+
             },
             // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
@@ -70,18 +73,22 @@ module.exports = React.createClass({
         });
     },
 
+    blur: function() {
+        this.props.close_modal();
+    },
+
     reject: function() {
         var _this = this;
-        var object = _this.state.voice;
-        var key = object['key'];
+        var key = this.props.edit_key;
   
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
              data:    {"expression_key": key,"approval_status": 2 },
             success: function(data) {
-
+                _this.props.remove_clip(key);
                 alert(data['status']);
+                _this.props.close_modal();
             },
             // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
@@ -151,58 +158,91 @@ module.exports = React.createClass({
             marginLeft: '30px',
             display: 'block'
         }
+
+        var overlayStyle = {
+            visibility: 'visible',
+            position: 'fixed',
+            left: '0px',
+            top: '0px',
+            width: '100%',
+            height: '100%',
+            zIndex: '1000',
+            background: 'rgba(0, 0, 0, 0.8)',
+        }
+
+        var modalStyle = {
+            position: 'fixed',
+            width: '900px',
+            height: '600px',
+            left: '50%',
+            top: '50%',
+            marginLeft: '-450px',
+            marginTop: '-300px',
+            backgroundColor: '#fff',
+            border: '1px solid #000',
+            padding: '15px',
+            zIndex: '5000'
+        }
+
+
         if(this.state.alert_message) {
             alertStyle['display'] = 'block'
         }
 
-        if (this.state.voice['approval_status'] == 2 || this.state.voice['approval_status'] == 1){
+        if (this.state.voice['approval_status'] == 2 || this.state.voice['approval_status'] == 1) {
             approveStyle['display'] = 'none';
         }
 
-        if (this.state.voice['type'] == 1){
+        if (this.state.voice['type'] == 1) {
             voiceStyle['display'] = 'none'
         }
+
+        console.log(this.props.edit_key);
+
         return (
 
-                <div style = {RightSideBarStyle}>
-                    <div style={{float: 'left'}} >
-                        EDIT CLIP <hr/><br/> 
+            <div>
+                <div onClick={this.blur} style={overlayStyle}></div>
+                    <div style={modalStyle}>
+                        <div style={{float: 'left'}} >
+                                 EDIT CLIP <hr/><br/> 
 
-                        <div id="alert_message" style={alertStyle}>
+                            <div id="alert_message" style={alertStyle}>
                                 Clip has been updated !!! 
-                        </div>
+                            </div>
 
-                        <div style={inputFieldStyle} >
-                            Transcript
-                            <InputField id="transcript" placeholder="Transcript" />
-                        </div>
-                        <div style={inputFieldStyle}>
-                            Tags
-                            <InputField id="tags" placeholder="Tags" />
-                        </div> 
-                        <div style={inputFieldStyle}>
-                            Languages
-                            <InputField id="languages" placeholder="Languages" />
-                        </div>
+                            <div style={inputFieldStyle} >
+                                Transcript
+                                <InputField id="transcript" placeholder="Transcript" />
+                            </div>
+                            <div style={inputFieldStyle}>
+                                Tags
+                                <InputField id="tags" placeholder="Tags" />
+                            </div> 
+                            <div style={inputFieldStyle}>
+                                Languages
+                                <InputField id="languages" placeholder="Languages" />
+                            </div>
                    
-                        <div onClick={this.handleSubmit} style={submitStyle}>
-                            <RedButton  text = "SUBMIT" />
+                            <div onClick={this.handleSubmit} style={submitStyle}>
+                                <RedButton  text = "SUBMIT" />
+                            </div>
+
+                            <div onClick={this.approve} style={approveStyle}>
+                                <RedButton  text = "APPROVE" />
+                            </div>
+
+                            <div onClick={this.reject} style={approveStyle}>
+                                <RedButton  text = "REJECT" />
+                            </div>
+
                         </div>
 
-                        <div onClick={this.approve} style={approveStyle}>
-                            <RedButton  text = "APPROVE" />
-                        </div>
-
-                        <div onClick={this.reject} style={approveStyle}>
-                            <RedButton  text = "REJECT" />
-                        </div>
-
+                        <div style={voiceStyle}>
+                            <Clip data ={this.state.voice} />
+                        </div>      
                     </div>
-
-                    <div style={voiceStyle}>
-                        <Clip data ={this.state.voice} />
-                    </div>                        
-                </div>
+            </div>
         )
     }
 

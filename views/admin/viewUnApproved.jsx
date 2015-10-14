@@ -6,6 +6,7 @@ var Page = require('page');
 var config = require('../../config');
 var RedButton = require('./../../components/RedButton');
 var RejectReasons = require('./rejectReasonUnapproved');
+var EditUnapprovedClip = require('./editUnapprovedClip');
 
 module.exports = React.createClass({
 
@@ -13,7 +14,7 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false, open_modal: false, object: null}
+        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false, open_modal: false, object: null, edit_key: null}
     },
 
     componentDidMount: function() {
@@ -22,6 +23,19 @@ module.exports = React.createClass({
         $.get(config.ajax_url + '/dashboard_get_unapproved', function(response) {
             _this.setState({voices: response.voices, cursor: response.cursor});
         });
+    },
+
+    setNewVoices: function(key) {
+        var state_voices = this.state.voices;
+        var new_state_voices = [];
+
+        for (var i = 0; i < state_voices.length; i++) {
+            if (state_voices[i]['key'] != key) {
+                new_state_voices.push(state_voices[i]);
+            }
+        }
+
+        this.setState({voices: new_state_voices});
     },
 
     /**
@@ -39,19 +53,8 @@ module.exports = React.createClass({
              data:    {"expression_key": key,"approval_status": 1 },
             success: function(data) {
 
-                var state_voices = _this.state.voices;
-
-                var new_state_voices = []
-
-                for (var i = 0; i < state_voices.length; i++) {
-                    if (state_voices[i]['key'] != key) {
-                        new_state_voices.push(state_voices[i]);
-                    }
-                }
-
-                _this.setState({
-                    voices: new_state_voices
-                });
+                 _this.setNewVoices(key);
+                
                  alert(data['status']);
             },
             // vvv---- This is the new bit
@@ -69,6 +72,19 @@ module.exports = React.createClass({
         this.setState({open_modal: false});
     },
 
+
+    openModalEdit: function(object) {
+        var key = object['key'];
+        console.log('open modal');
+        this.setState({edit_key: key});
+    },
+
+    closeModalEdit: function() {
+        console.log('close modal');
+        this.setState({edit_key: null});
+    },
+
+
     reject: function(reason) {
         var object = this.state.object;
         var key = object['key'];
@@ -80,19 +96,7 @@ module.exports = React.createClass({
              data:    {"expression_key": key,"approval_status": 2, "reject_reason": reason},
             success: function(data) {
 
-                var state_voices = _this.state.voices;
-
-                var new_state_voices = []
-
-                for (var i = 0; i < state_voices.length; i++) {
-                    if (state_voices[i]['key'] != key) {
-                        new_state_voices.push(state_voices[i]);
-                    }
-                }
-
-                _this.setState({
-                    voices: new_state_voices
-                });
+                _this.setNewVoices(key);
 
                 alert(data['status']);
             },
@@ -102,14 +106,6 @@ module.exports = React.createClass({
             }
         });
 
-    },
-
-
-    edit: function(object) {
-        var _this = this;
-        var key = object['key'];
-
-        window.open(config.ajax_url + '/admin/dashboard/edit_unapproved_clip/'+key);
     },
 
     handleClickNext: function() {
@@ -169,8 +165,20 @@ module.exports = React.createClass({
             display: 'none'
         }
 
+        var editModalStyle = {
+            display: 'none'
+        }
+
         if(this.state.open_modal) {
             modalStyle['display'] = 'block';
+        }
+
+        if(this.state.edit_key) {
+            editModalStyle['display'] = 'block';
+            var edit_approved_clip_modal =  <EditUnapprovedClip edit_key={this.state.edit_key} remove_clip={this.setNewVoices} close_modal={this.closeModalEdit} />
+        }
+        else {
+            var edit_approved_clip_modal = ""
         }
 
         return (
@@ -180,12 +188,12 @@ module.exports = React.createClass({
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key']} 
-                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.edit, 'tag':'key'}]} 
+                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
                 data = {this.state.voices} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <div style={modalStyle}> <RejectReasons reject={this.reject} close_modal={this.closeModal} /> </div>
-
+            <div style={editModalStyle}> {edit_approved_clip_modal} </div>
          </div>
 
 
