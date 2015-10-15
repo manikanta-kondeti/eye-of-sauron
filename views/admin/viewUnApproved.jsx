@@ -188,7 +188,7 @@ module.exports = React.createClass({
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key']} 
-                actions={[{'name': 'approve', 'function': this.approve, 'tag': 'key'}, {'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
+                actions={[{'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
                 data = {this.state.voices} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>

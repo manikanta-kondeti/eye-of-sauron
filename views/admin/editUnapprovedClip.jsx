@@ -77,26 +77,6 @@ module.exports = React.createClass({
         this.props.close_modal();
     },
 
-    reject: function() {
-        var _this = this;
-        var key = this.props.edit_key;
-  
-        $.ajax({
-             type:    "POST",
-             url:     config.ajax_url + "/dashboard_post_unapproved",
-             data:    {"expression_key": key,"approval_status": 2 },
-            success: function(data) {
-                _this.props.remove_clip(key);
-                alert(data['status']);
-                _this.props.close_modal();
-            },
-            // vvv---- This is the new bit
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            }
-        });
-
-    },
 
     render: function() {
 
@@ -230,10 +210,6 @@ module.exports = React.createClass({
 
                             <div onClick={this.approve} style={approveStyle}>
                                 <RedButton  text = "APPROVE" />
-                            </div>
-
-                            <div onClick={this.reject} style={approveStyle}>
-                                <RedButton  text = "REJECT" />
                             </div>
 
                         </div>
