@@ -24,7 +24,8 @@ window.init = function() {
         var addRelationShip = require('./views/admin/addRelationShip')
         var addNewActorMovie = require('./views/admin/addNewActorMovie')
         var viewCounterEntities = require('./views/admin/viewCounterEntities');
-
+        var viewUserQueryNoResults = require('./views/admin/viewUserQueryNoResults');
+        var viewSearchQueryFrequency = require('./views/admin/viewSearchQueryFrequency');
 
         var Router = React.createClass({
 
@@ -93,8 +94,9 @@ window.init = function() {
      ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
-     ['/admin/dashboard/view_counter_entities', viewCounterEntities]
-
+     ['/admin/dashboard/view_counter_entities', viewCounterEntities],
+     ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
+     ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

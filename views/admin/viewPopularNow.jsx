@@ -26,7 +26,7 @@ module.exports = React.createClass({
 
         var RightSideBarStyle = {
             position: 'absolute',
-            marginLeft: '200px',
+            marginLeft: '240px',
             top: '60px',
             bottom: '0px',
             display: 'block',

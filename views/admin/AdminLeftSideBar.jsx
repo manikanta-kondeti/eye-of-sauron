@@ -18,7 +18,7 @@ module.exports = React.createClass({
     		top: '60px',
     		bottom: '0',
     		display: 'block',
-			width: '200px',
+			width: '240px',
 			borderRight: '1px solid #e8e8e8',
 			zIndex: '999'		
 		}
@@ -29,8 +29,9 @@ module.exports = React.createClass({
 			{name: 'Push', url:'admin/dashboard/create_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'View Clips', url:'admin/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Actor/Movie', url:'admin/dashboard/add_relationship', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Counter Entity', url:'admin/dashboard/view_counter_entities', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
-
+			{name: 'Counter Entity', url:'admin/dashboard/view_counter_entities', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'NoResultsQuery', url:'admin/dashboard/view_user_query_no_results', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'SearchQueryFrequency', url:'admin/dashboard/view_search_query_frequency', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {
