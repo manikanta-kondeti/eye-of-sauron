@@ -101,7 +101,7 @@ module.exports = React.createClass({
         }
 
         // Remove back and next based on page count 
-        if (this.state.pageCount == 0){
+        if (this.state.pageCount == 1){
             prevButtonStyle['display'] = 'none'
         }
         if (this.state.more == false || this.state.cursor == null){

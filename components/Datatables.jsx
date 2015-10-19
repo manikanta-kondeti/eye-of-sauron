@@ -87,7 +87,6 @@ var tdItem = React.createClass({
 	 */
 	render: function() {
 
-
 			var tdStyle = {
 				textAlign: 'center',
 				padding: '5px',
@@ -110,8 +109,7 @@ var tdItem = React.createClass({
 				}	
 
 				else{
-						var data = this.props.data;
-
+						var data = this.props.data.toString();
 				}
 			}
 
@@ -166,7 +164,7 @@ var trItem = React.createClass({
 	 * @return {[none]}
 	 */
 	render: function() {
-
+		
 		var tdArray = [];
 
 		if (this.props.tdData) {
@@ -187,7 +185,7 @@ var trItem = React.createClass({
 					for(var i in this.props.actions) { 		
 				
 						var action = this.props.actions[i];
-
+						
 						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, name:action['name'], action:action['function']}));
 					}
 				}
@@ -235,7 +233,7 @@ module.exports = React.createClass({
 	 * @return {[none]}
 	 */
 	render: function() {
-
+		
 		var tableStyle = {
 			border: '1px solid #cbcbcb',
 			fontSize: '15px',
