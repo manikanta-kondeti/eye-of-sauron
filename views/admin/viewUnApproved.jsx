@@ -146,16 +146,16 @@ module.exports = React.createClass({
         }
 
         var prevButtonStyle = {
-            width:'100px', 
-            height: '50px',
+            width:'80px', 
+            height: '40px',
             marginTop: '5px',
             float: 'left',
             padding: '10px'
         }
 
         var nextButtonStyle = {
-            width:'100px', 
-            height: '50px',
+            width:'80px', 
+            height: '40px',
             marginTop: '5px',
             float: 'left',
             padding: '10px'
