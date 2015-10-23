@@ -364,7 +364,7 @@ module.exports = React.createClass({
                         <button style={nextStyle} onClick={this.handleNext}>Next</button> 
 
                         <Datatable 
-                        tags= {['mp3_url','transcript','actor_key','movie_key','poster_url','key']} 
+                        tags= {['mp3_url','transcript','tags','actor_key','movie_key','poster_url','key']} 
 
                         actions={[{'name': 'Reject', 'function': this.reject}]} 
                         data = {this.state.clips} />
