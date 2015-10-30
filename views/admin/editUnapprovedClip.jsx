@@ -23,7 +23,7 @@ module.exports = React.createClass({
         $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.edit_key} ,function(response) { 
                   $('#transcript').val(response.voices['transcript']);
                     $('#tags').val(response.voices['tags']);
-                    $('#languages').val(response.voices['language']);
+                    $('#language').val(response.voices['language']);
                     _this.setState({voice: response.voices});
         });
     },
@@ -32,13 +32,13 @@ module.exports = React.createClass({
         var transcript = $('#transcript').val();
         var caption = transcript.split(' ').join('-');
         var tags = $('#tags').val().split(',');
-        var languages = $('#languages').val();
+        var language = $('#language').val();
         var _this = this;
         //Updating ajax call
          $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
-             data:    {"expression_key": this.props.edit_key, "transcript": transcript, "caption": caption, "tags": tags, "languages": languages },
+             data:    {"expression_key": this.props.edit_key, "transcript": transcript, "caption": caption, "tags": tags, "language": language },
             success: function(data) {
                  alert(data['status']);
             },
@@ -201,7 +201,15 @@ module.exports = React.createClass({
                             </div> 
                             <div style={inputFieldStyle}>
                                 Languages
-                                <InputField id="languages" placeholder="Languages" />
+                                <select id="language">
+                                    <option value="telugu">telugu</option>
+                                    <option value="tamil">tamil</option>
+                                    <option value="hindi">hindi</option>
+                                    <option value="global">global</option>
+                                    <option value="kannada">kannada</option>
+                                    <option value="malayalam">malayalam</option>
+                                </select>
+                                
                             </div>
                    
                             <div onClick={this.handleSubmit} style={submitStyle}>

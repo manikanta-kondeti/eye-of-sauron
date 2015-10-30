@@ -26,6 +26,7 @@ window.init = function() {
         var viewCounterEntities = require('./views/admin/viewCounterEntities');
         var viewUserQueryNoResults = require('./views/admin/viewUserQueryNoResults');
         var viewSearchQueryFrequency = require('./views/admin/viewSearchQueryFrequency');
+        var viewRejected = require('./views/admin/viewRejected');
 
         var Router = React.createClass({
 
@@ -96,7 +97,8 @@ window.init = function() {
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
      ['/admin/dashboard/view_counter_entities', viewCounterEntities],
      ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
-     ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency]
+     ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
+     ['/admin/dashboard/view_rejected',viewRejected]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

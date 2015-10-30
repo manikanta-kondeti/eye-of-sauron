@@ -85,10 +85,11 @@ module.exports = React.createClass({
                     
                         <div>
                             <select name="reject_reasons">
-                                <option value="Similar or Same content is already present on the app">Already Present</option>
+                                <option value="Same content is already present on the app">Already Present</option>
+                                <option value="Please upload Indian language content. We do not support this language yet"> Local Language </option>
                                 <option value="Content did not pass the quality measures of Samosa">Quality Low</option>
-                                <option value="Content has photo of an individual(s) and might violate privacy">Photos-Self/Others</option>
-                                <option value="Content of the image does not meet community standards">NSFW Spam</option>
+                                <option value="Content might violate privacy">Photos-Self/Others</option>
+                                <option value="Content does not meet community standards">NSFW Spam</option>
                                 <option value="This content would violate copyright of individuals/organizations"> Copyright violation </option>
                                 <option value="The reviewers didn’t find this content fit to be shared on a public platform">Other</option>
                             </select>

@@ -7,6 +7,7 @@ var config = require('../../config');
 var RedButton = require('./../../components/RedButton');
 var RejectReasons = require('./rejectReasonUnapproved');
 var EditUnapprovedClip = require('./editUnapprovedClip');
+var LoadingSpinner = require('./../../components/LoadingSpinner');
 
 module.exports = React.createClass({
 
@@ -14,14 +15,14 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, prev_cursors: [null], more: false, pageCount: 0, clickedNext: false, open_modal: false, object: null, edit_key: null}
+        return {voices: null, cursor: null, loading: true, prev_cursors: [null], more: false, pageCount: 0, clickedNext: false, open_modal: false, object: null, edit_key: null}
     },
 
     componentDidMount: function() {
  
         var _this = this;
         $.get(config.ajax_url + '/dashboard_get_unapproved', function(response) {
-            _this.setState({voices: response.voices, cursor: response.cursor, more: response.more});
+            _this.setState({voices: response.voices, loading: false, cursor: response.cursor, more: response.more});
         });
     },
 
@@ -46,7 +47,7 @@ module.exports = React.createClass({
         var _this = this;
 
         var key = object['key'];
-
+        this.setState({loading: true});
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
@@ -54,7 +55,7 @@ module.exports = React.createClass({
             success: function(data) {
 
                  _this.setNewVoices(key);
-                
+                _this.setState({loading: false});
                  alert(data['status']);
             },
             // vvv---- This is the new bit
@@ -88,7 +89,7 @@ module.exports = React.createClass({
     reject: function(reason) {
         var object = this.state.object;
         var key = object['key'];
-  
+        this.setState({loading: true});
         var _this = this;
         $.ajax({
              type:    "POST",
@@ -97,7 +98,7 @@ module.exports = React.createClass({
             success: function(data) {
 
                 _this.setNewVoices(key);
-
+                _this.setState({loading: false});
                 alert(data['status']);
             },
             // vvv---- This is the new bit
@@ -113,9 +114,10 @@ module.exports = React.createClass({
         var prev_cursors_array = this.state.prev_cursors;
         prev_cursors_array.push(this.state.cursor);
         var prev_cursors_length = this.state.prev_cursors.length;
-        var page_count = this.state.pageCount;
+        var page_count = this.state.pageCount + 1;
+        this.setState({loading: true});
         $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
-            _this.setState({voices: response.voices, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: true});
+            _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: true});
         });
 
     },
@@ -126,11 +128,13 @@ module.exports = React.createClass({
         if (this.state.clickedNext){
             back_pointer = 2;
         }
+        var page_count = this.state.pageCount - 1;
         var prev_cursors_length = this.state.prev_cursors.length;
         var prev_cursor = this.state.prev_cursors[prev_cursors_length - back_pointer];
+        this.setState({loading: true});
         var prev_cursors_array = this.state.prev_cursors.slice(0, prev_cursors_length - back_pointer);
         $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: prev_cursor} ,function(response) { 
-            _this.setState({voices: response.voices, cursor: prev_cursor, prev_cursors: prev_cursors_array, clickedNext: false});
+            _this.setState({voices: response.voices, loading: false, cursor: prev_cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: false});
         });
     },
 
@@ -170,6 +174,10 @@ module.exports = React.createClass({
             display: 'none'
         }
 
+        var titleStyle = {          
+            marginLeft: '330px'
+        }
+
         if(this.state.open_modal) {
             modalStyle['display'] = 'block';
         }
@@ -197,12 +205,22 @@ module.exports = React.createClass({
             var length = 0;            
         }
 
+
+        /**
+            loading spinner
+        */
+        if (this.state.loading){
+            var loadingSpinner = <LoadingSpinner />
+        }
+
         return (
             
          <div style={RightSideBarStyle}> 
+            <div style={titleStyle}> <h3>USER UPLOADED CONTENT ( Approve or Reject )</h3></div> 
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
             <p> Total entities on this page: {length}</p>
+            {loadingSpinner}
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key', 'user_key', 'created_at']} 
                 actions={[{'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
