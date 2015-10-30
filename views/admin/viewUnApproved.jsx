@@ -14,14 +14,14 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, prev_cursors: [null], clickedNext: false, open_modal: false, object: null, edit_key: null}
+        return {voices: null, cursor: null, prev_cursors: [null], more: false, pageCount: 0, clickedNext: false, open_modal: false, object: null, edit_key: null}
     },
 
     componentDidMount: function() {
  
         var _this = this;
         $.get(config.ajax_url + '/dashboard_get_unapproved', function(response) {
-            _this.setState({voices: response.voices, cursor: response.cursor});
+            _this.setState({voices: response.voices, cursor: response.cursor, more: response.more});
         });
     },
 
@@ -113,10 +113,11 @@ module.exports = React.createClass({
         var prev_cursors_array = this.state.prev_cursors;
         prev_cursors_array.push(this.state.cursor);
         var prev_cursors_length = this.state.prev_cursors.length;
- 
+        var page_count = this.state.pageCount;
         $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
-            _this.setState({voices: response.voices, cursor: response.cursor, prev_cursors: prev_cursors_array, clickedNext: true});
+            _this.setState({voices: response.voices, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: true});
         });
+
     },
 
     handleClickPrev: function() {
@@ -181,13 +182,29 @@ module.exports = React.createClass({
             var edit_approved_clip_modal = ""
         }
 
+        // Hiding next and prev buttons
+        if ( this.state.more == false || this.state.voices < 500){
+            nextButtonStyle['display'] = 'none'
+        }
+        if (this.state.pageCount == 0){
+            prevButtonStyle['display'] = 'none'
+        }   
+        var length;
+        if (this.state.voices){
+            var length = this.state.voices.length;
+        }
+        else{
+            var length = 0;            
+        }
+
         return (
             
          <div style={RightSideBarStyle}> 
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
+            <p> Total entities on this page: {length}</p>
             <Datatable 
-                tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key']} 
+                tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key', 'user_key', 'created_at']} 
                 actions={[{'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
                 data = {this.state.voices} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
