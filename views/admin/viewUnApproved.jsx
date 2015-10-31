@@ -15,7 +15,7 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, loading: true, prev_cursors: [null], more: false, pageCount: 0, clickedNext: false, open_modal: false, object: null, edit_key: null}
+        return {voices: null, cursor: null, loading: true, prev_cursors: [null], more: false, pageCount: 1, clickedNext: false, open_modal: false, object: null, isTypeQuery: false, isLanguageQuery: false, edit_key: null}
     },
 
     componentDidMount: function() {
@@ -24,6 +24,35 @@ module.exports = React.createClass({
         $.get(config.ajax_url + '/dashboard_get_unapproved', function(response) {
             _this.setState({voices: response.voices, loading: false, cursor: response.cursor, more: response.more});
         });
+    },
+
+    /**
+       This method will execute the query and update voice and other variable in the state.
+    */
+    executeQueryWithCursor: function(language, type, cursor, page_count, prev_cursors_array, clicked_next) {
+        var _this = this;
+        console.log("isLanguageQuery = "+this.state.isLanguageQuery+" isTypeQuery = "+this.state.isTypeQuery);
+        if (this.state.isLanguageQuery && !this.state.isTypeQuery) {
+            $.get(config.ajax_url + '/dashboard_get_unapproved', {cursor: cursor, language: language}, function(response) { 
+                _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: clicked_next});
+            });
+        }
+        else if (this.state.isTypeQuery && !this.state.isLanguageQuery) {
+            $.get(config.ajax_url + '/dashboard_get_unapproved', {cursor: cursor, type: type}, function(response) { 
+                _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: clicked_next});
+            });
+        }
+        else if (this.state.isTypeQuery && this.state.isLanguageQuery) {
+            $.get(config.ajax_url + '/dashboard_get_unapproved', {cursor: cursor, language: language, type: type}, function(response) { 
+                _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: clicked_next});
+            });
+        }
+        else if (!this.state.isTypeQuery && !this.state.isLanguageQuery) {
+            $.get(config.ajax_url + '/dashboard_get_unapproved', {cursor: cursor}, function(response) { 
+                _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: clicked_next});
+            });
+        }
+
     },
 
     setNewVoices: function(key) {
@@ -116,9 +145,10 @@ module.exports = React.createClass({
         var prev_cursors_length = this.state.prev_cursors.length;
         var page_count = this.state.pageCount + 1;
         this.setState({loading: true});
-        $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: this.state.cursor} ,function(response) { 
-            _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: true});
-        });
+        var language = $('#language').val();
+        var type = $('#type').val();
+        var clicked_next = true;
+        this.executeQueryWithCursor(language, type, this.state.cursor, page_count, prev_cursors_array, clicked_next);
 
     },
 
@@ -132,10 +162,47 @@ module.exports = React.createClass({
         var prev_cursors_length = this.state.prev_cursors.length;
         var prev_cursor = this.state.prev_cursors[prev_cursors_length - back_pointer];
         this.setState({loading: true});
+        var type = $('#expresion_type').val();
         var prev_cursors_array = this.state.prev_cursors.slice(0, prev_cursors_length - back_pointer);
-        $.get(config.ajax_url + '/dashboard_get_unapproved',{cursor: prev_cursor} ,function(response) { 
-            _this.setState({voices: response.voices, loading: false, cursor: prev_cursor, pageCount: page_count, prev_cursors: prev_cursors_array, clickedNext: false});
+        var clicked_next = false;
+        this.executeQueryWithCursor(language, type, prev_cursor, page_count, prev_cursors_array, clicked_next);
+
+    },
+
+    /**
+        This filter helps in querying enitites based on language  
+        @params: language
+        @return:
+            response['voices']
+    */
+    getByLanguage: function() {
+        var _this = this;
+        console.log("Query by language");
+        this.setState({loading: true});
+        var language = $('#language').val();
+        var type = $('#expression_type').val();
+
+        $.get(config.ajax_url + '/dashboard_get_unapproved', {language: language, type: type }, function(response) { 
+            _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: 1, prev_cursors: [null], clickedNext: false});
         });
+    },
+
+
+    /**
+        This filter helps in querying entities based on expression type(audio, quote, photo)
+        @params: type
+        @return:
+            response['voices']
+    */
+    getByExpressionType: function() {
+        var _this = this;
+        this.setState({loading: true, isTypeQuery: true});
+        var type = $('#expression_type').val();
+        var language = $('#language').val();
+        $.get(config.ajax_url + '/dashboard_get_unapproved', {language: language, type: type }, function(response) { 
+            _this.setState({voices: response.voices, loading: false, cursor: response.cursor, pageCount: 1, prev_cursors: [null], clickedNext: false});
+        });
+
     },
 
     render: function() {
@@ -165,9 +232,14 @@ module.exports = React.createClass({
             float: 'left',
             padding: '10px'
         }
-
+        var DropdownStyle = {
+            float: 'left',
+            marginLeft: '20px'
+ 
+        }
         var modalStyle = {
-            display: 'none'
+            display: 'none',
+            marginLeft: '15px'
         }
 
         var editModalStyle = {
@@ -176,6 +248,10 @@ module.exports = React.createClass({
 
         var titleStyle = {          
             marginLeft: '330px'
+        }
+
+        var ParagraphStyle = {
+            padding: '14px'
         }
 
         if(this.state.open_modal) {
@@ -191,12 +267,13 @@ module.exports = React.createClass({
         }
 
         // Hiding next and prev buttons
-        if ( this.state.more == false || this.state.voices < 500){
+        if ( this.state.more == false || this.state.voices.length < 500){
             nextButtonStyle['display'] = 'none'
         }
-        if (this.state.pageCount == 0){
+        if (this.state.pageCount == 1){
             prevButtonStyle['display'] = 'none'
         }   
+
         var length;
         if (this.state.voices){
             var length = this.state.voices.length;
@@ -213,20 +290,41 @@ module.exports = React.createClass({
             var loadingSpinner = <LoadingSpinner />
         }
 
+        var page_count = this.state.pageCount;
+
         return (
             
          <div style={RightSideBarStyle}> 
             <div style={titleStyle}> <h3>USER UPLOADED CONTENT ( Approve or Reject )</h3></div> 
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
-            <p> Total entities on this page: {length}</p>
+            <div>
+                <p style={ParagraphStyle}> Page no: {page_count} ,   Total entities on this page: {length} </p> 
+        
+                    <select style={DropdownStyle} id="language" name="language" onChange={this.getByLanguage}>
+                        <option value="All">All</option>
+                        <option value="telugu">telugu</option>
+                        <option value="tamil">tamil</option>
+                        <option value="hindi">hindi</option>
+                        <option value="kannada">kannada</option>
+                        <option value="malayalam">malayalam</option>
+                    </select>
+
+
+                    <select style={DropdownStyle} id="expression_type" name="expression_type" onChange={this.getByExpressionType}>
+                        <option value="All">All</option>
+                        <option value="0">audio</option>
+                        <option value="1">quote</option>
+                        <option value="2">photo</option>
+                    </select>
+            </div>
             {loadingSpinner}
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key', 'user_key', 'created_at']} 
                 actions={[{'name': 'Reject', 'function': this.openModal, 'tag':'key'}, {'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
                 data = {this.state.voices} />
-            <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
-            <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
+            <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back" /> </div>
+            <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>" /> </div>
             <div style={modalStyle}> <RejectReasons reject={this.reject} close_modal={this.closeModal} /> </div>
             <div style={editModalStyle}> {edit_approved_clip_modal} </div>
          </div>

@@ -13,7 +13,7 @@ module.exports = React.createClass({
         /*
         * 'clickedNext' is used to keep track whether the next button is clicked.
         */
-        return {voices: null, cursor: null, prev_cursors: [null], more: false, loading: true, pageCount: 0, clickedNext: false, object: null, edit_key: null}
+        return {voices: null, cursor: null, prev_cursors: [null], more: false, loading: true, pageCount: 1, clickedNext: false, object: null, edit_key: null}
     },
 
     componentDidMount: function() {
@@ -90,7 +90,7 @@ module.exports = React.createClass({
         if ( this.state.more == false || this.state.voices < 500){
             nextButtonStyle['display'] = 'none'
         }
-        if (this.state.pageCount == 0){
+        if (this.state.pageCount == 1){
             prevButtonStyle['display'] = 'none'
         }   
         var length;
@@ -107,14 +107,14 @@ module.exports = React.createClass({
         if (this.state.loading){
             var loadingSpinner = <LoadingSpinner />
         }
-
+         var page_count = this.state.pageCount;
         return (
             
          <div style={RightSideBarStyle}> 
             <div style={titleStyle}> <h3> REJECTED CONTENT </h3></div> 
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>
-            <p> Total entities on this page: {length}</p>
+            <p> Page number: {page_count} Total entities on this page: {length}</p>
             {loadingSpinner}
             <Datatable 
                 tags= {['transcript','tags','poster_url','language','mp3_url','opus_url', 'key', 'user_key', 'created_at']}

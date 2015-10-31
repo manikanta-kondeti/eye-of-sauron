@@ -138,6 +138,8 @@ module.exports = React.createClass({
         var movie = $($(this.refs.movie.getDOMNode()).children()[0]).val();
         $('#actor').val(actor);
         $('#movie').val(movie);
+        var language = $('#language').val();
+
         var options = { 
             target:   '#output',
             beforeSubmit:  _this.beforeSubmit,// target element(s) to be updated with server response 
@@ -246,7 +248,14 @@ module.exports = React.createClass({
                                 </div> 
                                 <div style={inputFieldStyle}>
                                     Language
-                                    <InputField name="language" id="language" placeholder="Language" />
+                                    <select id="language" name="language" >
+                                        <option value="telugu">telugu</option>
+                                        <option value="tamil">tamil</option>
+                                        <option value="hindi">hindi</option>
+                                        <option value="global">global</option>
+                                        <option value="kannada">kannada</option>
+                                        <option value="malayalam">malayalam</option>
+                                    </select>
                                 </div> 
                                 
                                 <div style={inputFieldStyle} >

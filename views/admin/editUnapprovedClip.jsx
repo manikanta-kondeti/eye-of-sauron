@@ -18,7 +18,6 @@ module.exports = React.createClass({
 
     componentDidMount: function() {
         var _this = this;
-        console.log(this.props);
         //Fetch ajax call
         $.get(config.ajax_url + '/dashboard_get_unapproved_clip',{expression_key: this.props.edit_key} ,function(response) { 
                   $('#transcript').val(response.voices['transcript']);
@@ -32,9 +31,11 @@ module.exports = React.createClass({
         var transcript = $('#transcript').val();
         var caption = transcript.split(' ').join('-');
         var tags = $('#tags').val().split(',');
-        var language = $('#language').val();
+        var language = $('#language_clip').val();
         var _this = this;
         //Updating ajax call
+
+        
          $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
@@ -177,7 +178,6 @@ module.exports = React.createClass({
             voiceStyle['display'] = 'none'
         }
 
-        console.log(this.props.edit_key);
 
         return (
 
@@ -201,7 +201,7 @@ module.exports = React.createClass({
                             </div> 
                             <div style={inputFieldStyle}>
                                 Languages
-                                <select id="language">
+                                <select id="language_clip" name="language_clip">
                                     <option value="telugu">telugu</option>
                                     <option value="tamil">tamil</option>
                                     <option value="hindi">hindi</option>
