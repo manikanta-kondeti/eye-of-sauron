@@ -7,13 +7,12 @@ var InputField = require('../../components/InputField');
 var RedButton = require('../../components/RedButton');
 var Clip = require('../../components/showClip');
 var config = require('../../config');
-
-
+var LoadingSpinner = require('./../../components/LoadingSpinner');
 
 module.exports = React.createClass({
 
     getInitialState: function() {
-        return({alert_message: false, voice: []})
+        return({alert_message: false, voice: [], loading: false})
     },
 
     componentDidMount: function() {
@@ -56,14 +55,16 @@ module.exports = React.createClass({
     */
     approve: function() {
         var _this = this;
+        this.setState({loading:true});
         var key = this.props.edit_key;
         $.ajax({
              type:    "POST",
              url:     config.ajax_url + "/dashboard_post_unapproved",
              data:    {"expression_key": key,"approval_status": 1 },
             success: function(data) {
-                 _this.props.remove_clip(key);
-                 alert(data['status']);
+                _this.setState({loading: false})
+                _this.props.remove_clip(key);
+                alert(data['status']);
                 _this.props.close_modal();
 
             },
@@ -72,6 +73,7 @@ module.exports = React.createClass({
                 alert(errorThrown);
             }
         });
+        $('#approve_button').hide();
     },
 
     blur: function() {
@@ -178,6 +180,9 @@ module.exports = React.createClass({
             voiceStyle['display'] = 'none'
         }
 
+        if (this.state.loading){
+            var loadingSpinner = <LoadingSpinner />
+        }
 
         return (
 
@@ -211,12 +216,12 @@ module.exports = React.createClass({
                                 </select>
                                 
                             </div>
-                   
+                            {loadingSpinner}
                             <div onClick={this.handleSubmit} style={submitStyle}>
                                 <RedButton  text = "SUBMIT" />
                             </div>
 
-                            <div onClick={this.approve} style={approveStyle}>
+                            <div onClick={this.approve} id="approve_button"  name="approve_button" style={approveStyle}>
                                 <RedButton  text = "APPROVE" />
                             </div>
 
