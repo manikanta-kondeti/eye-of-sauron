@@ -27,6 +27,8 @@ window.init = function() {
         var viewUserQueryNoResults = require('./views/admin/viewUserQueryNoResults');
         var viewSearchQueryFrequency = require('./views/admin/viewSearchQueryFrequency');
         var viewRejected = require('./views/admin/viewRejected');
+        var viewTrackedUsers = require('./views/admin/viewTrackedUsers');
+        var viewUserLogEntity = require('./views/admin/viewUserLogEntity');
 
         var Router = React.createClass({
 
@@ -98,7 +100,9 @@ window.init = function() {
      ['/admin/dashboard/view_counter_entities', viewCounterEntities],
      ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
      ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
-     ['/admin/dashboard/view_rejected',viewRejected]
+     ['/admin/dashboard/view_rejected',viewRejected],
+     ['/admin/dashboard/view_tracked_users',viewTrackedUsers],
+     ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

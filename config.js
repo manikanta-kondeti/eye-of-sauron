@@ -25,8 +25,20 @@ var QueryTypesText = {
     5 : "User Query no results(created_at, desc)"
 }
 
+var TrackedType = {
+    1 : "TELUGU",
+    2: "TAMIL",
+    3: "HINDI",
+    4: "KANNADA",
+    5: "MALAYALAM",
+    11: "TELUGU_HINDI",
+    12: "TELUGU_TAMIL",
+    13: "TAMIL_HINDI"
+}
+
 module.exports = {
 
 	ajax_url: ajaxUrl(),
-  query_text: QueryTypesText
+  query_text: QueryTypesText,
+  tracked_type: TrackedType
 }
