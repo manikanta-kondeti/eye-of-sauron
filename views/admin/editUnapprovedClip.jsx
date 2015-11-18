@@ -138,32 +138,6 @@ module.exports = React.createClass({
         });           
     },
 
-    /*
-    /**
-     * Old handler, Need to remove this 
-    
-    handleSubmit: function() {
-        var transcript = $('#transcript').val();
-        var caption = transcript.split(' ').join('-');
-        var tags = $('#tags').val().split(',');
-        var language = $('#language_clip').val();
-        var _this = this;
-        //Updating ajax call  
-         $.ajax({
-             type:    "POST",
-             url:     config.ajax_url + "/dashboard_post_edited_unapproved_clip",
-             data:    {"expression_key": this.props.edit_key, "transcript": transcript, "caption": caption, "tags": tags, "language": language },
-            success: function(data) {
-                 alert(data['status']);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            }
-        });
-
-    },
-    */
-
     /**
      * [handleKeyUpTags fetchs tags suggestion to implement auto-complete]
      * @param  {[string]} value [the value of the input field onChange]
