@@ -267,7 +267,7 @@ module.exports = React.createClass({
         }
 
         // Hiding next and prev buttons
-        if ( this.state.more == false || this.state.voices.length < 500){
+        if ( this.state.more == false || this.state.voices.length < 100){
             nextButtonStyle['display'] = 'none'
         }
         if (this.state.pageCount == 1){
