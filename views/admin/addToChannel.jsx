@@ -29,7 +29,7 @@ var AcceptedClip = React.createClass({
         }
 
         return(
-                <div style={acceptedClipStyle}>
+                <div id="acceptedClip" style={acceptedClipStyle}>
                     <Clip data={this.props.data} />
                     <button style={rejectButtonStyle} onClick={this.handleOnClick}> X </button>
                 </div>                           
@@ -174,6 +174,14 @@ module.exports = React.createClass({
             marginRight: '30px'
         }
 
+        var inputChannelFieldStyle = {
+            position: 'absolute',
+            marginLeft: '40%',
+            padding: '20px',
+            width: '600px',
+            height: 'auto'
+        }
+
         var dataTableStyle = {
             background: 'white',
             border: '1px solid #e8e8e8',
@@ -199,9 +207,13 @@ module.exports = React.createClass({
 
         var pushButtonStyle = {
             float: 'right',
-            width: '250px',
-            height: '50px',
+            width: '200px',
+            height: '30px',
             marginTop: '10px'
+        }
+
+        var titleStyle = {
+            textAlign: 'center'
         }
 
         var _this = this;
@@ -222,12 +234,21 @@ module.exports = React.createClass({
         return (
             
          <div style={RightSideBarStyle}> 
-            
+            <div>
+             <h3 style={titleStyle}>Add to channel(Please write a valid channel id)</h3>
+             <div style={inputChannelFieldStyle}>
+                Channel:
+                <input type="textbox" id="channel_id" name="channel_id" value="temp_channel" />
+             </div>
+            </div>
             <div>
                 <div style={selectBoxStyle}>
             	   <select id="language">
+                       <option value="global">Global</option>
   			           <option value="telugu">Telugu</option>
 		      		   <option value="tamil">Tamil</option>
+                       <option value="hindi">Hindi</option>
+                       <option value="kannada">Kannada</option>
   			   	       <option value="malayalam">Malayalam</option>
 			        </select>
                 </div>
@@ -236,20 +257,19 @@ module.exports = React.createClass({
 
         	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "GetSearchResults"/> </div>
           
-                <div style={pushButtonStyle} onClick={this.handlePushNotif}> <RedButton text = "CREATE PUSH NOTIFICATION"/> </div>
+                <div style={pushButtonStyle} onClick={this.handlePushNotif}> <RedButton text = "ADD TO CHANNEL" /> </div>
           
             </div>  
             
 
 
-            <div style={acceptedClipsStyle}> 
+            <div id="acceptedClipsDiv" style={acceptedClipsStyle}> 
                         Accepted Clips <hr/>
                         {accepted_clips}   
             </div>
            
 
             <div style={{marginTop: '100px'}}>
-
                  <div style={navigateButtonsStyle}>
                     <button onClick={this.getNextClips}> Next </button>
                 </div>

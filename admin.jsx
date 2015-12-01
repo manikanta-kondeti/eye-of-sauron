@@ -10,7 +10,6 @@ window.init = function() {
         var React = require('react');
         var page = require('page');
 
-
         var Header = require('./views/Header');
         var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');       
         var viewPopularNow = require('./views/admin/viewPopularNow');
@@ -30,6 +29,8 @@ window.init = function() {
         var viewTrackedUsers = require('./views/admin/viewTrackedUsers');
         var viewUserLogEntity = require('./views/admin/viewUserLogEntity');
         var viewActorsMovies = require('./views/admin/viewActorsMovies.jsx');
+        var removeFromChannel = require('./views/admin/removeFromChannel.jsx');
+        var addToChannel = require('./views/admin/addToChannel.jsx');
 
         var Router = React.createClass({
 
@@ -104,7 +105,12 @@ window.init = function() {
      ['/admin/dashboard/view_rejected',viewRejected],
      ['/admin/dashboard/view_tracked_users',viewTrackedUsers],
      ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity],
+<<<<<<< 21248a843d4aab293491bc80aae2c95de2f2ecf8
      ['/admin/dashboard/view_actors_movies',viewActorsMovies]
+=======
+     ['/admin/dashboard/remove_from_channel',removeFromChannel],
+     ['/admin/dashboard/add_to_channel',addToChannel]
+>>>>>>> Feature: Editorials for channels
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
