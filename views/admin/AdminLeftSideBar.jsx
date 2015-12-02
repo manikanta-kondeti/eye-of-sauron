@@ -27,12 +27,13 @@ module.exports = React.createClass({
 			{name: 'Unapproved', url: 'admin/dashboard/', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Rejected', url: 'admin/dashboard/view_rejected', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Push', url:'admin/dashboard/create_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'View Clips', url:'admin/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Actor/Movie', url:'admin/dashboard/add_relationship', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Update Expressions', url:'admin/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Tag Actor/Movie', url:'admin/dashboard/add_relationship', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Counter Entity', url:'admin/dashboard/view_counter_entities', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'NoResultsQuery', url:'admin/dashboard/view_user_query_no_results', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'SearchQueryFrequency', url:'admin/dashboard/view_search_query_frequency', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'TrackedUsers', url:'admin/dashboard/view_tracked_users', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
+			{name: 'TrackedUsers', url:'admin/dashboard/view_tracked_users', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {

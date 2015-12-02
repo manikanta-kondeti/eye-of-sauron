@@ -32,16 +32,15 @@ render: function() {
 			height: '100%',
 			lineHeight: '38px',
 			paddingLeft: '10px',
-			color: '#999',
+			color: 'darkgreen',
 			border: '1px solid #dcdcdc',
 			fontFamily: 'Helvetica,Arial',
-			fontSize: '12px',
+			fontSize: '15px',
 			margin: '5px',
 			boxShadow: '1px 1px 7px #dcdcdc'
 		};
 
 		if (this.state.focus_flag) {
-
 		   inputStyle['outline'] = 'none';
 		   inputStyle["border"] = '1px solid #d43f3a';
      	}

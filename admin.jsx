@@ -29,6 +29,7 @@ window.init = function() {
         var viewRejected = require('./views/admin/viewRejected');
         var viewTrackedUsers = require('./views/admin/viewTrackedUsers');
         var viewUserLogEntity = require('./views/admin/viewUserLogEntity');
+        var viewActorsMovies = require('./views/admin/viewActorsMovies.jsx');
 
         var Router = React.createClass({
 
@@ -102,7 +103,8 @@ window.init = function() {
      ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
      ['/admin/dashboard/view_rejected',viewRejected],
      ['/admin/dashboard/view_tracked_users',viewTrackedUsers],
-     ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity]
+     ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity],
+     ['/admin/dashboard/view_actors_movies',viewActorsMovies]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
