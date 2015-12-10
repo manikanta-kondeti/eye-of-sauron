@@ -8,8 +8,7 @@ var BlueButton = require('../../components/BlueButton');
 var InputField = require('../../components/InputField');
 var Clip = require('../../components/showClip');
 var config = require('../../config');
-
-
+var LoadingSpinner = require('./../../components/LoadingSpinner');
 
 var AcceptedClip = React.createClass({
 
@@ -44,7 +43,7 @@ var AcceptedClip = React.createClass({
 module.exports = React.createClass({
 
     getInitialState: function(){
-        return {voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false}
+        return {voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false}
     },
 
     accept: function(object) {
@@ -118,29 +117,49 @@ module.exports = React.createClass({
             var push_search = $('#push_search').val();
 
             var _this = this;
-
+            _this.setState({loading: true});
             gapi.client.samosa.api.get_search_results({'tags': push_search, cursor: _this.state.present_cursor }).execute(
-            function(resp){             
+            function(resp){    
+                _this.setState({loading: false});         
                 _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor})
             });
 
     },
 
-    handlePushNotif: function() {
+    handleChannel: function() {
 
         var clip_keys = []
 
         var clips = this.state.accepted_clips;
-
+        var channel_id = $('#channel_id').val();
 
         for(var i=0; i<clips.length; i++){
             clip_keys.push(clips[i]['key']);
         }
+        console.log("Channel id is " + channel_id + "clip_keys = " + clip_keys);
+        console.log(typeof(channel_id));
+        if (channel_id == "" || clip_keys == ""){
+            alert('Channel ID is Empty or no accepted_clips');
+            return
+        }
 
-        console.log(clip_keys);
-
-        Page('/admin/dashboard/get_push_notif_id/'+clip_keys)
-
+        /**
+         * TODO: Ajax, post params and success message
+         */
+        this.setState({loading: true});
+        $.ajax({
+             type:    "POST",
+             url:     config.ajax_url + "/dashboard_post_add_to_channel",
+             data:    {"channel_id": channel_id,"expression_list": clip_keys },
+            success: function(data) {
+                _this.setState({loading: false});
+                 alert(data['status']);
+            },
+            // vvv---- This is the new bit
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
     },
 
     
@@ -177,8 +196,8 @@ module.exports = React.createClass({
         var inputChannelFieldStyle = {
             position: 'absolute',
             marginLeft: '40%',
+            width: '20px',
             padding: '20px',
-            width: '600px',
             height: 'auto'
         }
 
@@ -230,17 +249,22 @@ module.exports = React.createClass({
         if(this.state.accepted_clips.length != 0) {
             acceptedClipsStyle['display'] = 'block';
         }
-             
+          
+        // Adding a loading toast 
+        if (this.state.loading){
+            var loadingSpinner = <LoadingSpinner />
+        }   
         return (
             
          <div style={RightSideBarStyle}> 
             <div>
-             <h3 style={titleStyle}>Add to channel(Please write a valid channel id)</h3>
-             <div style={inputChannelFieldStyle}>
-                Channel:
-                <input type="textbox" id="channel_id" name="channel_id" value="temp_channel" />
-             </div>
+                <h3 style={titleStyle}>Add to channel(Please write a valid channel id)</h3>
+                <div style={inputChannelFieldStyle}>
+                  Channel:
+                  <input type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  />
+                </div>
             </div>
+
             <div>
                 <div style={selectBoxStyle}>
             	   <select id="language">
@@ -252,17 +276,11 @@ module.exports = React.createClass({
   			   	       <option value="malayalam">Malayalam</option>
 			        </select>
                 </div>
-		  
                 <div style={inputFieldStyle}> <InputField id="push_search" placeholder="search for clip" /></div>
-
         	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "GetSearchResults"/> </div>
-          
-                <div style={pushButtonStyle} onClick={this.handlePushNotif}> <RedButton text = "ADD TO CHANNEL" /> </div>
-          
+                <div style={pushButtonStyle} onClick={this.handleChannel}> <RedButton text = "ADD TO CHANNEL"/> </div>
             </div>  
             
-
-
             <div id="acceptedClipsDiv" style={acceptedClipsStyle}> 
                         Accepted Clips <hr/>
                         {accepted_clips}   
@@ -276,6 +294,7 @@ module.exports = React.createClass({
 
                 <div style={dataTableStyle}>
                     <p> Total accepted clips: <b>{this.state.accepted_clips.length}</b></p>
+                    {loadingSpinner}
                     <Datatable 
                         tags= {['transcript','poster_url','listens','shares','mp3_url']} 
                         actions={[{'name': 'Accept', 'function': this.accept}]} 
