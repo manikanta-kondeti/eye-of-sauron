@@ -123,7 +123,15 @@ module.exports = React.createClass({
                 _this.setState({loading: false});         
                 _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor})
             });
+    },
 
+
+    /** [handleNewActor: Need to pass a few params and add this in movie entity]
+    *   @return {[status][description]} 
+    */
+    handleNewChannel: function(){
+        console.log("handleNewChannel");
+        Page('/admin/dashboard/add_new_channel')
     },
 
     handleChannel: function() {
@@ -206,6 +214,13 @@ module.exports = React.createClass({
             border: '1px solid #e8e8e8',
             padding: '10px',
             width: '100%'
+        }
+
+        var submitButtonStyle={
+            float:'left', 
+            width:'100px', 
+            height: '30px',
+            marginTop: '10px'
         }
 
         var acceptedClipsStyle = {
@@ -302,7 +317,9 @@ module.exports = React.createClass({
                 </div>
 
             </div>
-
+            <div style={submitButtonStyle} onClick={this.handleNewChannel}>
+              <RedButton text="Create New Channel" />
+            </div>
          </div>
 
         )

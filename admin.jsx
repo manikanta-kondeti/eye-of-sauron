@@ -31,12 +31,13 @@ window.init = function() {
         var viewActorsMovies = require('./views/admin/viewActorsMovies.jsx');
         var removeFromChannel = require('./views/admin/removeFromChannel.jsx');
         var addToChannel = require('./views/admin/addToChannel.jsx');
+        var addNewChannel = require('./views/admin/addNewChannel.jsx');
 
         var Router = React.createClass({
 
             getInitialState: function () {
 
-              return { component: '<div />'};
+              return { component: 'Error'};
             },
 
         componentDidMount: function () {
@@ -88,6 +89,7 @@ window.init = function() {
 
     });
 
+<<<<<<< 6d1361436a2d3d7d906b53f3a064059851222b94
     var routes = [
       
      ['/admin/dashboard/view_clips', viewClips],
@@ -105,12 +107,29 @@ window.init = function() {
      ['/admin/dashboard/view_rejected',viewRejected],
      ['/admin/dashboard/view_tracked_users',viewTrackedUsers],
      ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity],
-<<<<<<< 21248a843d4aab293491bc80aae2c95de2f2ecf8
-     ['/admin/dashboard/view_actors_movies',viewActorsMovies]
-=======
+     ['/admin/dashboard/view_actors_movies',viewActorsMovies],
      ['/admin/dashboard/remove_from_channel',removeFromChannel],
      ['/admin/dashboard/add_to_channel',addToChannel]
->>>>>>> Feature: Editorials for channels
+
+    var routes = [  
+         ['/admin/dashboard/view_clips', viewClips],
+         ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
+         ['/admin/dashboard', viewUnApproved],
+         ['/admin/dashboard/:view-approved', viewApproved],
+         ['/admin/dashboard/create_push_notification', createPushNotification],
+         ['/admin/dashboard/edit_clip/:key', editClip],
+         ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
+         ['/admin/dashboard/add_relationship', addRelationShip],
+         ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
+         ['/admin/dashboard/view_counter_entities', viewCounterEntities],
+         ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
+         ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
+         ['/admin/dashboard/view_rejected', viewRejected],
+         ['/admin/dashboard/view_tracked_users', viewTrackedUsers],
+         ['/admin/dashboard/view_user_log_entity/:key', viewUserLogEntity],
+         ['/admin/dashboard/remove_from_channel', removeFromChannel],
+         ['/admin/dashboard/add_to_channel', addToChannel],
+         ['/admin/dashboard/add_new_channel', addNewChannel]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
