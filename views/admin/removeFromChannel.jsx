@@ -85,6 +85,7 @@ module.exports = React.createClass({
 
     handleOnClick: function() {
         /**
+         * TODO:
          * Get expressions from that particular channel 
          * Channel_id
          */
@@ -113,6 +114,23 @@ module.exports = React.createClass({
 
     },
 
+    /**
+     * This method handles validation(empty checks) before it submits the form
+     */
+    validation: function() {
+        // Accepted clips should be more than 0
+        if (this.state.accepted_clips.length == 0) {
+            alert('Select clips to be removed');
+            return
+        } 
+        var channel_id = document.getElementById('channel_id').value;
+        if (channel_id == "") {
+            alert('Channel id is empty');
+            return
+        }
+        this.handleSubmitChannel();
+    },
+
     handleChannel: function() {
 
         var clip_keys = []
@@ -123,8 +141,6 @@ module.exports = React.createClass({
         for(var i=0; i<clips.length; i++){
             clip_keys.push(clips[i]['key']);
         }
-        console.log("Channel id is " + channel_id + "clip_keys = " + clip_keys);
-        console.log(typeof(channel_id));
         if (channel_id == "" || clip_keys == ""){
             alert('Channel ID is Empty or no accepted_clips');
             return
@@ -170,7 +186,7 @@ module.exports = React.createClass({
 
         var submitButtonStyle={
             float:'left', 
-            width:'140px', 
+            width:'180px', 
             height: '30px',
             marginTop: '10px'
         }
@@ -180,12 +196,9 @@ module.exports = React.createClass({
             width: '145px',
             lineHeight: '38px',
             paddingLeft: '10px',
-            color: '#999',
-            border: '1px solid #dcdcdc',
             fontFamily: 'Helvetica,Arial',
             fontSize: '12px',
             margin: '5px',
-            boxShadow: '1px 1px 7px #121E33'
         }
 
         var inputChannelFieldStyle = {
@@ -219,15 +232,20 @@ module.exports = React.createClass({
             display: 'none'
         }
 
-        var pushButtonStyle = {
+        var removeButtonStyle = {
             float: 'right',
             width: '200px',
             height: '30px',
-            marginTop: '10px'
+            marginRight: '100px'
         }
 
         var titleStyle = {
             textAlign: 'center'
+        }
+
+        var inputStyle = {
+            width: '140px',
+            height: '30px'
         }
 
         var _this = this;
@@ -259,21 +277,11 @@ module.exports = React.createClass({
             <div>
                 <h3 style={titleStyle}>Remove From channel(Please write a valid channel id)</h3>
             </div>
-
+            <hr/>
             <div>
-                <div style={selectBoxStyle}>
-            	   <select id="language">
-                       <option value="global">Global</option>
-  			           <option value="telugu">Telugu</option>
-		      		   <option value="tamil">Tamil</option>
-                       <option value="hindi">Hindi</option>
-                       <option value="kannada">Kannada</option>
-  			   	       <option value="malayalam">Malayalam</option>
-			        </select>
-                </div>
-                <div style={inputFieldStyle}> <input type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  /></div>
-        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "GetChannelExpressions"/> </div>
-                <div style={pushButtonStyle} onClick={this.handleChannel}> <RedButton text = "REMOVE FROM CHANNEL"/> </div>
+                <div style={inputFieldStyle}> <input style ={inputStyle} type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  /></div>
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Channel Expressions"/> </div>
+                <div style={removeButtonStyle} onClick={this.validation}> <RedButton text = "REMOVE FROM CHANNEL"/> </div>
             </div>  
             
             <div id="acceptedClipsDiv" style={acceptedClipsStyle}> 

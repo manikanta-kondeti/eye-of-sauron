@@ -27,7 +27,15 @@ module.exports = React.createClass({
 
     editClip: function(object) {
         var key = object['key'];
-        Page('/admin/dashboard/edit_clip/'+key);
+        var url_path = window.location. pathname;
+        url = url_path.split('/');
+        // To use the same url for both admin and partners dashboard
+        if (url[1] == "admin") {
+            Page('/admin/dashboard/edit_clip/'+key);
+        }
+       else if (url[1] == "partners") {
+            Page('/partners/dashboard/edit_clip/'+key);
+        }
     },
 
     handleOnClick: function() {

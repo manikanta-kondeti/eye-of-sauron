@@ -42,9 +42,9 @@ window.init = function() {
      				page(url, function (ctx) {
 
                 var regex = new RegExp('/admin/dashboard', 'gi');
-
-
-                if(url.match(regex)){
+                var regex_partners = new RegExp('/partners/dashboard', 'gi');
+                console.log("Regex partners = " + url.match(regex_partners));
+                if(url.match(regex) || url.match(regex_partners)){
                         React.render(<Header />, document.getElementById('header'));
                         $('#wrapper').html(' ');
                         React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));                      
@@ -55,8 +55,6 @@ window.init = function() {
                   //Only admin has left side bar 
                   $('#left-side-bar').html('');
 
-                  
-                  
                   if(url == "/" || url =="/popular-now" || url =="" || url=="/most-recent") {
                       React.render(<HeaderHome />, document.getElementById('header'));
                   }					

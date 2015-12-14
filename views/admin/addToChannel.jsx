@@ -83,6 +83,24 @@ module.exports = React.createClass({
         
     }, 
 
+
+    /**
+     * This method handles validation(empty checks) before it submits the form
+     */
+    validation: function() {
+        // Accepted clips should be more than 0
+        if (this.state.accepted_clips.length == 0) {
+            alert('Select clips to be added');
+            return
+        } 
+        var channel_id = document.getElementById('channel_id').value;
+        if (channel_id == "") {
+            alert('Channel id is empty');
+            return
+        }
+        this.handleChannel();
+    },
+
     handleOnClick: function() {
 
         var push_search = $('#push_search').val();
@@ -144,12 +162,6 @@ module.exports = React.createClass({
         for(var i=0; i<clips.length; i++){
             clip_keys.push(clips[i]['key']);
         }
-        console.log("Channel id is " + channel_id + "clip_keys = " + clip_keys);
-        console.log(typeof(channel_id));
-        if (channel_id == "" || clip_keys == ""){
-            alert('Channel ID is Empty or no accepted_clips');
-            return
-        }
 
         /**
          * TODO: Ajax, post params and success message
@@ -198,6 +210,7 @@ module.exports = React.createClass({
 
         var inputFieldStyle = {
             float: 'left',
+            width: '250px',
             marginRight: '30px'
         }
 
@@ -205,8 +218,13 @@ module.exports = React.createClass({
             position: 'absolute',
             marginLeft: '40%',
             width: '20px',
-            padding: '20px',
+            padding: '75px',
             height: 'auto'
+        }
+
+        var inputStyle = {
+            margin: '130px',
+            height: '25px'
         }
 
         var dataTableStyle = {
@@ -218,7 +236,7 @@ module.exports = React.createClass({
 
         var submitButtonStyle={
             float:'left', 
-            width:'100px', 
+            width:'150px', 
             height: '30px',
             marginTop: '10px'
         }
@@ -247,6 +265,14 @@ module.exports = React.createClass({
         }
 
         var titleStyle = {
+            margin: '12px',
+            padding: '10px',
+            textAlign: 'center'
+        }
+
+        var addToChannelStyle = {
+            margin: '12px',
+            padding: '10px',
             textAlign: 'center'
         }
 
@@ -273,27 +299,17 @@ module.exports = React.createClass({
             
          <div style={RightSideBarStyle}> 
             <div>
-                <h3 style={titleStyle}>Add to channel(Please write a valid channel id)</h3>
+                <h3 style={titleStyle}>Add to channel</h3>
+                <hr/>
                 <div style={inputChannelFieldStyle}>
                   Channel:
                   <input type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  />
                 </div>
             </div>
-
-            <div>
-                <div style={selectBoxStyle}>
-            	   <select id="language">
-                       <option value="global">Global</option>
-  			           <option value="telugu">Telugu</option>
-		      		   <option value="tamil">Tamil</option>
-                       <option value="hindi">Hindi</option>
-                       <option value="kannada">Kannada</option>
-  			   	       <option value="malayalam">Malayalam</option>
-			        </select>
-                </div>
+            <div style = {addToChannelStyle}>
                 <div style={inputFieldStyle}> <InputField id="push_search" placeholder="search for clip" /></div>
-        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "GetSearchResults"/> </div>
-                <div style={pushButtonStyle} onClick={this.handleChannel}> <RedButton text = "ADD TO CHANNEL"/> </div>
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Search Results"/> </div>
+                <div style={pushButtonStyle} onClick={this.validation}> <RedButton text = "ADD TO CHANNEL"/> </div>
             </div>  
             
             <div id="acceptedClipsDiv" style={acceptedClipsStyle}> 
@@ -316,9 +332,6 @@ module.exports = React.createClass({
                         data = {this.state.voices} />
                 </div>
 
-            </div>
-            <div style={submitButtonStyle} onClick={this.handleNewChannel}>
-              <RedButton text="Create New Channel" />
             </div>
          </div>
 

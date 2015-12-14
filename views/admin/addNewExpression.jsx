@@ -48,17 +48,18 @@ module.exports = React.createClass({
     },
 
     /**
-     * This method handles validation(empty checks) before it submits the form
+     * This method handles validation(empty checks) before it submits the form.
      */
     validation: function() {
-        var channel_id = document.getElementById('channel_id').value;
-        if (channel_id == "") {
-            alert('Channel id is empty');
+        var transcript = document.getElementById('transcript').value;
+        console.log(transcript);
+        if (transcript == "") {
+            alert('Transcript is empty');
             return false;
         }
-        var display_name = document.getElementById('display_name').value;
-        if (display_name == "") {
-            alert('Display name is empty');
+        var tags = document.getElementById('tags').value;
+        if (tags == "") {
+            alert('Tags is empty');
             return false;
         }
         var image_file = document.getElementById('image_file').value;
@@ -66,23 +67,31 @@ module.exports = React.createClass({
             alert('Image file is empty');
             return false;
         }
+        var audio_file = document.getElementById('audio_file').value
+        if (audio_file == "") {
+            alert('Audio file is empty');
+            return false;
+        } 
 
-        this.handleSubmitChannel();
+        this.handleSubmitExpression();
     },
 
     /**
-     * This method is used to edit changes of the unapproved clip
-     * @params: These are the six fields sent: languages, primary_language, actor_unique_id, movie_id, display_name, gender
-     * @return: status of the request  
+     * This method handles creation of new expression from on browser
     */
-    handleSubmitChannel: function() {
+    handleSubmitExpression: function() {
         var _this = this;
         this.setState({loading: true});
-
+        var validate_response = this.validation();
+        console.log("validate response = " + validate_response);
+        if (validate_response == false) {
+            return;
+        }
+        /*
         var options = { 
             target:   '#output',
             beforeSubmit:  _this.beforeSubmit,// target element(s) to be updated with server response 
-            url: config.ajax_url + '/dashboard_post_channels_editorial',
+            url: config.ajax_url + '/dashboard_post_upload_expression',
             success: function(response) { 
                 alert(response['status']);
                 _this.setState({loading: false});
@@ -92,10 +101,11 @@ module.exports = React.createClass({
             }
         }; 
         
-        $('#upload_form_of_channel').submit(function(e) { 
+        $('#upload_form_of_expression').submit(function(e) { 
             $(this).ajaxSubmit(options);  //Ajax Submit form    
             return false;
-        });           
+        });
+        */           
     },
 
 
@@ -111,6 +121,11 @@ module.exports = React.createClass({
             display: 'block',
             padding: '9px',
             width: '83%'      
+        }
+
+        var titleStyle = {
+            margin: '12px',
+            padding: '10px'
         }
 
         var selectBoxStyle = {
@@ -133,11 +148,6 @@ module.exports = React.createClass({
             margin: '30px'
         }
 
-        var titleStyle = {
-            margin: '12px',
-            padding: '10px'
-        }
-
         // Adding a loading toast 
         if (this.state.loading){
             var loadingSpinner = <LoadingSpinner />
@@ -145,21 +155,21 @@ module.exports = React.createClass({
 
         return(
             <div style = {RightSideBarStyle}>
-                <h2 style = {titleStyle}> Create a New Channel </h2> 
+                <h2 style = {titleStyle}> Upload New Expression </h2> 
                 <hr/>
-                    <form method="post" enctype="multipart/form-data" id="upload_form_of_channel3">
+                    <form method="post" enctype="multipart/form-data" id="upload_form_of_expression">
                         <div style={inputFieldStyle}>
-                            Channel ID:
-                             <InputField id="channel_id" name="channel_id" placeholder="Channel Unique ID  (eg: tv9_news, v6_news, radiomirchi_hyderabad)" />
+                            Transcript:
+                             <InputField id="transcript" name="transcript" placeholder="Transcript" />
                         </div>
                         <div style={inputFieldStyle}>
-                            Display Name:
-                            <InputField id="display_name" name="display_name" placeholder="Display Name: (V6 news, TV9 news, Radiomirchi 98.3 FM) " />
+                            Tags : 
+                            <InputField id="tags" name="tags[]" placeholder="Coma separated values. eg: (news, kcr, telangana, farmers)" />
                         </div> 
-   
+        
                         <div style={selectBoxStyle}>
-                            Primary language:
-                           <select id="primary_language" name="primary_language">
+                           Language:
+                           <select id="language" name="language">
                                <option value="telugu">Telugu</option>
                                <option value="tamil">Tamil</option>
                                <option value="hindi">Hindi</option>
@@ -167,22 +177,20 @@ module.exports = React.createClass({
                                <option value="malayalam">Malayalam</option>
                             </select>
                         </div>
-                        <div style={selectBoxStyle}>
-                            Is Comments Enabled
-                            <select id="is_comments_enabled" name="is_comments_enabled">
-                               <option value="true">True</option>
-                               <option value="false">False</option>
-                            </select>
+                        <div style={inputFieldStyle}>
+                            HTTP link of the video:
+                             <InputField id="http_link" name="http_link" placeholder="URL of the video: (eg: https://www.youtube.com/watch?v=RgKAFK5djSk)" />
                         </div>
                         <div style={inputFieldStyle} >
-                            Channel Poster(Mandatory)
+                            Audio file:
+                            <InputField name="audio_file" id="audio_file" type="file" />
+                        </div>
+                        <div style={inputFieldStyle} >
+                            Expression Poster:
                             <InputField name="image_file" id="image_file" type="file" />
                         </div>
                         <div onClick={this.validation} style={submitStyle}>
-                            <RedButton  text = "Create Channel" />
-                        </div>
-                        <div style={inputFieldStyle} >
-                            <input name="type_of_query" id="type_of_query" value="new_channel" type="hidden" />  
+                            <RedButton text = "Upload Expression" />
                         </div>
                         {loadingSpinner}
                     </form>
