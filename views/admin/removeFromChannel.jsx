@@ -152,7 +152,7 @@ module.exports = React.createClass({
     handleChannel: function() {
 
         var clip_keys = []
-
+        var _this = this;
         var clips = this.state.accepted_clips;
         var channel_id = $('#channel_id').val();
 
