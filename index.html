@@ -118,7 +118,7 @@
             var jsLink = "<script type='text/javascript' src='/admin.js'>";
             $("head").append(jsLink); 
         }
-        if(url.match(regex_partners)) {
+        else if(url.match(regex_partners)) {
             var jsLink = "<script type='text/javascript' src='/partners.js'>";
             $("head").append(jsLink); 
         }

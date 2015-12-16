@@ -33,7 +33,7 @@ module.exports = React.createClass({
 			{name: 'NoResultsQuery', url:'admin/dashboard/view_user_query_no_results', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'SearchQueryFrequency', url:'admin/dashboard/view_search_query_frequency', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'TrackedUsers', url:'admin/dashboard/view_tracked_users', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
+			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Remove From Channels', url:'admin/dashboard/remove_from_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Add to Channel', url:'admin/dashboard/add_to_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
