@@ -128,7 +128,7 @@ module.exports = React.createClass({
             alert('Channel id is empty');
             return
         }
-        this.handleSubmitChannel();
+        this.handleChannel();
     },
 
     handleChannel: function() {

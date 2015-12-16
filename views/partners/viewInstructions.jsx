@@ -36,9 +36,7 @@ module.exports = React.createClass({
 					<hr/>
 				</div>
 				<div style = {bodyDivStyle}>
-						<p> <span style={spanStyle}>Features</span>: Click on left column and following rows. </p>
-						<p> <span style={spanStyle}>Time</span>: It will take 4/5 sec to complete the request.</p>
-						<p> Create New Channel: </p>
+						<p> <span style={spanStyle}>ADMIN</span>: Please follow the guidelines provided by admin which are explained to you. </p>
 				</div>
 			</div>
 		)

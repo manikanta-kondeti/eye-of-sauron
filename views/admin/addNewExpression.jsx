@@ -12,6 +12,23 @@ module.exports = React.createClass({
         return({alert_message: false, loading: false})
     },
 
+    componentDidMount: function() {
+        var _this = this;
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
+            // List of channels
+            var channels = response['channels'];
+            var channels_length = response['channels_length'];
+            var select = document.getElementById('select_channel');
+            for(var i=0; i<channels_length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = channels[i].key;
+                    opt.innerHTML = channels[i].name;
+                    select.appendChild(opt);
+            }
+        }); 
+ 
+    },
+
     /** 
      * This method is used to validate file sizes before submitting the form.
     */
@@ -46,9 +63,9 @@ module.exports = React.createClass({
             return false;
         }
     },
-
+    
     /**
-     * This method handles validation(empty checks) before it submits the form.
+     * This method handles validation(empty checks) before it submits the form
      */
     validation: function() {
         var transcript = document.getElementById('transcript').value;
@@ -72,9 +89,14 @@ module.exports = React.createClass({
             alert('Audio file is empty');
             return false;
         } 
-
+        var channel_id = document.getElementById('select_channel').value
+        if (channel_id == "None") {
+            alert('Channel id is empty, please select a channel id');
+            return false;
+        } 
         this.handleSubmitExpression();
     },
+    
 
     /**
      * This method handles creation of new expression from on browser
@@ -82,15 +104,11 @@ module.exports = React.createClass({
     handleSubmitExpression: function() {
         var _this = this;
         this.setState({loading: true});
-        var validate_response = this.validation();
-        console.log("validate response = " + validate_response);
-        if (validate_response == false) {
-            return;
-        }
-        /*
+
+        console.log("url config ajax_url = "+ config.ajax_url);
         var options = { 
             target:   '#output',
-            beforeSubmit:  _this.beforeSubmit,// target element(s) to be updated with server response 
+            // target element(s) to be updated with server response 
             url: config.ajax_url + '/dashboard_post_upload_expression',
             success: function(response) { 
                 alert(response['status']);
@@ -105,7 +123,7 @@ module.exports = React.createClass({
             $(this).ajaxSubmit(options);  //Ajax Submit form    
             return false;
         });
-        */           
+                   
     },
 
 
@@ -188,6 +206,13 @@ module.exports = React.createClass({
                         <div style={inputFieldStyle} >
                             Expression Poster:
                             <InputField name="image_file" id="image_file" type="file" />
+                        </div>
+                        <div style={selectBoxStyle}>
+                           Channel :
+                           <select id="select_channel" name="channel_id">
+                           <option value="None"> </option>
+                           // This gets populated in this.componentDidUpdate()
+                            </select>
                         </div>
                         <div onClick={this.validation} style={submitStyle}>
                             <RedButton text = "Upload Expression" />
