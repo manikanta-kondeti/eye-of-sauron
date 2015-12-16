@@ -6,29 +6,37 @@ var Datatable = require('../../components/Datatables');
 var RedButton = require('../../components/RedButton');
 var InputField = require('../../components/InputField');
 var Clip = require('../../components/showClip');
-
+var config = require('../../config');
 
 
 module.exports = React.createClass({
 
     getInitialState: function(){
-        return {voices: null, cursor: ''}
+        return {voices: null, cursor: '', accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false}
     },
 
     componentDidMount: function() {
-       var _this = this;
-
-       var popular_voices = gapi.client.samosa.api.expressions.popular().execute(
-       function(resp) {
-                console.log(resp)
-                _this.setState({voices: resp.voices, cursor: resp.cursor});
-        });
+        // Get auth key
+        var _this = this;
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
+            // List of channels
+            var channels = response['channels'];
+            var channels_length = response['channels_length'];
+            var select = document.getElementById('channel_id');
+            for(var i=0; i<channels_length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = channels[i].key;
+                    opt.innerHTML = channels[i].name;
+                    select.appendChild(opt);
+            }
+        }); 
+ 
     },
 
     editClip: function(object) {
         var key = object['key'];
         var url_path = window.location. pathname;
-        url = url_path.split('/');
+        var url = url_path.split('/');
         // To use the same url for both admin and partners dashboard
         if (url[1] == "admin") {
             Page('/admin/dashboard/edit_clip/'+key);
@@ -38,36 +46,39 @@ module.exports = React.createClass({
         }
     },
 
+
+
     handleOnClick: function() {
-
-        var search_value = $('#search').val();
+        /**
+         * TODO:
+         * Get expressions from that particular channel 
+         * Channel_id
+         */
+        this.setState({loading: true});
+        var channel_id = $('#channel_id').val();
         var _this = this;
-
-        gapi.client.samosa.api.get_search_results({'tags': search_value}).execute(function(resp){             
-                _this.setState({voices: resp.voices, cursor: resp.cursor});
-            });
+        gapi.client.samosa.api.get_expressions_in_channel({'channel_id': channel_id }).execute(
+        function(resp){  
+            _this.setState({loading: false});           
+            _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})
+        });
     },
 
     getNextClips: function() {
-
             var search_value = $('#search').val();
-
+            var _this = this;
             if(search_value != "") {
-
-                var _this = this;
-
-                gapi.client.samosa.api.get_search_results({'tags': search_value, cursor: _this.state.cursor }).execute(
-                function(resp){             
-                    _this.setState({voices: resp.voices ,cursor: resp.cursor});
+                gapi.client.samosa.api.get_expressions_in_channel({'channel_id': channel_id, 'cursor': _this.state.cursor}).execute(
+                function(resp){  
+                    _this.setState({loading: false});           
+                    _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})
                 });
             }
             else {
-
-                var _this = this;
-
-                var popular_voices = gapi.client.samosa.api.expressions.popular({'cursor': _this.state.cursor}).execute(
-                function(resp) {
-                    _this.setState({voices: resp.voices, cursor: resp.cursor});
+                gapi.client.samosa.api.get_expressions_in_channel({'channel_id': channel_id, 'cursor': _this.state.cursor}).execute(
+                function(resp){  
+                    _this.setState({loading: false});           
+                    _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})
                 });
             }
     },
@@ -95,6 +106,14 @@ module.exports = React.createClass({
             width:'100px', 
             height: '40px',
             marginTop: '6px'
+        }
+
+        var inputChannelFieldStyle = {
+            position: 'relative',
+            width: '60px',
+            padding: '10px',
+            height: 'auto',
+            margin : '10px'
         }
 
         var inputFieldStyle = {
@@ -128,9 +147,15 @@ module.exports = React.createClass({
             
             <div>
 		  
-                <div style={inputFieldStyle}> <InputField id="search" placeholder="search for clip" /></div>
+                <div style={inputChannelFieldStyle}>
+                    Channel :
+                    <select id="channel_id" name="channel_id">
+                           // This gets populated in this.componentDidUpdate()
+                           <option value="None"> </option>
+                    </select>
+                </div>
 
-        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <RedButton text = "SUBMIT"/> </div>
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <RedButton text = "Get Channel Expressions"/> </div>
           
             </div>  
             

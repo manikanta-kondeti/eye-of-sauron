@@ -45,6 +45,24 @@ module.exports = React.createClass({
     getInitialState: function(){
         return {voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false}
     },
+    
+    componentDidMount: function() {
+        // Get auth key
+        var _this = this;
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
+            // List of channels
+            var channels = response['channels'];
+            var channels_length = response['channels_length'];
+            var select = document.getElementById('channel_id');
+            for(var i=0; i<channels_length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = channels[i].key;
+                    opt.innerHTML = channels[i].name;
+                    select.appendChild(opt);
+            }
+        }); 
+ 
+    },
 
     accept: function(object) {
 
@@ -243,6 +261,14 @@ module.exports = React.createClass({
             textAlign: 'center'
         }
 
+        var inputChannelFieldStyle = {
+            position: 'relative',
+            width: '60px',
+            padding: '10px',
+            height: 'auto',
+            margin : '10px'
+        }
+
         var inputStyle = {
             width: '140px',
             height: '30px'
@@ -276,10 +302,17 @@ module.exports = React.createClass({
          <div style={RightSideBarStyle}> 
             <div>
                 <h3 style={titleStyle}>Remove From channel(Please write a valid channel id)</h3>
+                <hr/>
+                <div style={inputChannelFieldStyle}>
+                    Channel :
+                    <select id="channel_id" name="channel_id">
+                           // This gets populated in this.componentDidUpdate()
+                           <option value="None"> </option>
+                    </select>
+                </div>
             </div>
-            <hr/>
-            <div>
-                <div style={inputFieldStyle}> <input style ={inputStyle} type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  /></div>
+
+            <div>                
         	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Channel Expressions"/> </div>
                 <div style={removeButtonStyle} onClick={this.validation}> <RedButton text = "REMOVE FROM CHANNEL"/> </div>
             </div>  

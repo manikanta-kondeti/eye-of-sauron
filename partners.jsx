@@ -99,7 +99,7 @@ window.init = function() {
          ['/partners/dashboard/add_to_channel', addToChannel],
          ['/partners/dashboard/add_new_channel', addNewChannel],
          ['/partners/dashboard', viewInstructions],
-         ['/partners/dashboard/editClip/:key', editClip]
+         ['/partners/dashboard/edit_clip/:key', editClip]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
