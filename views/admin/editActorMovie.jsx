@@ -22,6 +22,7 @@ module.exports = React.createClass({
         $.get(config.ajax_url + '/dashboard_get_actor_movie_entity',{key: this.props.edit_key} ,function(response) { 
                     // Writing results here 
                      $('#key').val(response.results['key']);
+                     $('#tags').val(response.results['tags']);
                      $('#display_name').val(response.results['display_name']);
                      $('#full_name').val(response.results['full_name']);
                      $('#gender').val(response.results['gender']);
@@ -248,6 +249,10 @@ module.exports = React.createClass({
                             <form method="post" enctype="multipart/form-data" id="upload_form">
                                 <div style={inputFieldStyle}>
                                     Key : {this.state.voice['key']}
+                                </div>
+                                <div style={inputFieldStyle}>
+                                    Tags:
+                                    <InputField id="tags" name="tags[]" placeholder="Tags" />
                                 </div>
                                 <div style={inputFieldStyle}>
                                     Display Name

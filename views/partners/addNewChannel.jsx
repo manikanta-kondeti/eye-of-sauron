@@ -52,11 +52,6 @@ module.exports = React.createClass({
      */
     validation: function() {
 
-        var channel_id = document.getElementById('channel_id').value;
-        if (channel_id == "") {
-            alert('Channel id is empty');
-            return false;
-        }
         var display_name = document.getElementById('display_name').value;
         if (display_name == "") {
             alert('Display name is empty');
@@ -160,10 +155,6 @@ module.exports = React.createClass({
                 <h2 style = {titleStyle}> Create a New Channel </h2> 
                 <hr/>
                     <form method="post" enctype="multipart/form-data" id="upload_form_of_channel">
-                        <div style={inputFieldStyle}>
-                            Channel id:
-                            <InputField id="channel_id" name="admin_channel_id" placeholder="Channel Id: " />
-                        </div> 
                         <div style={inputFieldStyle}>
                             Display Name:
                             <InputField id="display_name" name="display_name" placeholder="Display Name: (V6 news, TV9 news, Radiomirchi 98.3 FM) " />

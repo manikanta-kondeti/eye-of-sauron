@@ -296,7 +296,7 @@ module.exports = React.createClass({
             </div>
             {loadingSpinner}
             <Datatable 
-                tags= {['key', 'display_name','full_name','poster_url','primary_languages','is_associated_with_an_expression', 'key', 'created_at']} 
+                tags= {['key', 'display_name','full_name','tags','poster_url','primary_languages','is_associated_with_an_expression', 'key', 'created_at']} 
                 actions={[{'name': 'Edit', 'function': this.openModalEdit, 'tag':'key'}]} 
                 data = {this.state.voices} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back" /> </div>

@@ -86,7 +86,6 @@ window.init = function() {
         render: function () {
               return <div> {this.state.component} </div>;
          }
-
     });
 
     var routes = [      
@@ -99,15 +98,17 @@ window.init = function() {
      ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
+     //TODO: needs a fix
      ['/admin/dashboard/view_counter_entities', viewCounterEntities],
      ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
      ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
-     ['/admin/dashboard/view_rejected',viewRejected],
+     ['/admin/dashboard/view_rejected', viewRejected],
      ['/admin/dashboard/view_tracked_users',viewTrackedUsers],
-     ['/admin/dashboard/view_user_log_entity/:key',viewUserLogEntity],
-     ['/admin/dashboard/view_actors_movies',viewActorsMovies],
-     ['/admin/dashboard/remove_from_channel',removeFromChannel],
-     ['/admin/dashboard/add_to_channel',addToChannel]
+     ['/admin/dashboard/view_user_log_entity/:key', viewUserLogEntity],
+     ['/admin/dashboard/view_actors_movies', viewActorsMovies],
+     ['/admin/dashboard/remove_from_channel', removeFromChannel],
+     ['/admin/dashboard/add_to_channel', addToChannel],
+     ['/admin/dashboard/create_new_channel', addNewChannel]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

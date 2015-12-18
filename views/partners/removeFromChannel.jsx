@@ -45,6 +45,24 @@ module.exports = React.createClass({
     getInitialState: function(){
         return {voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false}
     },
+    
+    componentDidMount: function() {
+    
+        var _this = this;
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
+            // List of channels
+            var channels = response['channels'];
+            var channels_length = response['channels_length'];
+            var select = document.getElementById('channel_id');
+            for(var i=0; i<channels_length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = channels[i].id;
+                    opt.innerHTML = channels[i].name;
+                    select.appendChild(opt);
+            }
+        }); 
+ 
+    },
 
     accept: function(object) {
 
@@ -83,6 +101,36 @@ module.exports = React.createClass({
         
     }, 
 
+    handleOnClick: function() {
+        /**
+         * TODO:
+         * Get expressions from that particular channel 
+         * Channel_id
+         */
+        this.setState({loading: true});
+        var channel_id = $('#channel_id').val();
+        var _this = this;
+        gapi.client.samosa.api.get_expressions_in_channel({'channel_id': channel_id }).execute(
+        function(resp){  
+            _this.setState({loading: false});           
+            _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})
+        });
+    },
+
+
+    getNextClips: function() {
+
+        var channel_id = $('#channel_id').val();
+
+        var _this = this;
+        this.setState({loading: true});
+        gapi.client.samosa.api.get_expressions_in_channel({'channel_id': channel_id, cursor: _this.state.present_cursor }).execute(
+        function(resp){     
+            _this.setState({loading: false});        
+            _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor})
+        });
+
+    },
 
     /**
      * This method handles validation(empty checks) before it submits the form
@@ -90,7 +138,7 @@ module.exports = React.createClass({
     validation: function() {
         // Accepted clips should be more than 0
         if (this.state.accepted_clips.length == 0) {
-            alert('Select clips to be added');
+            alert('Select clips to be removed');
             return
         } 
         var channel_id = document.getElementById('channel_id').value;
@@ -101,66 +149,19 @@ module.exports = React.createClass({
         this.handleChannel();
     },
 
-    handleOnClick: function() {
-
-        var push_search = $('#push_search').val();
-
-        if(!push_search) {
-        
-            var language = $('#language').val();
-
-            var _this = this;
-
-            $.get(config.ajax_url + '/push/create_push_notification', {'language': language} , function(response) {
-
-                _this.setState({voices: response.voices, accepted_clips: [], search_flag: false })
-
-            });
-        }
-
-        else {
-
-            var _this = this;
-
-            gapi.client.samosa.api.get_search_results({'tags': push_search }).execute(
-            function(resp){             
-                _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor, search_flag: true})
-            });
-        }
-    },
-
-
-    getNextClips: function() {
-
-            var push_search = $('#push_search').val();
-
-            var _this = this;
-            _this.setState({loading: true});
-            gapi.client.samosa.api.get_search_results({'tags': push_search, cursor: _this.state.present_cursor }).execute(
-            function(resp){    
-                _this.setState({loading: false});         
-                _this.setState({voices: resp.voices ,prev_cursor: _this.state.present_cursor , present_cursor: resp.cursor})
-            });
-    },
-
-
-    /** [handleNewActor: Need to pass a few params and add this in movie entity]
-    *   @return {[status][description]} 
-    */
-    handleNewChannel: function(){
-        console.log("handleNewChannel");
-        Page('/admin/dashboard/add_new_channel')
-    },
-
     handleChannel: function() {
-        var _this = this;
-        var clip_keys = []
 
+        var clip_keys = []
+        var _this = this;
         var clips = this.state.accepted_clips;
         var channel_id = $('#channel_id').val();
 
         for(var i=0; i<clips.length; i++){
             clip_keys.push(clips[i]['key']);
+        }
+        if (channel_id == "" || clip_keys == ""){
+            alert('Channel ID is Empty or no accepted_clips');
+            return
         }
 
         /**
@@ -169,7 +170,7 @@ module.exports = React.createClass({
         this.setState({loading: true});
         $.ajax({
              type:    "POST",
-             url:     config.ajax_url + "/dashboard_post_add_to_channel",
+             url:     config.ajax_url + "/dashboard_post_remove_from_channels",
              data:    {"channel_id": channel_id,"expression_list": clip_keys },
             success: function(data) {
                 _this.setState({voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false});
@@ -203,28 +204,19 @@ module.exports = React.createClass({
 
         var submitButtonStyle={
             float:'left', 
-            width:'112px', 
+            width:'165px', 
             height: '30px',
-            marginTop: '10px'
+            marginTop: '15px'
         }
 
         var inputFieldStyle = {
             float: 'left',
-            width: '250px',
-            marginRight: '30px'
-        }
-
-        var inputChannelFieldStyle = {
-            position: 'absolute',
-            marginLeft: '40%',
-            width: '20px',
-            padding: '75px',
-            height: 'auto'
-        }
-
-        var inputStyle = {
-            margin: '130px',
-            height: '25px'
+            width: '145px',
+            lineHeight: '38px',
+            paddingLeft: '10px',
+            fontFamily: 'Helvetica,Arial',
+            fontSize: '12px',
+            margin: '5px',
         }
 
         var dataTableStyle = {
@@ -232,13 +224,6 @@ module.exports = React.createClass({
             border: '1px solid #e8e8e8',
             padding: '10px',
             width: '100%'
-        }
-
-        var submitButtonStyle={
-            float:'left', 
-            width:'150px', 
-            height: '30px',
-            marginTop: '10px'
         }
 
         var acceptedClipsStyle = {
@@ -257,23 +242,27 @@ module.exports = React.createClass({
             display: 'none'
         }
 
-        var pushButtonStyle = {
+        var removeButtonStyle = {
             float: 'right',
             width: '200px',
             height: '30px',
-            marginTop: '10px'
+            marginRight: '100px'
         }
 
         var titleStyle = {
-            margin: '12px',
-            padding: '10px',
             textAlign: 'center'
         }
 
-        var addToChannelStyle = {
-            margin: '12px',
-            padding: '10px',
-            textAlign: 'center'
+        var inputChannelFieldStyle = {
+            float: 'left',
+            position: 'relative',
+            width: '120px',
+            padding: '8px',
+        }
+
+        var inputStyle = {
+            width: '140px',
+            height: '30px'
         }
 
         var _this = this;
@@ -290,30 +279,37 @@ module.exports = React.createClass({
         if(this.state.accepted_clips.length != 0) {
             acceptedClipsStyle['display'] = 'block';
         }
-          
+        var voices_length = 0; 
+        if (this.state.voices != null) {
+            voices_length = this.state.voices.length
+        }
+
         // Adding a loading toast 
         if (this.state.loading){
             var loadingSpinner = <LoadingSpinner />
-        }   
+        }
         return (
             
          <div style={RightSideBarStyle}> 
             <div>
-                <h3 style={titleStyle}>Add to channel</h3>
+                <h3 style={titleStyle}>Remove From channel(Please write a valid channel id)</h3>
                 <hr/>
                 <div style={inputChannelFieldStyle}>
-                  Channel:
-                  <input type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  />
+                    Channel :
+                    <select id="channel_id" name="channel_id">
+                           // This gets populated in this.componentDidUpdate()
+                           <option value="None"> </option>
+                    </select>
                 </div>
             </div>
-            <div style = {addToChannelStyle}>
-                <div style={inputFieldStyle}> <InputField id="push_search" placeholder="search for clip" /></div>
-                <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Search Results"/> </div>
-                <div style={pushButtonStyle} onClick={this.validation}> <RedButton text = "ADD TO CHANNEL"/> </div>
+
+            <div>                
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Channel Expressions"/> </div>
+                <div style={removeButtonStyle} onClick={this.validation}> <RedButton text = "REMOVE FROM CHANNEL"/> </div>
             </div>  
             
             <div id="acceptedClipsDiv" style={acceptedClipsStyle}> 
-                        Accepted Clips <hr/>
+                        Clips that should be Removed<hr/>
                         {accepted_clips}   
             </div>
            
@@ -324,17 +320,20 @@ module.exports = React.createClass({
                 </div>
 
                 <div style={dataTableStyle}>
-                    <p> Total accepted clips: <b>{this.state.accepted_clips.length}</b></p>
+                    <p> Total clips on this page: <b>{voices_length}</b></p>
+                    <p> Total removable clips: <b>{this.state.accepted_clips.length}</b></p>
                     {loadingSpinner}
                     <Datatable 
                         tags= {['transcript','poster_url','listens','shares','mp3_url']} 
-                        actions={[{'name': 'Accept', 'function': this.accept}]} 
+                        actions={[{'name': 'Remove', 'function': this.accept}]} 
                         data = {this.state.voices} />
                 </div>
 
             </div>
+
          </div>
 
         )
     }
 });
+

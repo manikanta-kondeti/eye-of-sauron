@@ -9,28 +9,16 @@ window.init = function() {
 
         var React = require('react');
         var page = require('page');
-
         var Header = require('./views/HeaderPartners');
-        var PartnersLeftSideBar = require('./views/admin/PartnersLeftSideBar');       
-        var viewPopularNow = require('./views/admin/viewPopularNow');
-        var viewApproved = require('./views/admin/viewApproved');   
-        var viewUnApproved = require('./views/admin/viewUnApproved');
-        var createPushNotification = require('./views/admin/createPushNotification');
-        var getPushNotificationId = require('./views/admin/getPushnotificationId');
+        var PartnersLeftSideBar = require('./views/admin/PartnersLeftSideBar');
+        /**
+         * Views served for partners
+         */
         var viewClips = require('./views/partners/editExpressions');
         var editClip = require('./views/admin/editClip');
-        var editUnapprovedClip = require('./views/admin/editUnapprovedClip');
-        var addRelationShip = require('./views/admin/addRelationShip')
-        var addNewActorMovie = require('./views/admin/addNewActorMovie')
-        var viewCounterEntities = require('./views/admin/viewCounterEntities');
-        var viewUserQueryNoResults = require('./views/admin/viewUserQueryNoResults');
-        var viewSearchQueryFrequency = require('./views/admin/viewSearchQueryFrequency');
-        var viewRejected = require('./views/admin/viewRejected');
-        var viewTrackedUsers = require('./views/admin/viewTrackedUsers');
-        var viewUserLogEntity = require('./views/admin/viewUserLogEntity');
-        var removeFromChannel = require('./views/admin/removeFromChannel.jsx');
-        var addToChannel = require('./views/admin/addToChannel.jsx');
-        var addNewChannel = require('./views/admin/addNewChannel.jsx');
+        var removeFromChannel = require('./views/partners/removeFromChannel.jsx');
+        var addToChannel = require('./views/partners/addToChannel.jsx');
+        var addNewChannel = require('./views/partners/addNewChannel.jsx');
         var addNewExpression = require('./views/admin/addNewExpression.jsx');
         var viewInstructions = require('./views/partners/viewInstructions.jsx');
 

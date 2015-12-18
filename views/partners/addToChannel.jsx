@@ -46,6 +46,22 @@ module.exports = React.createClass({
         return {voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false}
     },
 
+    componentDidMount: function() {
+        var _this = this;
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
+            // List of channels
+            var channels = response['channels'];
+            var channels_length = response['channels_length'];
+            var select = document.getElementById('select_channel');
+            for(var i=0; i<channels_length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = channels[i].id;
+                    opt.innerHTML = channels[i].name;
+                    select.appendChild(opt);
+            }
+        }); 
+ 
+    },
     accept: function(object) {
 
         var state_voices = this.state.voices;
@@ -93,23 +109,21 @@ module.exports = React.createClass({
             alert('Select clips to be added');
             return
         } 
-        var channel_id = document.getElementById('channel_id').value;
-        if (channel_id == "") {
-            alert('Channel id is empty');
+        var channel_id = document.getElementById('select_channel').value;
+        if (channel_id == "None") {
+            alert('Channel id is empty, please select a channel id');
             return
         }
         this.handleChannel();
     },
 
     handleOnClick: function() {
-
+        var _this = this;
         var push_search = $('#push_search').val();
 
         if(!push_search) {
-        
+    	
             var language = $('#language').val();
-
-            var _this = this;
 
             $.get(config.ajax_url + '/push/create_push_notification', {'language': language} , function(response) {
 
@@ -119,8 +133,6 @@ module.exports = React.createClass({
         }
 
         else {
-
-            var _this = this;
 
             gapi.client.samosa.api.get_search_results({'tags': push_search }).execute(
             function(resp){             
@@ -153,11 +165,11 @@ module.exports = React.createClass({
     },
 
     handleChannel: function() {
-        var _this = this;
-        var clip_keys = []
 
+        var clip_keys = []
+        var _this = this;
         var clips = this.state.accepted_clips;
-        var channel_id = $('#channel_id').val();
+        var channel_id = $('#select_channel').val();
 
         for(var i=0; i<clips.length; i++){
             clip_keys.push(clips[i]['key']);
@@ -215,11 +227,11 @@ module.exports = React.createClass({
         }
 
         var inputChannelFieldStyle = {
-            position: 'absolute',
-            marginLeft: '40%',
-            width: '20px',
-            padding: '75px',
-            height: 'auto'
+            position: 'relative',
+            width: '60px',
+            padding: '10px',
+            height: 'auto',
+            margin : '10px'
         }
 
         var inputStyle = {
@@ -302,13 +314,16 @@ module.exports = React.createClass({
                 <h3 style={titleStyle}>Add to channel</h3>
                 <hr/>
                 <div style={inputChannelFieldStyle}>
-                  Channel:
-                  <input type="textbox" id="channel_id" placeholder="Write a valid channel id" name="channel_id"  />
+                    Channel :
+                    <select id="select_channel" name="channel_id">
+                           // This gets populated in this.componentDidUpdate()
+                           <option value="None"> </option>
+                    </select>
                 </div>
             </div>
             <div style = {addToChannelStyle}>
                 <div style={inputFieldStyle}> <InputField id="push_search" placeholder="search for clip" /></div>
-                <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Search Results"/> </div>
+        	    <div style={submitButtonStyle} onClick={this.handleOnClick}> <BlueButton text = "Get Search Results"/> </div>
                 <div style={pushButtonStyle} onClick={this.validation}> <RedButton text = "ADD TO CHANNEL"/> </div>
             </div>  
             
