@@ -47,7 +47,6 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function() {
-        // Get auth key
         var _this = this;
         $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
             // List of channels
@@ -56,7 +55,7 @@ module.exports = React.createClass({
             var select = document.getElementById('select_channel');
             for(var i=0; i<channels_length; i++) {
                     var opt = document.createElement('option');
-                    opt.value = channels[i].key;
+                    opt.value = channels[i].id;
                     opt.innerHTML = channels[i].name;
                     select.appendChild(opt);
             }
@@ -185,7 +184,7 @@ module.exports = React.createClass({
              url:     config.ajax_url + "/dashboard_post_add_to_channel",
              data:    {"channel_id": channel_id,"expression_list": clip_keys },
             success: function(data) {
-                _this.setState({loading: false});
+                _this.setState({voices: null, accepted_clips: [], prev_cursor: '', present_cursor: '', search_flag: false, loading: false});
                  alert(data['status']);
             },
             // vvv---- This is the new bit

@@ -10,14 +10,14 @@ window.init = function() {
         var React = require('react');
         var page = require('page');
 
-        var Header = require('./views/Header');
+        var Header = require('./views/HeaderPartners');
         var PartnersLeftSideBar = require('./views/admin/PartnersLeftSideBar');       
         var viewPopularNow = require('./views/admin/viewPopularNow');
         var viewApproved = require('./views/admin/viewApproved');   
         var viewUnApproved = require('./views/admin/viewUnApproved');
         var createPushNotification = require('./views/admin/createPushNotification');
         var getPushNotificationId = require('./views/admin/getPushnotificationId');
-        var viewClips = require('./views/admin/viewClips');
+        var viewClips = require('./views/partners/editExpressions');
         var editClip = require('./views/admin/editClip');
         var editUnapprovedClip = require('./views/admin/editUnapprovedClip');
         var addRelationShip = require('./views/admin/addRelationShip')

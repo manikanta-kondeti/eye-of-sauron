@@ -21,7 +21,7 @@ module.exports = React.createClass({
             var select = document.getElementById('select_channel');
             for(var i=0; i<channels_length; i++) {
                     var opt = document.createElement('option');
-                    opt.value = channels[i].key;
+                    opt.value = channels[i].id;
                     opt.innerHTML = channels[i].name;
                     select.appendChild(opt);
             }
@@ -104,8 +104,8 @@ module.exports = React.createClass({
     handleSubmitExpression: function() {
         var _this = this;
         this.setState({loading: true});
-
-        console.log("url config ajax_url = "+ config.ajax_url);
+        
+        $('#upload_expression_button').hide();
         var options = { 
             target:   '#output',
             // target element(s) to be updated with server response 
@@ -113,13 +113,18 @@ module.exports = React.createClass({
             success: function(response) { 
                 alert(response['status']);
                 _this.setState({loading: false});
+                $("#upload_form_of_expression")[0].reset();
+                $('#upload_expression_button').show();
             }, 
             error: function(response) {
+                alert(response);
                 $('#alert_message').html(' Notification text is not a localised unicode string. Localise the push notification text.');
             }
         }; 
         
         $('#upload_form_of_expression').submit(function(e) { 
+            e.preventDefault();
+            e.stopImmediatePropagation(); 
             $(this).ajaxSubmit(options);  //Ajax Submit form    
             return false;
         });
@@ -214,7 +219,7 @@ module.exports = React.createClass({
                            // This gets populated in this.componentDidUpdate()
                             </select>
                         </div>
-                        <div onClick={this.validation} style={submitStyle}>
+                        <div onClick={this.validation} id="upload_expression_button" style={submitStyle}>
                             <RedButton text = "Upload Expression" />
                         </div>
                         {loadingSpinner}

@@ -57,6 +57,11 @@ module.exports = React.createClass({
             alert('Display name is empty');
             return false;
         }
+        var tags = document.getElementById('tags').value;
+        if (tags == "") {
+            alert('Tags are empty');
+            return false;
+        }
         var image_file = document.getElementById('image_file').value;
         if (image_file == "") {
             alert('Image file is empty');
@@ -75,6 +80,7 @@ module.exports = React.createClass({
         var _this = this;
         this.setState({loading: true});
 
+        $('#create_channel_button').hide();
         var options = { 
             target:   '#output',
             beforeSubmit:  _this.beforeSubmit,// target element(s) to be updated with server response 
@@ -82,14 +88,19 @@ module.exports = React.createClass({
             success: function(response) { 
                 alert(response['status']);
                 _this.setState({loading: false});
+                $("#upload_form_of_channel")[0].reset();
+                $('#create_channel_button').show();
             }, 
             error: function(response) {
+                alert(response);
                 $('#alert_message').html(' Notification text is not a localised unicode string. Localise the push notification text.');
             }
         }; 
         
-        $('#upload_form_of_channel').submit(function(e) { 
-            $(this).ajaxSubmit(options);  //Ajax Submit form    
+        $('#upload_form_of_channel').submit(function(e) {   //Ajax Submit form   
+            e.preventDefault();
+            e.stopImmediatePropagation(); 
+            $(this).ajaxSubmit(options);
             return false;
         });           
     },
@@ -148,7 +159,10 @@ module.exports = React.createClass({
                             Display Name:
                             <InputField id="display_name" name="display_name" placeholder="Display Name: (V6 news, TV9 news, Radiomirchi 98.3 FM) " />
                         </div> 
-   
+                        <div style={inputFieldStyle}>
+                            Tags: 
+                            <InputField id="tags" name="tags[]" placeholder="Tags: (V6 news, sports, news, politics, family, entertainment etc.) " />
+                        </div> 
                         <div style={selectBoxStyle}>
                             Primary language:
                            <select id="primary_language" name="primary_language">
@@ -160,7 +174,7 @@ module.exports = React.createClass({
                             </select>
                         </div>
                         <div style={selectBoxStyle}>
-                            Is Comments Enabled
+                            Is Replies Enabled
                             <select id="is_comments_enabled" name="is_comments_enabled">
                                <option value="true">True</option>
                                <option value="false">False</option>
@@ -170,7 +184,7 @@ module.exports = React.createClass({
                             Channel Poster(Mandatory)
                             <InputField name="image_file" id="image_file" type="file" />
                         </div>
-                        <div onClick={this.validation} style={submitStyle}>
+                        <div onClick={this.validation} id="create_channel_button" style={submitStyle}>
                             <RedButton  text = "Create Channel" />
                         </div>
                         <div style={inputFieldStyle} >
