@@ -28,8 +28,8 @@ module.exports = React.createClass({
 			{name: 'Upload expression', url:'partners/dashboard/upload_an_expression', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Edit Expressions', url:'partners/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'AddToChannel(multiple)', url:'partners/dashboard/add_to_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Remove From Channels', url:'partners/dashboard/remove_from_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
-			
+			{name: 'Remove From Channels', url:'partners/dashboard/remove_from_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Update Channel', url:'partners/dashboard/update_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {

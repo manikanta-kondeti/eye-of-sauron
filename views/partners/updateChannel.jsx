@@ -13,7 +13,10 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function() {
+        // Update fields with current channel fields 
+
         var _this = this;
+        
         $.get(config.ajax_url + '/dashboard_get_user_owned_channels' ,function(response) { 
             // List of channels
             var channels = response['channels'];
@@ -28,9 +31,37 @@ module.exports = React.createClass({
         }); 
     },
 
+    /**
+     * getChannelInfo: This method will query the server for channel information
+    **/
+    getChannelInfo: function() {
+        var _this = this;
+        this.setState({loading: true});
+        // Get Channel information from server 
+        $.get(config.ajax_url + '/dashboard_get_user_owned_channel' , { channel_id : document.getElementById('select_channel').value }, function(resp){
+                    $('#display_name').val(resp['name']);
+                    $('#tags').val(resp['tags']);
+                    $('#primary_language').val(resp['primary_languages'][0]);
+                    $('#is_comments_enabled').val(String(resp['is_comments_enabled']));
+                    $('#poster').attr('src',resp['poster_url']);
+                    _this.setState({loading: false});
+           
+                    if (resp['poster_url'] == null) {
+                        $('#poster').attr('src', "http://s11.postimg.org/9d1tac1rn/upload_poster.jpg");
+                    }
+        }).fail(function() {
+                console.log("e.status ");
+                alert("INTERNAL SERVER ERROR, please report it to ADMIN");
+                _this.setState({loading: false});               
+        });
+
+        // Updating channel's image
+        
+    },
+
     /** 
      * This method is used to validate file sizes before submitting the form.
-    */
+    **/
     beforeSubmit: function(){
         //check whether browser fully supports all File API
         if (window.File && window.FileReader && window.FileList && window.Blob)
@@ -62,58 +93,57 @@ module.exports = React.createClass({
             return false;
         }
     },
-    
+
     /**
      * This method handles validation(empty checks) before it submits the form
      */
     validation: function() {
-        var transcript = document.getElementById('transcript').value;
-        console.log(transcript);
-        if (transcript == "") {
-            alert('Transcript is empty');
+
+        var display_name = document.getElementById('display_name').value;
+        if (display_name == "") {
+            alert('Display name is empty');
             return false;
         }
         var tags = document.getElementById('tags').value;
         if (tags == "") {
-            alert('Tags is empty');
+            alert('Tags are empty');
             return false;
         }
-        var image_file = document.getElementById('image_file').value;
-        if (image_file == "") {
-            alert('Image file is empty');
+        var language = document.getElementById('primary_language').value;
+        if (language == "None") {
+            alert('Language empty');
             return false;
         }
-        var audio_file = document.getElementById('audio_file').value
-        if (audio_file == "") {
-            alert('Audio file is empty');
+        var is_comments_enabled = document.getElementById('is_comments_enabled').value;
+        if (is_comments_enabled == "None") {
+            alert('is_comments_enabled is empty');
             return false;
-        } 
-        var channel_id = document.getElementById('select_channel').value
-        if (channel_id == "None") {
-            alert('Channel id is empty, please select a channel id');
-            return false;
-        } 
-        this.handleSubmitExpression();
+        }
+        this.handleSubmitChannel();
     },
-    
 
     /**
-     * This method handles creation of new expression from on browser
+     * This method is used to edit changes of the unapproved clip
+     * @params: These are the six fields sent: languages, primary_language, actor_unique_id, movie_id, display_name, gender
+     * @return: status of the request  
     */
-    handleSubmitExpression: function() {
+    handleSubmitChannel: function() {
         var _this = this;
         this.setState({loading: true});
-        
-        $('#upload_expression_button').hide();
+
+        $('#create_channel_button').hide();
         var options = { 
             target:   '#output',
-            // target element(s) to be updated with server response 
-            url: config.ajax_url + '/dashboard_post_upload_expression',
+            beforeSubmit:  _this.beforeSubmit,// target element(s) to be updated with server response 
+            url: config.ajax_url + '/dashboard_post_channels_editorial',
             success: function(response) { 
                 alert(response['status']);
                 _this.setState({loading: false});
-                $("#upload_form_of_expression")[0].reset();
-                $('#upload_expression_button').show();
+                $("#upload_form_of_channel")[0].reset();
+                $('#create_channel_button').show();
+                // Update poster 
+                $('#poster').attr('src', "http://s21.postimg.org/6rrgmvyt3/select_a_channel.jpg");
+
             }, 
             error: function(response) {
                 alert(response);
@@ -121,13 +151,12 @@ module.exports = React.createClass({
             }
         }; 
         
-        $('#upload_form_of_expression').submit(function(e) { 
+        $('#upload_form_of_channel').submit(function(e) {   //Ajax Submit form   
             e.preventDefault();
             e.stopImmediatePropagation(); 
-            $(this).ajaxSubmit(options);  //Ajax Submit form    
+            $(this).ajaxSubmit(options);
             return false;
-        });
-                   
+        });           
     },
 
 
@@ -143,11 +172,6 @@ module.exports = React.createClass({
             display: 'block',
             padding: '9px',
             width: '83%'      
-        }
-
-        var titleStyle = {
-            margin: '12px',
-            padding: '10px'
         }
 
         var selectBoxStyle = {
@@ -170,6 +194,29 @@ module.exports = React.createClass({
             margin: '30px'
         }
 
+        var titleStyle = {
+            margin: '12px',
+            padding: '10px'
+        }
+
+        var selectBoxStyle = {
+           width: '600px',
+            height: '10px',
+            margin : '20px',
+            padding: '10px'
+        }
+
+        var voiceStyle = {
+            float: 'right', 
+            marginRight: '150px',
+            display: 'block'
+        }
+
+        var posterStyle = {
+            width: 'auto',
+            height: 'auto'
+        }
+
         // Adding a loading toast 
         if (this.state.loading){
             var loadingSpinner = <LoadingSpinner />
@@ -177,21 +224,32 @@ module.exports = React.createClass({
 
         return(
             <div style = {RightSideBarStyle}>
-                <h2 style = {titleStyle}> Upload New Expression </h2> 
+                <h2 style = {titleStyle}> Update Channel </h2> 
                 <hr/>
-                    <form method="post" enctype="multipart/form-data" id="upload_form_of_expression">
-                        <div style={inputFieldStyle}>
-                            Transcript:
-                             <InputField id="transcript" name="transcript" placeholder="Transcript" />
-                        </div>
-                        <div style={inputFieldStyle}>
-                            Tags : 
-                            <InputField id="tags" name="tags[]" placeholder="Coma separated values. eg: (news, kcr, telangana, farmers)" />
-                        </div> 
-        
+                    <div style={voiceStyle}>
+                        <img id="poster" src="http://s21.postimg.org/6rrgmvyt3/select_a_channel.jpg" width="350px" height="350px" />
+                    </div>
+                    <form method="post" enctype="multipart/form-data" id="upload_form_of_channel">
                         <div style={selectBoxStyle}>
-                           Language:
-                           <select id="language" name="language">
+                           Channel :
+                           <select id="select_channel" name="channel_id" onChange={this.getChannelInfo} >
+                           <option value="None"> </option>
+                           // This gets populated in this.componentDidUpdate()
+                            </select>
+                        </div>
+
+                        <div style={inputFieldStyle}>
+                            Display Name:
+                            <InputField id="display_name" name="display_name" placeholder="Display Name: (V6 news, TV9 news, Radiomirchi 98.3 FM) " />
+                        </div> 
+                        <div style={inputFieldStyle}>
+                            Tags: 
+                            <InputField id="tags" name="tags[]" placeholder="Tags: (V6 news, sports, news, politics, family, entertainment etc.) " />
+                        </div> 
+                        <div style={selectBoxStyle}>
+                            Primary language:
+                           <select id="primary_language" name="primary_language">
+                               <option value="None"> </option>
                                <option value="telugu">Telugu</option>
                                <option value="tamil">Tamil</option>
                                <option value="hindi">Hindi</option>
@@ -199,27 +257,23 @@ module.exports = React.createClass({
                                <option value="malayalam">Malayalam</option>
                             </select>
                         </div>
-                        <div style={inputFieldStyle}>
-                            HTTP link of the video:
-                             <InputField id="http_link" name="http_link" placeholder="URL of the video: (eg: https://www.youtube.com/watch?v=RgKAFK5djSk)" />
-                        </div>
-                        <div style={inputFieldStyle} >
-                            Audio file:
-                            <InputField name="audio_file" id="audio_file" type="file" />
-                        </div>
-                        <div style={inputFieldStyle} >
-                            Expression Poster:
-                            <InputField name="image_file" id="image_file" type="file" />
-                        </div>
                         <div style={selectBoxStyle}>
-                           Channel :
-                           <select id="select_channel" name="channel_id">
-                           <option value="None"> </option>
-                           // This gets populated in this.componentDidUpdate()
+                            Is Replies Enabled: 
+                            <select id="is_comments_enabled" name="is_comments_enabled">
+                               <option value="None"> </option>
+                               <option value="true">True</option>
+                               <option value="false">False</option>
                             </select>
                         </div>
-                        <div onClick={this.validation} id="upload_expression_button" style={submitStyle}>
-                            <RedButton text = "Upload Expression" />
+                        <div style={inputFieldStyle} >
+                            Channel Poster(Mandatory)
+                            <InputField name="image_file" id="image_file" type="file" />
+                        </div>
+                        <div onClick={this.validation} id="create_channel_button" style={submitStyle}>
+                            <RedButton  text = "Update Channel" />
+                        </div>
+                        <div style={inputFieldStyle} >
+                            <input name="type_of_query" id="type_of_query" value="old_channel" type="hidden" />  
                         </div>
                         {loadingSpinner}
                     </form>

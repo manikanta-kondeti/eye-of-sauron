@@ -21,6 +21,7 @@ window.init = function() {
         var addNewChannel = require('./views/partners/addNewChannel.jsx');
         var addNewExpression = require('./views/admin/addNewExpression.jsx');
         var viewInstructions = require('./views/partners/viewInstructions.jsx');
+        var updateChannel = require('./views/partners/updateChannel.jsx');
 
         var Router = React.createClass({
 
@@ -87,7 +88,8 @@ window.init = function() {
          ['/partners/dashboard/add_to_channel', addToChannel],
          ['/partners/dashboard/add_new_channel', addNewChannel],
          ['/partners/dashboard', viewInstructions],
-         ['/partners/dashboard/edit_clip/:key', editClip]
+         ['/partners/dashboard/edit_clip/:key', editClip],
+         ['/partners/dashboard/update_channel', updateChannel]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

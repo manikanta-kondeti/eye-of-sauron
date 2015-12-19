@@ -32,6 +32,7 @@ window.init = function() {
         var removeFromChannel = require('./views/admin/removeFromChannel.jsx');
         var addToChannel = require('./views/admin/addToChannel.jsx');
         var addNewChannel = require('./views/admin/addNewChannel.jsx');
+        var updateChannel = require('./views/admin/updateChannel.jsx');
 
         var Router = React.createClass({
 
@@ -98,7 +99,7 @@ window.init = function() {
      ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
-     //TODO: needs a fix
+
      ['/admin/dashboard/view_counter_entities', viewCounterEntities],
      ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
      ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
@@ -108,7 +109,8 @@ window.init = function() {
      ['/admin/dashboard/view_actors_movies', viewActorsMovies],
      ['/admin/dashboard/remove_from_channel', removeFromChannel],
      ['/admin/dashboard/add_to_channel', addToChannel],
-     ['/admin/dashboard/create_new_channel', addNewChannel]
+     ['/admin/dashboard/create_new_channel', addNewChannel],
+     ['/admin/dashboard/update_channel', updateChannel]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
