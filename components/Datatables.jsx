@@ -90,8 +90,7 @@ var tdItem = React.createClass({
 			var tdStyle = {
 				textAlign: 'center',
 				padding: '5px',
-				borderBottom: '1px solid #cbcbcb'
-
+				borderBottom: '1px solid #cbcbcb',
 			}
 
 			if(this.props.data) {
@@ -119,6 +118,9 @@ var tdItem = React.createClass({
 
 			}
 
+			if (this.props.flag) {
+				tdStyle['overflow'] = 'hidden'
+			}
 			return (
 					<td style={tdStyle}>
 						{data}
@@ -177,7 +179,7 @@ var trItem = React.createClass({
 
 					var attrValue = (this.props.tdData[tag_value] != null) ?  this.props.tdData[tag_value] : null;
 			
-					tdArray.push(React.createElement(tdItem, {data:attrValue} ));
+					tdArray.push(React.createElement(tdItem, {data:attrValue, flag: this.props.flag} ));
 				}
 
 				if(this.props.actions) {
@@ -186,7 +188,7 @@ var trItem = React.createClass({
 				
 						var action = this.props.actions[i];
 						
-						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, name:action['name'], action:action['function']}));
+						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, flag:this.props.flag, name:action['name'], action:action['function']}));
 					}
 				}
 			}
@@ -237,7 +239,7 @@ module.exports = React.createClass({
 		var tableStyle = {
 			border: '1px solid #cbcbcb',
 			fontSize: '15px',
-			background: 'white'
+			background: 'white',
 		}
 
 		var inputStyle = {
@@ -265,9 +267,19 @@ module.exports = React.createClass({
 
 			var trItems = this.props.data.map(function(data, index) {
 
-				return React.createElement(trItem, {actions:_this.props.actions, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
+				return React.createElement(trItem, {actions:_this.props.actions, flag:_this.props.width_style, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
 
 			});
+		}
+
+		/**
+		 *  To handle width of a tabe. this.props.width_style
+		 */
+		if (this.props.width_style) {
+			tableStyle['width'] = '550px',
+			tableStyle['fontSize'] = '13px',
+			tableStyle['tableLayout'] = 'fixed',
+			tableStyle['overflow'] = 'hidden'
 		}
 
 		/**

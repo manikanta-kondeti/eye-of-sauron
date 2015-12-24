@@ -33,6 +33,7 @@ window.init = function() {
         var addToChannel = require('./views/admin/addToChannel.jsx');
         var addNewChannel = require('./views/admin/addNewChannel.jsx');
         var updateChannel = require('./views/admin/updateChannel.jsx');
+        var channelGroups = require('./views/admin/channelGroups.jsx');
 
         var Router = React.createClass({
 
@@ -110,7 +111,8 @@ window.init = function() {
      ['/admin/dashboard/remove_from_channel', removeFromChannel],
      ['/admin/dashboard/add_to_channel', addToChannel],
      ['/admin/dashboard/create_new_channel', addNewChannel],
-     ['/admin/dashboard/update_channel', updateChannel]
+     ['/admin/dashboard/update_channel', updateChannel],
+     ['/admin/dashboard/channel_groups', channelGroups]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
