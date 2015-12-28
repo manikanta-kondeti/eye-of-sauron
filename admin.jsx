@@ -34,6 +34,8 @@ window.init = function() {
         var addNewChannel = require('./views/admin/addNewChannel.jsx');
         var updateChannel = require('./views/admin/updateChannel.jsx');
         var channelGroups = require('./views/admin/channelGroups.jsx');
+        var partnersPermissions = require('./views/admin/partnersPermissions.jsx');
+        var Register = require('./views/admin/RegisterNewPartner.jsx');
 
         var Router = React.createClass({
 
@@ -112,7 +114,9 @@ window.init = function() {
      ['/admin/dashboard/add_to_channel', addToChannel],
      ['/admin/dashboard/create_new_channel', addNewChannel],
      ['/admin/dashboard/update_channel', updateChannel],
-     ['/admin/dashboard/channel_groups', channelGroups]
+     ['/admin/dashboard/channel_groups', channelGroups],
+     ['/admin/dashboard/partners_permissions', partnersPermissions],
+     ['/admin/dashboard/register_a_new_partner', Register]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

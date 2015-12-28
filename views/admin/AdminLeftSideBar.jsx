@@ -39,7 +39,8 @@ module.exports = React.createClass({
 			{name: 'Remove From Channels', url:'admin/dashboard/remove_from_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Update Channel', url:'admin/dashboard/update_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Channel Groups', url:'admin/dashboard/channel_groups', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
+			{name: 'Channel Groups', url:'admin/dashboard/channel_groups', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Partners Permissions', url:'admin/dashboard/partners_permissions', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {
