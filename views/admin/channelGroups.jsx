@@ -260,11 +260,13 @@ module.exports = React.createClass({
 	                       Channel Group:
 	                       <select id="channel_group" name="channel_group" onChange={this.getChannelByGroup}>
 	                           <option value="0">Recommended for you</option>
-	                           <option value="1">Upcoming Movies</option>
-	                           <option value="2">Conversational</option>
-	                           <option value="3">By Actor</option>
-	                           <option value="4">By Movie</option>
-	                           <option value="5">By Editors Pick</option>
+	                           <option value="1">Latest Movies</option>
+	                           <option value="2">Editors Pick</option>
+	                           <option value="3">Greetings</option>
+                               <option value="4">Politics</option>
+                               <option value="5">By Actor</option>
+	                           <option value="6">By Movie</option>
+	                           <option value="7">Trending channels</option>
 	                        </select>
 	                    </div>
 						{loadingSpinner}
