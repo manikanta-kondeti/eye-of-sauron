@@ -180,6 +180,7 @@ module.exports = React.createClass({
             // vvv---- This is the new bit
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(errorThrown);
+                _this.setState({loading: false})
             }
         });
         $('#approve_button').hide();
