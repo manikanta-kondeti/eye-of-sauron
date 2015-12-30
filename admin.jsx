@@ -36,6 +36,7 @@ window.init = function() {
         var channelGroups = require('./views/admin/channelGroups.jsx');
         var partnersPermissions = require('./views/admin/partnersPermissions.jsx');
         var Register = require('./views/admin/RegisterNewPartner.jsx');
+        var NotificationTest = require('./views/admin/testPushNotification.jsx');
 
         var Router = React.createClass({
 
@@ -116,7 +117,8 @@ window.init = function() {
      ['/admin/dashboard/update_channel', updateChannel],
      ['/admin/dashboard/channel_groups', channelGroups],
      ['/admin/dashboard/partners_permissions', partnersPermissions],
-     ['/admin/dashboard/register_a_new_partner', Register]
+     ['/admin/dashboard/register_a_new_partner', Register],
+     ['/admin/dashboard/test_push_notification', NotificationTest]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

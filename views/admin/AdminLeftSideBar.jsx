@@ -28,7 +28,7 @@ module.exports = React.createClass({
 			{name: 'Add to Channel', url:'admin/dashboard/add_to_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Update Expressions', url:'admin/dashboard/view_clips', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Unapproved', url: 'admin/dashboard/', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Push', url:'admin/dashboard/create_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Push Notifi To Users', url:'admin/dashboard/create_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Tag Actor/Movie', url:'admin/dashboard/add_relationship', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			//TODO: this needs to be fixed, (bootstrap issue)
 			//{name: 'Counter Entity', url:'admin/dashboard/view_counter_entities', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
@@ -40,7 +40,8 @@ module.exports = React.createClass({
 			{name: 'Actors/Movies', url:'admin/dashboard/view_actors_movies', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Update Channel', url:'admin/dashboard/update_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Channel Groups', url:'admin/dashboard/channel_groups', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Partners Permissions', url:'admin/dashboard/partners_permissions', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
+			{name: 'Partners Permissions', url:'admin/dashboard/partners_permissions', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Test Push Notification', url:'admin/dashboard/test_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {
