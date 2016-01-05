@@ -12,13 +12,11 @@ var config = require('../../config');
 
 
 module.exports = React.createClass({
-
     getInitialState: function() {
         return {voices: null, cursor: ''}
     },
 
     componentDidMount: function() {
-
         this.dateRangePicker();
     },
 
@@ -268,16 +266,14 @@ module.exports = React.createClass({
         window.open("data:text/csv;charset=utf-8," + escape(chart.getCSV()));
     },
 
+    redirectToAdminDashboard: function() { 
+        var url = window.location.protocol + "//" + window.location.host + "/admin/dashboard";
+        window.location = url;
+    },
+
     render: function() {
 
         var RightSideBarStyle = {
-            position: 'absolute',
-            marginLeft: '240px',
-            top: '60px',
-            bottom: '0px',
-            display: 'block',
-            padding: '9px',
-            width: '83%'
         }
 
         var loadingStyle = {
@@ -286,6 +282,10 @@ module.exports = React.createClass({
             top: '50%'
         }
 
+        var buttonStyle = {
+            width : '200px',
+            margin: '0 auto'
+        }
         return (
             
          <div style={RightSideBarStyle}>
@@ -306,8 +306,11 @@ module.exports = React.createClass({
 
             <button onClick={this.checkAll}>Check All </button>
             <button onClick={this.uncheckAll}> Uncheck All </button>
-         </div>
 
+            <div style={buttonStyle} onClick={this.redirectToAdminDashboard}>
+               <RedButton text="Return to Admin Dashboard" />
+            </div>
+        </div>
         )
     }
 });

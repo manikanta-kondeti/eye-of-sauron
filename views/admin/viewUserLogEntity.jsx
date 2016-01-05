@@ -149,7 +149,7 @@ module.exports = React.createClass({
                 {page_count_text}
             </div>
             <Datatable 
-                tags= {['created_at', 'endpoint_name',  'installation_key', 'user_key', 'updated_at', 'params' ]}
+                tags= {['created_at', 'endpoint_name', 'params', 'installation_key', 'user_key', 'updated_at' ]}
                 data = {this.state.log_entities} />
             <div style={prevButtonStyle} onClick={this.handleClickPrev}> <RedButton text = "<<Back"/> </div>
             <div style={nextButtonStyle} onClick={this.handleClickNext}> <RedButton text = "Next>>"/> </div>

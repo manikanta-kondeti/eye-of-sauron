@@ -9,7 +9,7 @@ window.init = function() {
 
         var React = require('react');
         var page = require('page');
-
+        var config = require('./config');
         var Header = require('./views/Header');
         var AdminLeftSideBar = require('./views/admin/AdminLeftSideBar');       
         var viewPopularNow = require('./views/admin/viewPopularNow');
@@ -37,15 +37,16 @@ window.init = function() {
         var partnersPermissions = require('./views/admin/partnersPermissions.jsx');
         var Register = require('./views/admin/RegisterNewPartner.jsx');
         var NotificationTest = require('./views/admin/testPushNotification.jsx');
+        var RedirectComponent = require('./components/RedirectComponent.jsx');
 
         var Router = React.createClass({
 
             getInitialState: function () {
 
-              return { component: 'Error'};
+              return { component: 'Component is not mounted on the page. Please contact Admin. Error'};
             },
 
-        componentDidMount: function () {
+            componentDidMount: function () {
 
                 var _this = this;
                 this.props.routes.forEach(function (route) {
@@ -56,10 +57,13 @@ window.init = function() {
                 page(url, function (ctx) {
 
                   var regex = new RegExp('/admin/dashboard', 'gi');
-
-                  if(url.match(regex)) {
+                  var regex_counter_entities = new RegExp('/admin/dashboard/view_counter_entities', 'gi')
+                  if(url.match(regex) && !url.match(regex_counter_entities)) {
                         React.render(<Header search={false} login={false}/>, document.getElementById('header'));
                         React.render(<AdminLeftSideBar />,  document.getElementById('left-side-bar'));  
+                  }
+                  if(url.match(regex)) {
+                        React.render(<Header search={false} login={false}/>, document.getElementById('header')); 
                   }
 
                   else { 
@@ -75,7 +79,6 @@ window.init = function() {
                     }
                 
                     else {
-
                       React.render(<HeaderOther />, document.getElementById('header'));
                     }
                   } 
@@ -86,14 +89,15 @@ window.init = function() {
 
 
             page.start();
-         },
+            },
 
-        render: function () {
-              return <div> {this.state.component} </div>;
-         }
+            render: function () {
+                  return <div> {this.state.component} </div>;
+             }
     });
-
-    var routes = [      
+    
+//     var redirectComponent = <RedirectComponent redirect_url={config.ajax_url+'/admins/dashboard/view_counter_entities'} />;
+     var routes = [      
      ['/admin/dashboard/view_clips', viewClips],
      ['/admin/dashboard/get_push_notif_id/:keys', getPushNotificationId],
      ['/admin/dashboard', viewUnApproved],
@@ -103,8 +107,8 @@ window.init = function() {
      ['/admin/dashboard/edit_unapproved_clip/:key', editUnapprovedClip],
      ['/admin/dashboard/add_relationship', addRelationShip],
      ['/admin/dashboard/add_new_actor_movie', addNewActorMovie],
-
      ['/admin/dashboard/view_counter_entities', viewCounterEntities],
+     ['/admin/dashboard/view_counter_entities_redirection', RedirectComponent],
      ['/admin/dashboard/view_user_query_no_results', viewUserQueryNoResults],
      ['/admin/dashboard/view_search_query_frequency',viewSearchQueryFrequency],
      ['/admin/dashboard/view_rejected', viewRejected],
