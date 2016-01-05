@@ -20,7 +20,8 @@ module.exports = React.createClass({
     		display: 'block',
 			width: '240px',
 			borderRight: '1px solid #e8e8e8',
-			zIndex: '999'		
+			zIndex: '999',
+			overflow: 'scroll'		
 		}
 
 		var data = [

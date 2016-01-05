@@ -90,7 +90,7 @@ module.exports = React.createClass({
 
     dateRangePicker: function() {
 
-        this.dateRangePickerDraw(moment().subtract(29, 'days'), moment());
+        this.dateRangePickerDraw(moment().subtract(6, 'days'), moment());
 
         $('#reportrange').daterangepicker({
             ranges: {
@@ -274,6 +274,13 @@ module.exports = React.createClass({
     render: function() {
 
         var RightSideBarStyle = {
+            position: 'absolute',
+            marginLeft: '165px',
+            top: '60px',
+            bottom: '0px',
+            display: 'block',
+            padding: '9px',
+            width: '83%'
         }
 
         var loadingStyle = {
