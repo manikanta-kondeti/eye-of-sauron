@@ -41,7 +41,8 @@ module.exports = React.createClass({
 			{name: 'Update Channel', url:'admin/dashboard/update_channel', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Channel Groups', url:'admin/dashboard/channel_groups', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
 			{name: 'Partners Permissions', url:'admin/dashboard/partners_permissions', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
-			{name: 'Test Push Notification', url:'admin/dashboard/test_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
+			{name: 'Test Push Notification', url:'admin/dashboard/test_push_notification', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'},
+			{name: 'Edit Actor/Movie', url: 'admin/dashboard/edit_actor_movie/:key', image_url:'http://img.informer.com/icons/png/32/1675/1675447.png'}
 		]
 
 		var downloadIcons = {

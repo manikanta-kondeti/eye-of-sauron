@@ -38,6 +38,7 @@ window.init = function() {
         var Register = require('./views/admin/RegisterNewPartner.jsx');
         var NotificationTest = require('./views/admin/testPushNotification.jsx');
         var RedirectComponent = require('./components/RedirectComponent.jsx');
+        var editActorMovie = require('./views/admin/editActorMovie.jsx');
 
         var Router = React.createClass({
 
@@ -122,7 +123,8 @@ window.init = function() {
      ['/admin/dashboard/channel_groups', channelGroups],
      ['/admin/dashboard/partners_permissions', partnersPermissions],
      ['/admin/dashboard/register_a_new_partner', Register],
-     ['/admin/dashboard/test_push_notification', NotificationTest]
+     ['/admin/dashboard/test_push_notification', NotificationTest],
+     ['/admin/dashboard/edit_actor_movie/:key', editActorMovie]
     ];
 
     React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

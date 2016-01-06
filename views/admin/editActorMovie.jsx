@@ -9,17 +9,32 @@ var Clip = require('../../components/showClip');
 var config = require('../../config');
 var Autocomplete = require('react-autocomplete');
 var LoadingSpinner = require('./../../components/LoadingSpinner');
+var Page = require('page');
 
 module.exports = React.createClass({
 
     getInitialState: function() {
-        return({alert_message: false, voice: [], entity_type: null, loading: false})
+        return({alert_message: false, voice: [], entity_type: null, loading: false, source_flag: false})
     },
 
     componentDidMount: function() {
         var _this = this;
         //Fetch ajax call
-        $.get(config.ajax_url + '/dashboard_get_actor_movie_entity',{key: this.props.edit_key} ,function(response) { 
+        var source_flag = false;
+        var edit_key;
+        if (this.props.edit_key != null) {
+            edit_key = this.props.edit_key;
+        }
+        else {
+            edit_key = this.props.params.key;
+            source_flag = true;
+        }
+        $.get(config.ajax_url + '/dashboard_get_actor_movie_entity',{key: edit_key} ,function(response) { 
+                if (response.hasOwnProperty('status')) {
+                    alert(response['status']);      
+                    _this.setState({source_flag : source_flag});  
+                }
+                else {
                     // Writing results here 
                      $('#key').val(response.results['key']);
                      $('#tags').val(response.results['tags']);
@@ -28,7 +43,8 @@ module.exports = React.createClass({
                      $('#gender').val(response.results['gender']);
                      $('#primary_languages').val(response.results['primary_languages']);
                      console.log("Entity type in response = "+response.entity_type);
-                    _this.setState({voice: response.results, entity_type: response.entity_type});
+                    _this.setState({voice: response.results, entity_type: response.entity_type, source_flag : source_flag});
+                }
         });
     },
 
@@ -84,7 +100,9 @@ module.exports = React.createClass({
             success: function(response) { 
                 alert(response['status']);
                 _this.setState({loading: false});
-                _this.props.close_modal();
+                if (!this.state.source_flag) {
+                    _this.props.close_modal();
+                }
             }, 
             error: function(response) {
                 $('#alert_message').html(' Notification text is not a localised unicode string. Localise the push notification text.');
@@ -98,7 +116,12 @@ module.exports = React.createClass({
     },
 
     blur: function() {
-        this.props.close_modal();
+        if (!this.state.source_flag) {
+            this.props.close_modal();
+        }
+        else {
+            Page('/admin/dashboard/view_actors_movies');
+        }
     },
 
 
