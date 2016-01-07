@@ -15,29 +15,29 @@ module.exports = React.createClass({
 		$.get(config.ajax_url + '/dashboard_get_params_on_push_test_interface', function(response){
 			console.log("admins = " + response.admins + " push_types = " + response.push_types);
 			var admins = response['admins'];
-            var select_user = document.getElementById('user_key');
+            var selected_user = document.getElementById('user_key');
             for(var i=0; i<admins.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = admins[i].id;
                     opt.innerHTML = admins[i].email;
-                    select_user.appendChild(opt);
+                    selected_user.appendChild(opt);
             }
           	var push_types = response['push_types'];
-            var select_push_type = document.getElementById('push_type');
+            var selected_push_type = document.getElementById('push_type');
             for(var i=0; i<push_types.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = push_types[i].push_value;
                     opt.innerHTML = push_types[i].push_type;
-                    select_push_type.appendChild(opt);
+                    selected_push_type.appendChild(opt);
             }
 
             var channels = response['channel_types']
-            var select_channel = document.getElementById('channel');
+            var selected_channel = document.getElementById('channel');
             for(var i=0; i<channels.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = channels[i];
                     opt.innerHTML = channels[i];
-                    select_channel.appendChild(opt);
+                    selected_channel.appendChild(opt);
             }
 		})
 	},
@@ -53,7 +53,7 @@ module.exports = React.createClass({
             success: function(response) { 
                 alert(response);
                 _this.setState({loading: false});
-                $("#upload_form_of_notification")[0].reset();
+                //$("#upload_form_of_notification")[0].reset();
                 $('#send_notification_button').show();
             }, 
             error: function(e,status) {
@@ -155,7 +155,7 @@ module.exports = React.createClass({
 						</div>
 						<div style={inputFieldStyle}>
 							Force :
-							<input type="checkbox" id="force" name="force" />
+							<input type="checkbox" id="force" name="force" checked />
 						</div>
 						<div onClick={this.sendNotification} id="send_notification_button" style={submitStyle}>
 		                    <RedButton  text = "Send Notification" />
