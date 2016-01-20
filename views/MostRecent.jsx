@@ -3,13 +3,16 @@
 var React = require('react');
 var Page = require('page');
 var ShowClips = require('./ShowClips');
+var LoadingSpinner = require('./../components/LoadingSpinner')
 
 module.exports = React.createClass({
-
+	/**
+	 * Note: While handling scroll in safari becareful with sroll event. It will be called lot of times unlike chrome and firefox
+	 * Hence we used a flag 'most_recent_called' which prevents multiple most_recent calls and prevent pagination. 
+	 */
 	getInitialState: function() {
 		return {
-			voices: [],
-			cursor: ''
+			voices: [], cursor: '', most_recent_called: false
 		}
 	},
 
@@ -22,18 +25,19 @@ module.exports = React.createClass({
 		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
     	var windowInnerHeight = window.innerHeight
     	if(showCLipsHeight < windowInnerHeight) {
-    			console.log('update');
-    		this.most_recent();
+    		if(!this.state.most_recent_called) {
+    			this.most_recent();
+    		}
     	}
 	},
 
 	most_recent: function() {
-	var _this = this;
-	  var most_recent = gapi.client.samosa.api.expressions.recent({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
-      function(resp) {
+		var _this = this;
+		this.setState({most_recent_called : true});
+	  	var most_recent = gapi.client.samosa.api.expressions.recent({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
+      	function(resp) {
       			var new_voices = _this.state.voices.concat(resp.voices);
-      			_this.setState({voices: new_voices, cursor: resp.cursor});
-
+      			_this.setState({voices: new_voices, cursor: resp.cursor, most_recent_called: false});
             });
 	},
 
@@ -42,7 +46,9 @@ module.exports = React.createClass({
 
 		  // you're at the bottom of the page
 		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
-     		 this.most_recent();
+    		if(!this.state.most_recent_called) {
+    			this.most_recent();
+    		}
    		 }
 	},
 
@@ -73,7 +79,7 @@ module.exports = React.createClass({
 			top: '360px',
 	    	float: 'left',
 			height: 'auto',
-			width: '68%',
+			width: '100%',
 			zIndex: '1000',
 			paddingLeft: '2%'
 		}
@@ -130,6 +136,12 @@ module.exports = React.createClass({
 			height: '60px',
 			cursor: 'pointer'
 		}
+        
+        // Adding a loading toast 
+        var loadingSpinner = null;
+        if (this.state.most_recent_called){
+           	loadingSpinner = <LoadingSpinner />
+        }		
 
 		return (
 			<div style= {container}>	
@@ -140,15 +152,7 @@ module.exports = React.createClass({
 					</div>
 					<div style={content}>
 						<ShowClips clips = {this.state.voices} />
-					</div>
-				</div>
-				<div style={leftSideWrapper}>
-					<div style={embedTitle}>
-						SAMOSA FOR WEBSITES
-						<div style={iframeEmbed}>
-								<iframe src='/popular-now-iframe' width='100%' height='520' border='0' scrolling='no' frameBorder='0'></iframe>
-								<div onClick={this.navigate.bind(this, '/embed-popular-now')} style={embedButton}></div>
-					    </div>
+						{loadingSpinner}
 					</div>
 				</div>
 			</div>

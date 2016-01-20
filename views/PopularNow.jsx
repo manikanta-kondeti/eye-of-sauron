@@ -3,11 +3,15 @@
 var React = require('react');
 var Page = require('page');
 var ShowClips = require('./ShowClips');
+var LoadingSpinner = require('./../components/LoadingSpinner')
 
 module.exports = React.createClass({
-
+	/**
+	 * Note: While handling scroll in safari becareful with sroll event. It will be called lot of times unlike chrome and firefox
+	 * Hence we used a flag 'popular_now_called' which prevents multiple popular_now calls. 
+	 */
 	getInitialState: function() {	
-		return {voices: [], cursor: '', auth_key:''}
+		return {voices: [], cursor: '', auth_key:'', popular_now_called: false}
 	},
 
 	componentDidMount: function() {
@@ -17,26 +21,30 @@ module.exports = React.createClass({
 
 	componentDidUpdate: function() {
 		var showCLipsHeight = document.getElementById('show-clips').clientHeight;
-    	var windowInnerHeight = window.innerHeight
+    	var windowInnerHeight = window.innerHeight;
     	if(showCLipsHeight < windowInnerHeight) {
-    		this.popular_now();
+    		if (!this.state.popular_now_called) {
+    			this.popular_now();
+    		}
     	}
 	},
 
 	popular_now: function() {
-	var _this = this;
-	  var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
-      function(resp) {
+		var _this = this;
+		this.setState({popular_now_called: true});
+	  	var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
+      	function(resp) {
       			var new_voices = _this.state.voices.concat(resp.voices);
-      			_this.setState({voices: new_voices, cursor: resp.cursor});
+      			_this.setState({voices: new_voices, cursor: resp.cursor, popular_now_called: false});
             });
 	},
 
 	handleScroll: function() {
-
 		  // you're at the bottom of the page
 		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
-     		 this.popular_now();
+     		if (!this.state.popular_now_called) {
+     			this.popular_now();
+     		}
    		 }
 	},
 
@@ -67,7 +75,7 @@ module.exports = React.createClass({
 	    	top: '360px',
 	    	float: 'left',
 			height: 'auto',
-			width: '68%',
+			width: '100%',
 			zIndex:'1000',
 			paddingLeft: '2%'
 		}
@@ -124,7 +132,11 @@ module.exports = React.createClass({
 			height: '60px',
 			cursor: 'pointer'
 		}
-
+        // Adding a loading toast 
+        var loadingSpinner = null;
+        if (this.state.popular_now_called){
+            loadingSpinner = <LoadingSpinner />
+        }
 		return (
 			<div style= {container}>	
 				<div style = {rightSideWrapper}>
@@ -135,15 +147,7 @@ module.exports = React.createClass({
 					<div style={content}>
 						<ShowClips clips = {this.state.voices} />
 					</div>
-				</div>
-				<div style={leftSideWrapper}>
-					<div style={embedTitle}>
-						SAMOSA FOR WEBSITES <hr/>
-						<div style={iframeEmbed}>
-								<iframe src='/popular-now-iframe' width='100%' height='520' border='0' scrolling='no' frameBorder='0'></iframe>
-								<div onClick={this.navigate.bind(this, '/embed-popular-now')} style={embedButton}></div>
-						</div>
-					</div>
+					{loadingSpinner}
 				</div>
 			</div>
 		)

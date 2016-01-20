@@ -2,12 +2,15 @@
 
 var React = require('react')
 var ShowClips = require('./ShowClips')
-
+var LoadingSpinner = require('./../components/LoadingSpinner');
 
 module.exports = React.createClass({
-
+	/**
+	 * Note: While handling scroll in safari becareful with sroll event. It will be called lot of times unlike chrome and firefox
+	 * Hence we used a flag 'search_called' which prevents multiple search_by_tags calls and prevent pagination. 
+	 */
 	getInitialState: function() {
-		return {voices: [], cursor: '',search_result: false, more: true}
+		return {voices: [], cursor: '',search_result: false, more: true, search_called : false}
 	},
 
 	componentDidMount: function() {
@@ -20,7 +23,9 @@ module.exports = React.createClass({
     	var windowInnerHeight = window.innerHeight
     	if(showCLipsHeight < windowInnerHeight) {
     		if(this.state.more) {
-    			this.search_by_tags();
+    			if(!this.state.search_called) {
+    				this.search_by_tags();
+    			}
     		}
     	}
 	},
@@ -35,10 +40,11 @@ module.exports = React.createClass({
 
   		if(queryText) {
   		  var _this = this;
+  		  this.setState({search_called: true});
   		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
             function(resp){             
             	var new_voices = _this.state.voices.concat(resp.voices);
-            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false, more: resp.more})
+            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false, more: resp.more, search_called: false})
             });
   		}
 
@@ -54,7 +60,9 @@ module.exports = React.createClass({
 		  if ((window.innerHeight + window.scrollY+3) >= this.getDocHeight()) {
 		  	 //if there are more clips only call the search tags function
 		  	 if(this.state.more) { 
-     		 	this.search_by_tags();
+    			if(!this.state.search_called) {
+    				this.search_by_tags();
+    			}
      		 }
    		 }
 	},
@@ -77,11 +85,18 @@ module.exports = React.createClass({
 			margin: '2%'
 		}
 
+        // Adding a loading toast 
+        var loadingSpinner = null;
+        if (this.state.search_called){
+            loadingSpinner = <LoadingSpinner />
+        }
+
 		return (
 
 				<div style = {container}>
 					 Search Results For {this.props.params.queryText} <hr/>
 					<ShowClips clips = {this.state.voices} />
+					{loadingSpinner}
 				</div>
 		)
 	}
