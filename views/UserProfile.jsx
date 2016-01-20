@@ -281,7 +281,6 @@ var UserProfile = React.createClass({
 			if (this.state.more_user_owned_channels) {
 				loadmore = <LoadMore />;
 			}
-
 		}else if (this.state.toggle_channel == CHANNEL_SECTIONS['user_subscribed_channels']){
 			channels_to_be_shown = this.state.subscribed_channels;
 			styles.userSubscribedChannelsStyle['backgroundColor'] = 'white';
