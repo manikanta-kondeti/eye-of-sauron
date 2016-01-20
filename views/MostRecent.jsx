@@ -3,7 +3,7 @@
 var React = require('react');
 var Page = require('page');
 var ShowClips = require('./ShowClips');
-var LoadingSpinner = require('./../components/LoadingSpinner')
+var LoadingSpinner = require('./../components/LoadingSpinner');
 
 module.exports = React.createClass({
 	/**

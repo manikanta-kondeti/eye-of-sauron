@@ -2,7 +2,11 @@
 
 var React = require('react')
 var ShowClips = require('./ShowClips')
+<<<<<<< a72671c98302f19c16a5a33f41d602335fe72c1a
 var LoadingSpinner = require('./../components/LoadingSpinner');
+=======
+var LoadingSpinner = require('./../components/LoadingSpinner')
+>>>>>>> Fix: Pagination error fixed for three popular_now, most_recent and search
 
 module.exports = React.createClass({
 	/**
