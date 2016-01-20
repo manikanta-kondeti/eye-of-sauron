@@ -5,10 +5,11 @@
 var React = require('react');
 var page = require('page');
 var LanguageModal = require('../views/LanguageModal');
+var BannerOnMobile = require('../components/BannerOnMobile');
+var Radium = require('radium');
+var {StyleRoot} = Radium;
 
-
-
-module.exports = React.createClass({
+var HeaderOther = React.createClass({
 
 	getInitialState: function() {
 		return { queryText: null, open_modal: null, login: false};
@@ -148,11 +149,11 @@ module.exports = React.createClass({
 	render: function() {
 	
 		var header =  {
-			background: 'url(/static/images/header_bg.png) no-repeat center center',
+			background: '#4b616e',
 			margin: '0 auto',
 			height: '200px',
 			width: '100%',
-			backgroundSize: 'cover'
+			backgroundSize: 'cover',
 		}
 
 		var logo = {
@@ -248,24 +249,40 @@ module.exports = React.createClass({
 	}
 
  	return (	
- 		<div style={header}>
-			<div style = {wrapper}>
-				<div onClick={this.logoClick} style={logo}></div>
-				<div style={title}></div>
-			
-				<div style={headerBtns}>
-					<span  onClick={this.openModal}  style={languagesBtn}>Select Languages</span> &nbsp;
-					<span id="login" onClick={this.handleLoginClick}  href="#" style={loginBtn}>Login</span>
-					<span id="logout" onClick={this.handleLogoutClick} style = {loginBtn}> Logout </span>
-				</div>
-			
-				<div style={searchBoxWrapper}>
-					<input onKeyDown={this.searchQuery} ref="search" style={searchBox} placeholder = "Search for audio clips, dialouges, proverbs" />
-				</div>
+ 		<StyleRoot>
+	 		<div>
+	 			<BannerOnMobile />
+		 		<div style={header}>
+					<div style = {wrapper}>
+						<div onClick={this.logoClick} style={logo}></div>
+						<div style={title}></div>
+						<div style={headerBtns}>
+							<span  onClick={this.openModal}  style={languagesBtn}>Select Languages</span> &nbsp;
+							<span id="login" onClick={this.handleLoginClick}  href="#" style={loginBtn}>Login</span>
+							<span id="logout" onClick={this.handleLogoutClick} style = {loginBtn}> Logout </span>
+						</div>
+					
+						<div style={searchBoxWrapper}>
+							<input onKeyDown={this.searchQuery} ref="search" style={searchBox} placeholder = "Search for audio clips, dialouges, proverbs" />
+						</div>
+						
+					</div>
 
+					<div style={modalStyle}> <LanguageModal close_modal={this.closeModal} /> </div>
+				</div>
 			</div>
-
-			<div style={modalStyle}> <LanguageModal close_modal={this.closeModal} /> </div>
-		</div>
+		</StyleRoot>
 	)}
 })
+
+class HeaderOtherWithMediaQuery extends React.Component {
+	render() {
+		return(
+			<StyleRoot>
+				<HeaderOther />
+			</StyleRoot>
+		)
+	}
+}
+
+module.exports = Radium(HeaderOtherWithMediaQuery);

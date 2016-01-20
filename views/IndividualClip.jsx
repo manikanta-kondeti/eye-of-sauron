@@ -9,7 +9,6 @@ var Clip = require('../components/showClip');
 var ShowClipWithEmbed = React.createClass({
 
     getInitialState: function() {
-        console.log("This should get called")
         return({related_voices: [], iframe_width:0, iframe_height:0, preview_clip: false})
     },
 
@@ -160,7 +159,7 @@ var ShowClipWithEmbed = React.createClass({
             </div>
           </div>  
           <div style={relatedVideosStyle}>
-             RELATED CLIPS <hr style={{border: '1px solid #eee'}}/>
+             TRENDING CLIPS <hr style={{border: '1px solid #eee'}}/>
              <ShowClips clips = {this.state.related_voices} />
           </div>    
 
@@ -186,7 +185,7 @@ module.exports = React.createClass({
 
     search_by_key: function(key) {
        var _this = this;
-       //Here response is a single voice object
+       // Here response is a single voice object
        gapi.client.samosa.api.get_expression_by_key({'id': key}).execute(
             function(resp){
                     _this.setState({voice: resp});

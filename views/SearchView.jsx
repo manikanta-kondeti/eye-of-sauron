@@ -2,11 +2,7 @@
 
 var React = require('react')
 var ShowClips = require('./ShowClips')
-<<<<<<< a72671c98302f19c16a5a33f41d602335fe72c1a
 var LoadingSpinner = require('./../components/LoadingSpinner');
-=======
-var LoadingSpinner = require('./../components/LoadingSpinner')
->>>>>>> Fix: Pagination error fixed for three popular_now, most_recent and search
 
 module.exports = React.createClass({
 	/**
@@ -38,35 +34,40 @@ module.exports = React.createClass({
 		this.setState({voices: [], cursor: '', search_result: true, more: true})
 	},
 
-   	search_by_tags: function() {
+  search_by_tags: function() {
 
-   		var queryText = this.props.params.queryText;
-   		if (this.state.queryText != queryText) {
-   			this.setState({search_message : null});
-   		}
-  		if(queryText) {
-  		  var _this = this;
-  		  // Check if user is logged in and send his auth_key
-  		  var auth_key = '';
-  		  var search_message = '';
-  		  if (sessionStorage.samosa_key != '') {
-  		  		auth_key = sessionStorage.samosa_key;
-  		  } 
-  		  this.setState({search_called: true});
-  		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor, 'auth_key' : auth_key}).execute(
-            function(resp){             
-            	var new_voices = _this.state.voices.concat(resp.voices);
-            	search_message = resp.search_message;
-            	if (_this.state.search_message != null) {
-            		search_message = _this.state.search_message; 
-            	}
-            	_this.setState({voices: new_voices, queryText: queryText, cursor: resp.cursor, search_result: false, more: resp.more, search_called: false, search_message : search_message})
-            });
-  		}
+ 		var queryText = this.props.params.queryText;
+ 		if (this.state.queryText != queryText) {
+ 			this.setState({search_message : null});
+ 		}
+		if(queryText) {
+		  var _this = this;
+		  // Check if user is logged in and send his auth_key
+		  var auth_key = '';
+		  var search_message = '';
+		  var languages= [];
+      if (sessionStorage.samosa_key != '') {
+		  		auth_key = sessionStorage.samosa_key;
+		  } 
+		  this.setState({search_called: true});
+      //IF user not logged in and languages has been set 
+      if (sessionStorage.user_languages_without_login != '' && sessionStorage.user_languages_without_login != undefined) {
+          languages = sessionStorage.user_languages_without_login.split(',');
+      } 
+		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor, 'auth_key' : auth_key, 'languages' : languages }).execute(
+          function(resp){             
+          	var new_voices = _this.state.voices.concat(resp.voices);
+          	search_message = resp.search_message;
+          	if (_this.state.search_message != null) {
+          		search_message = _this.state.search_message; 
+          	}
+          	_this.setState({voices: new_voices, queryText: queryText, cursor: resp.cursor, search_result: false, more: resp.more, search_called: false, search_message : search_message})
+          });
+		}
 
-  		else{
-  			return 'No Videos Found with this tag :( !'
-  		}
+		else{
+			return 'No Videos Found with this tag :( !'
+		}
 	},
 
 	

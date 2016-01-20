@@ -12,7 +12,7 @@
     "start_embed": "webpack-dev-server --config webpack_embed.config.js  --progress --colors --history-api-fallback --hot --port 2222",
     "gapi_start": "~/google_appengine/dev_appserver.py --port 9999  ./"
   },
-  "author": "vamshi",
+  "author": "mani",
   "dependencies": {
     "react": "0.13.3",
     "page": "~1.6.3",

@@ -1,12 +1,12 @@
-
 'use strict'
 var React = require('react');
 var Page = require('page');
 var RedButton = require('../components/RedButton')
 var AudioPlayer = require('../components/AudioPlayer');
+var Radium = require('Radium');
+var {StyleRoot} = Radium;
 
-
-module.exports = React.createClass({
+var ShowClip = React.createClass({
 
 
 	getInitialState: function() {
@@ -30,7 +30,14 @@ module.exports = React.createClass({
 
 	render: function() {
 
-		var poster_url = this.props.data.poster_url;
+		if(this.props.data == undefined) {
+			return
+		}
+
+		var poster_url = null;
+		if (this.props.data != undefined && this.props.data.poster_url != undefined) {
+			poster_url = this.props.data.poster_url;
+		}
 
 		var audioBlockStyle = {
 			height: '218px',
@@ -42,7 +49,11 @@ module.exports = React.createClass({
 			float: 'left',
 			margin: '8px',
 			cursor: 'pointer',
-			background: 'white'
+			background: 'white',
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+    				height : '342px',
+    				width: '260px'
+  			}
 		}
 
 		var imgStyle = {
@@ -51,7 +62,11 @@ module.exports = React.createClass({
 			backgroundImage: 'url('+ poster_url +')',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: '150px 150px',
-			height: '150px'
+			height: '150px',
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+    				height : '260px',
+    				backgroundSize: '260px 260px',
+  			}
 		}
 
 		var titleStyle = {
@@ -124,7 +139,7 @@ module.exports = React.createClass({
 		}
 
 		return (
-		
+			<StyleRoot>
 				<div onMouseLeave={this.MouseEvent} onMouseEnter={this.MouseEvent}  style={audioBlockStyle}>
                     <div>
                         <div>
@@ -163,7 +178,18 @@ module.exports = React.createClass({
 		     	    	</div>
                 	</div>
 				</div>
+			</StyleRoot>
 		)
 	}
-
 });
+
+class ShowClipWithMediaQuery extends React.Component {
+	render()  {
+		return (
+			<StyleRoot>
+				<ShowClip data={this.props.data} />
+			</StyleRoot>
+		)
+	}
+}
+module.exports = Radium(ShowClipWithMediaQuery);

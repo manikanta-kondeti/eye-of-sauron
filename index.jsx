@@ -4,13 +4,14 @@
 
 window.init = function() {
      
-    var ROOT = 'https://mani-dev-dot-the-tasty-samosa.appspot.com/_ah/api';
+    var ROOT = 'https://the-tasty-samosa.appspot.com/_ah/api';
     gapi.client.load('samosa', 'v1', function() {
 
 		var React = require('react');
 		var page = require('page');
-
+    var Radium = require('Radium');
     var HeaderHome = require('./views/HeaderHome');
+    var Header = require('./views/Header');
 		var HeaderOther = require('./views/HeaderOther');
 		var LeftSideBar = require('./views/LeftSideBar');
 		var PopularNow = require('./views/PopularNow');
@@ -23,12 +24,15 @@ window.init = function() {
     var PopularNowIframe = require('./views/PopularNowIframe');
     var EmbedPopularNow = require('./views/EmbedPopularNow');
     var EditVideos = require('./views/EditVideos');
-
+    var UserProfile = require('./views/UserProfile');
+    var ChannelPage = require('./views/ChannelPage');
+    var ErrorPage = require('./components/ErrorPage');
+    var ChannelsGroupView = require('./views/ChannelsGroupView');
 		var Router = React.createClass({
 
 			getInitialState: function () {
 
-  			  return { component: '<div />'};
+  			  return { component: <ErrorPage />};
  		 	},
 
   		componentDidMount: function () {
@@ -43,7 +47,6 @@ window.init = function() {
 
                 var regex = new RegExp('/admin/dashboard', 'gi');
                 var regex_partners = new RegExp('/partners/dashboard', 'gi');
-                console.log("Regex partners = " + url.match(regex_partners));
                 if(url.match(regex) || url.match(regex_partners)){
                         React.render(<Header />, document.getElementById('header'));
                         $('#wrapper').html(' ');
@@ -51,37 +54,59 @@ window.init = function() {
                 }
 
                 else { 
-
                   //Only admin has left side bar 
                   $('#left-side-bar').html('');
 
-                  if(url == "/" || url =="/popular-now" || url =="" || url=="/most-recent") {
+                  if(url == "/" || url == "/popular-now" || url == "" || url == "/most-recent" || url == "/actors" || url == "/latest_movies" || url == "/greetings" || url == "/trending_channels" || url == "/movies" || url == "/politics") {
+                      Renderer.unmount(document.getElementById('header'));
                       React.render(<HeaderHome />, document.getElementById('header'));
                   }					
 
                   else if(url == "/popular-now-iframe"){
+                    Renderer.unmount(document.getElementById('header'));
                     $('#header').html('')
                   }
                 
-                  else {
-
+                  else if(url.split('/')[1] == "play" || url.split('/')[1] == "search") {
+                      Renderer.unmount(document.getElementById('header'));
                       React.render(<HeaderOther />, document.getElementById('header'));
+                  }
+
+                  else {
+                      Renderer.unmount(document.getElementById('header'));
+                      React.render(<Header />, document.getElementById('header'));
                   }
                 } 
 
-     					  _this.setState({ component: <Component params={ctx.params} /> });
+          
+                _this.setState({ component: <Component params={ctx.params} /> });
      				});
    			  });
-
 
   			page.start();
  		 },
 
   		render: function () {
-  			  return <div> {this.state.component} </div>;
+
+          var element = <div id="component"> {this.state.component} </div>
+          Renderer.unmount(document.getElementById('component'));
+
+          return element;
  		 }
 
 	});
+  
+  /**
+   * Ref : https://github.com/facebook/react/issues/4498
+   * This helps us in  unmounting the component
+  **/
+  var Renderer = {
+    unmount: function(node) {
+      if( node != null) { 
+        React.unmountComponentAtNode(node);
+      }
+    }
+  }
 
 	var routes = [
  		 ['', PopularNow],
@@ -92,10 +117,18 @@ window.init = function() {
  		 ['/login', LoginView],
  		 ['/play/:key', IndividualClip],
      ['/embed/:key', IframePlayer],
+     ['/user/:key', UserProfile],
+     ['/channel/:key', ChannelPage],
      ['/notification/:key', PushNotificationOnWeb],
      ['/embed-popular-now', EmbedPopularNow],
      ['/popular-now-iframe', PopularNowIframe],
-     ['/edit-videos', EditVideos]
+     ['/edit-videos', EditVideos],
+     ['/latest_movies', ChannelsGroupView],
+     ['/actors', ChannelsGroupView],
+     ['/greetings', ChannelsGroupView],
+     ['/trending_channels', ChannelsGroupView],
+     ['/movies', ChannelsGroupView],
+     ['/politics', ChannelsGroupView]
 	];
 
 	React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));

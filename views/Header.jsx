@@ -8,11 +8,13 @@ var page = require('page');
 var Logo = require('../components/Image');
 var InputField = require('../components/InputField');
 var RedButton = require('../components/RedButton');
+var BannerOnMobile = require('../components/BannerOnMobile');
 var LinkTo = require('../components/LinkTo');
 var LanguageModal = require('../views/LanguageModal');
+var Radium = require('radium');
+var {StyleRoot} = Radium;
 
-
-module.exports = React.createClass({
+var Header = React.createClass({
 
 	getInitialState: function() {
 		return { queryText: null, open_modal: null, login: false};
@@ -56,6 +58,10 @@ module.exports = React.createClass({
 			js.src = "//connect.facebook.net/en_US/sdk.js";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
+	},
+
+	componentDidUpdate : function() {
+		this.updateUserLanguages();
 	},
 
 	// Here we run a very simple test of the Graph API after login is
@@ -130,9 +136,9 @@ module.exports = React.createClass({
 		console.log("In update user languages");
 		if (this.state.login) {
 			// Get user langauges
-			gapi.client.samosa.api.get_user_profile({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
-				console.log(response.languages);
-				sessionStorage.setItem('user_languages', response.languages);
+			gapi.client.samosa.api.auth.init.data({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
+				console.log(response.user.languages);
+				sessionStorage.setItem('user_languages', response.user.languages);
 			});
 
 		}	
@@ -162,6 +168,10 @@ module.exports = React.createClass({
 		this.setState({open_modal: false});
 	},
 
+	logoClick: function() {
+		page('/');
+	},
+
 	navigate: function(url) {
 		page(url);
 	},
@@ -175,30 +185,54 @@ module.exports = React.createClass({
 	render: function() {
 
 		var headerStyle = {
+			background: 'linear-gradient(to bottom, rgba(115,139,150,1) 0%, rgba(96,125,139,1) 100%)',
 			display: 'block',
 			width: '100%',
 			backgroundColor: '#fff',
-			height: '59px',
+			height: '50px',
 			position: 'fixed',
 			top: '0',
 			left: '0',
-			boxShadow: '0 0 5px rgba(0, 0, 0, .12)',
-			zIndex: 100
+			boxShadow: '0 0 5px rgba(0, 0, 0, .8)',
+			zIndex: 100,
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+    			height: '90px',
+  			}
 		};
 
 		var titleStyle = {
 			float: 'left',
-			fontSize: '24px',
-			marginTop: '9px',
+			backgroundSize: 'cover',
+			height: '38px',
+			marginTop: '2px',
 			marginLeft: '5px',
-			width: '134px',
-			cursor: 'pointer'
+			width: '125px',
+			cursor: 'pointer',
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+    			height: '40px'
+  			}
+		};
+
+		var title = {
+			fontSize : '21px',
+			color : 'white',
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+				fontSize : '25px'
+			}
+		};
+
+		var description = {
+			fontSize : '8px',
+			color : 'wheat',
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+				fontSize : '10px'
+			}
 		};
 
 		var logoStyle = {
 			float: 'left',
-			marginLeft: '20px',
-			marginTop: '9px'
+			marginLeft: '43%',
+			marginTop: '0px'
 		};
 
 		var searchBoxStyle = {
@@ -247,6 +281,12 @@ module.exports = React.createClass({
 			display: 'none'
 		}
 
+		var titleLogostyle = {
+			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
+    			margin: '20px'
+    		}
+		}
+
 		if(this.state.open_modal) {
 			modalStyle['display'] = 'block'
 
@@ -269,34 +309,37 @@ module.exports = React.createClass({
 		}
 
 		return (
-
-		 <div> 
-			<div style = {headerStyle} > 
-				<div onClick={this.navigate.bind(this, '/')}>
-					<div style = {logoStyle}> <Logo  src="https://lh5.ggpht.com/oJpCSXfyxWeLDSM8GKN-SHyv8ZK29pF2NURecNkK1aQD_9mH0ZYscux07oNPgxog28RU=w300" width="35" height="35"/> </div>
-					<div style = {titleStyle}> SAMOSA </div>
-				</div>
-				<div id = "wrapper">
-					<div style = {searchBoxStyle}>
-						 <form onSubmit={this.handleSubmimt}>
-						 	<InputField ref="search" placeholder = "Search For Audio Clips" />
-						 </form>
-					 </div>
-
-				 	<div style= {rightblockStyle}>
-					
-						 <div onClick={this.openModal} style = {langStyle}><LinkTo text="SELECT LANGUAGES" color="black" hover_color="#cc181e" /> </div>
-					 	 <div onClick={this.handleLoginClick} style = {buttonStyleLogin}> <RedButton text = "LOGIN"/>  </div>
-					 	 <div onClick={this.handleLogoutClick} style = {buttonStyleLogout}> <RedButton text = "LOGOUT"/> </div>
-				 	</div>
+		<StyleRoot>
+			<div> 
+				<BannerOnMobile />
+				<div style = {headerStyle} > 
+					<div onClick={this.logoClick} style={titleLogostyle}>
+						<div style = {logoStyle}> <Logo  src="https://lh5.ggpht.com/oJpCSXfyxWeLDSM8GKN-SHyv8ZK29pF2NURecNkK1aQD_9mH0ZYscux07oNPgxog28RU=w300" width="45" height="45"/> </div>
+						<div style = {titleStyle}>
+							<div style={title}>
+								<span> SAMOSA </span>
+							</div>
+							<div style={description}>
+								<span> #CHAT ENTERTAINMENT </span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<div style={modalStyle}> <LanguageModal close_modal={this.closeModal} /> </div>
-
-		</div>
-
+		</StyleRoot>
 
 		)
 	}
 });
+
+class HeaderForMediaQuery extends React.Component {
+  render() {
+    return (
+      <StyleRoot>
+        <Header />
+      </StyleRoot>
+    );
+  }
+}
+
+module.exports = Radium(HeaderForMediaQuery);

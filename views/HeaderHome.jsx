@@ -140,13 +140,10 @@ module.exports = React.createClass({
 	},
 
 	updateUserLanguages : function() {
-		console.log("In update user languages");
 		if (sessionStorage.samosa_key != null) {
-			console.log("Set langauges field in sessionStorage");
 			// Get user langauges
-			gapi.client.samosa.api.get_user_profile({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
-				console.log(response.languages);
-				sessionStorage.setItem('user_langauges', response.languages);
+			gapi.client.samosa.api.auth.init.data({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
+				sessionStorage.setItem('user_languages', response.user.languages);
 			});
 
 		}	
@@ -154,13 +151,16 @@ module.exports = React.createClass({
 
 	handleLoginClick: function() {
 		FB.login(this.checkLoginState,{scope: 'public_profile,email'});	
+		window.location.href = "/popular-now";
 	},
 
 	handleLogoutClick: function() {
 		FB.logout();
 		sessionStorage.setItem('samosa_key', '');
+		sessionStorage.setItem('user_languages', '');
 		$('#login').show();
 		$('#logout').hide();
+		window.location.href = "/popular-now";
 	},
 
 	handleSubmimt: function(e) {
@@ -207,7 +207,7 @@ module.exports = React.createClass({
 
 		var header =  {
 				position: 'fixed',
-				background: 'url(/static/images/header_bg.png) no-repeat center center',
+				background: '#4b616e',
 				margin: '0 auto',
 				height: '350px',
 				width: '100%',

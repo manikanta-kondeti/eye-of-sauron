@@ -96,7 +96,8 @@ module.exports = React.createClass({
 		}
 
 		var selectItemWrapper = {
-			padding: '10px'
+			padding: '10px',
+			marginLeft : '135px'
 		}
 
 		var selectItem = {
@@ -143,12 +144,19 @@ module.exports = React.createClass({
            	loadingSpinner = <LoadingSpinner />
         }		
 
+
 		return (
 			<div style= {container}>	
 				<div style = {rightSideWrapper}>
 					<div style={selectItemWrapper}>
 						<a onClick={this.navigate.bind(this, '/popular-now')} style={selectItem} href = "">TRENDING</a>
 						<a onClick={this.navigate.bind(this, '/most-recent')} style={selectItemClicked} href = "">MOST RECENT</a>
+						<a onClick={this.navigate.bind(this, '/latest_movies')} style={selectItem} href = "">LATEST MOVIES</a>
+						<a onClick={this.navigate.bind(this, '/actors')} style={selectItem} href = "">ACTORS</a>
+						<a onClick={this.navigate.bind(this, '/greetings')} style={selectItem} href = "">GREETINGS</a>
+						<a onClick={this.navigate.bind(this, '/trending_channels')} style={selectItem} href = "">TRENDING CHANNELS</a>
+						<a onClick={this.navigate.bind(this, '/movies')} style={selectItem} href = "">MOVIES</a>
+						<a onClick={this.navigate.bind(this, '/politics')} style={selectItem} href = "">POLITICS</a>
 					</div>
 					<div style={content}>
 						<ShowClips clips = {this.state.voices} />

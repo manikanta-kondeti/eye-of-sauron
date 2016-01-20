@@ -19,7 +19,7 @@ module.exports = React.createClass({
         
         var checkboxes = document.getElementsByClassName('checkbox');
        
-
+        sessionStorage.setItem('user_languages_without_login', '');
         var languages = []
         for(var i=0; i<checkboxes.length; i++){
 
@@ -29,32 +29,38 @@ module.exports = React.createClass({
             }
         }
         
-        sessionStorage.user_languages = languages;
-        gapi.client.samosa.api.modify_user_language_preference({
-            'auth_key': sessionStorage.getItem('samosa_key'),
-            'languages': languages
-        }).execute(function(e) {
-            if(e.value){
-                window.location.href = "/popular-now";
-            } 
-        })
+        if (sessionStorage.samosa_key == '' || sessionStorage.samosa_key == null || sessionStorage.samosa_key == undefined) {
+            // add languages and send it in search endpoint
+            sessionStorage.user_languages_without_login = languages;
+            window.location.href = "/popular-now";
+        }
+        else {
+          sessionStorage.user_languages = languages;
+          gapi.client.samosa.api.modify_user_language_preference({
+              'auth_key': sessionStorage.getItem('samosa_key'),
+              'languages': languages
+          }).execute(function(e) {
+              if(e.value){
+                  window.location.href = "/popular-now";
+              } 
+          })
+        }
     },
 
     componentDidUpdate : function() {
       var checkboxes = document.getElementsByClassName('checkbox');
       
       var languages = [];
-      console.log('user languages = ' + sessionStorage.user_languages + " key = " + sessionStorage.samosa_key);
-      if (sessionStorage.user_languages != "" && sessionStorage.samosa_key != "") {
+      if (sessionStorage.user_languages != "" && sessionStorage.user_languages != undefined  && sessionStorage.samosa_key != "") {
         languages = sessionStorage.user_languages.split(',');
       }
-      console.log(languages);
-      if (sessionStorage.samosa_key != "") {
-        for(var i=0; i<checkboxes.length; i++){
-           if(languages.indexOf(checkboxes[i].value) != -1) {
-                checkboxes[i].checked = true;
-           }
-        }
+      if (sessionStorage.user_languages_without_login != "" && (sessionStorage.samosa_key == "" || sessionStorage.samosa_key == undefined) ) {
+        languages = sessionStorage.user_languages_without_login.split(',');
+      }
+      for(var i=0; i<checkboxes.length; i++){
+         if(languages.indexOf(checkboxes[i].value) != -1) {
+              checkboxes[i].checked = true;
+         }
       }
     },
 
@@ -108,7 +114,8 @@ module.exports = React.createClass({
       }
 
       if(!sessionStorage.getItem('samosa_key')) {
-           selectLanguageStyle['display'] = 'none'
+           selectLanguageStyle['display'] = 'block'
+           loginMessageStyle['display'] = 'none' ;
       }
       else{
            loginMessageStyle['display'] = 'none' ;

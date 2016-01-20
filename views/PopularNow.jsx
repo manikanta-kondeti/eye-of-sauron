@@ -3,7 +3,7 @@
 var React = require('react');
 var Page = require('page');
 var ShowClips = require('./ShowClips');
-var LoadingSpinner = require('./../components/LoadingSpinner')
+var LoadingSpinner = require('./../components/LoadingSpinner');
 
 module.exports = React.createClass({
 	/**
@@ -92,7 +92,8 @@ module.exports = React.createClass({
 		}
 
 		var selectItemWrapper = {
-			padding: '10px'
+			padding: '10px',
+			marginLeft : '135px'
 		}
 
 		var selectItem = {
@@ -120,18 +121,21 @@ module.exports = React.createClass({
 		}
 
 		var content = {
-			marginTop: '20px'
+			float : 'left',
+			marginTop: '20px',
+			width : '100%'
 		}
 
 		var iframeEmbed = {
 			marginTop: '30px'
 		}
 
-		var embedButton ={
+		var embedButton = {
 			background: 'url(/static/images/embed_button.png) no-repeat center center',
 			height: '60px',
 			cursor: 'pointer'
 		}
+
         // Adding a loading toast 
         var loadingSpinner = null;
         if (this.state.popular_now_called){
@@ -143,6 +147,12 @@ module.exports = React.createClass({
 					<div style={selectItemWrapper}>
 						<a onClick={this.navigate.bind(this, '/popular-now')} style={selectItemClicked} href = "">TRENDING</a>
 						<a onClick={this.navigate.bind(this, '/most-recent')} style={selectItem} href = "">MOST RECENT</a>
+						<a onClick={this.navigate.bind(this, '/latest_movies')} style={selectItem} href = "">LATEST MOVIES</a>
+						<a onClick={this.navigate.bind(this, '/actors')} style={selectItem} href = "">ACTORS</a>
+						<a onClick={this.navigate.bind(this, '/greetings')} style={selectItem} href = "">GREETINGS</a>
+						<a onClick={this.navigate.bind(this, '/trending_channels')} style={selectItem} href = "">TRENDING CHANNELS</a>
+						<a onClick={this.navigate.bind(this, '/movies')} style={selectItem} href = "">MOVIES</a>
+						<a onClick={this.navigate.bind(this, '/politics')} style={selectItem} href = "">POLITICS</a>
 					</div>
 					<div style={content}>
 						<ShowClips clips = {this.state.voices} />
