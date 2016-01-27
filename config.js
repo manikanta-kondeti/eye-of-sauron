@@ -3,7 +3,7 @@
 var ajaxUrl  = function ajax_url() {
 	var regex = new RegExp('localhost', 'gi');
 	var url = window.location.origin;
-	var default_url = "https://the-tasty-samosa.appspot.com";
+	var default_url = "https://mani-dev-dot-the-tasty-samosa.appspot.com";
     if(url.match(regex)) {
     	 return default_url
    	}

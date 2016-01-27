@@ -10,7 +10,7 @@ module.exports = React.createClass({
 	 * Hence we used a flag 'search_called' which prevents multiple search_by_tags calls and prevent pagination. 
 	 */
 	getInitialState: function() {
-		return {voices: [], cursor: '',search_result: false, more: true, search_called : false}
+		return {voices: [], cursor: '',search_result: false, more: true, search_called : false, search_message : null, queryText : null}
 	},
 
 	componentDidMount: function() {
@@ -37,14 +37,26 @@ module.exports = React.createClass({
    	search_by_tags: function() {
 
    		var queryText = this.props.params.queryText;
-
+   		if (this.state.queryText != queryText) {
+   			this.setState({search_message : null});
+   		}
   		if(queryText) {
   		  var _this = this;
+  		  // Check if user is logged in and send his auth_key
+  		  var auth_key = '';
+  		  var search_message = '';
+  		  if (sessionStorage.samosa_key != '') {
+  		  		auth_key = sessionStorage.samosa_key;
+  		  } 
   		  this.setState({search_called: true});
-  		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor}).execute(
+  		  gapi.client.samosa.api.get_search_results({'tags': queryText, 'cursor': this.state.cursor, 'auth_key' : auth_key}).execute(
             function(resp){             
             	var new_voices = _this.state.voices.concat(resp.voices);
-            	_this.setState({voices: new_voices, cursor: resp.cursor, search_result: false, more: resp.more, search_called: false})
+            	search_message = resp.search_message;
+            	if (_this.state.search_message != null) {
+            		search_message = _this.state.search_message; 
+            	}
+            	_this.setState({voices: new_voices, queryText: queryText, cursor: resp.cursor, search_result: false, more: resp.more, search_called: false, search_message : search_message})
             });
   		}
 
@@ -91,10 +103,16 @@ module.exports = React.createClass({
             loadingSpinner = <LoadingSpinner />
         }
 
+        var search_message = null;
+        if (this.state.search_message != '') {
+        	search_message = '(' + this.state.search_message + ')';
+        }
+        console.log(this.state.search_message);
 		return (
 
 				<div style = {container}>
-					 Search Results For {this.props.params.queryText} <hr/>
+					 Search Results For {this.props.params.queryText} {search_message} <hr/>
+
 					<ShowClips clips = {this.state.voices} />
 					{loadingSpinner}
 				</div>

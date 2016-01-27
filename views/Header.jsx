@@ -120,9 +120,22 @@ module.exports = React.createClass({
 			    gapi.client.samosa.api.auth.fb.login(responseArray).execute(
            			function(resp){             			
         				sessionStorage.setItem('samosa_key', resp.auth_key);
+        				_this.updateUserLanguages();
         				_this.checkLogin();
            		});
 
+	},
+
+	updateUserLanguages : function() {
+		console.log("In update user languages");
+		if (this.state.login) {
+			// Get user langauges
+			gapi.client.samosa.api.get_user_profile({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
+				console.log(response.languages);
+				sessionStorage.setItem('user_languages', response.languages);
+			});
+
+		}	
 	},
 
 	handleLoginClick: function() {

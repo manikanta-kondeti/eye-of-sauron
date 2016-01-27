@@ -76,34 +76,34 @@ module.exports = React.createClass({
 		 }
 	},
 
-		// This is called with the results from from FB.getLoginStatus().
-		statusChangeCallback: function(response) {
+	// This is called with the results from from FB.getLoginStatus().
+	statusChangeCallback: function(response) {
 
-			// The response object is returned with a status field that lets the
-			// app know the current login status of the person.
-			// Full docs on the response object can be found in the documentation
-			// for FB.getLoginStatus().
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				this.testAPI(response);
+		// The response object is returned with a status field that lets the
+		// app know the current login status of the person.
+		// Full docs on the response object can be found in the documentation
+		// for FB.getLoginStatus().
+		if (response.status === 'connected') {
+			// Logged into your app and Facebook.
+			this.testAPI(response);
 
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
+		} else if (response.status === 'not_authorized') {
+			// The person is logged into Facebook, but not your app.
 
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
+		} else {
+			// The person is not logged into Facebook, so we're not sure if
+			// they are logged into this app or not.
 
-			}
-		},
+		}
+	},
 
-		// This function is called when someone finishes with the Login
-		// Button.  See the onlogin handler attached to it in the sample
-		// code below.
-		checkLoginState: function() {
-			FB.getLoginStatus(function(response) {
-				this.statusChangeCallback(response);
-			}.bind(this));
+	// This function is called when someone finishes with the Login
+	// Button.  See the onlogin handler attached to it in the sample
+	// code below.
+	checkLoginState: function() {
+		FB.getLoginStatus(function(response) {
+			this.statusChangeCallback(response);
+		}.bind(this));
 	},
 
 	handleScroll: function() {
@@ -134,8 +134,22 @@ module.exports = React.createClass({
            			function(resp){             			
         				sessionStorage.setItem('samosa_key', resp.auth_key);
         				_this.checkLogin();
+        				_this.updateUserLanguages();
            		});
 
+	},
+
+	updateUserLanguages : function() {
+		console.log("In update user languages");
+		if (sessionStorage.samosa_key != null) {
+			console.log("Set langauges field in sessionStorage");
+			// Get user langauges
+			gapi.client.samosa.api.get_user_profile({'auth_key' : sessionStorage.samosa_key}).execute(function(response) {
+				console.log(response.languages);
+				sessionStorage.setItem('user_langauges', response.languages);
+			});
+
+		}	
 	},
 
 	handleLoginClick: function() {

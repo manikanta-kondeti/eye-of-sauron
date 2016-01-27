@@ -15,7 +15,7 @@ var ShowClipWithEmbed = React.createClass({
 
     componentDidMount: function() {
       var _this = this
-      var popular_by_rank = gapi.client.samosa.api.expressions.popular_by_rank().execute(
+      var popular_now = gapi.client.samosa.api.expressions.popular({'auth_key' : sessionStorage.samosa_key}).execute(
       function(resp) {
                 _this.setState({related_voices: resp.voices})
             });
