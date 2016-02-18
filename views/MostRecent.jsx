@@ -34,7 +34,12 @@ module.exports = React.createClass({
 	most_recent: function() {
 		var _this = this;
 		this.setState({most_recent_called : true});
-	  	var most_recent = gapi.client.samosa.api.expressions.recent({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
+		
+		var languages = [];
+		if (sessionStorage.user_languages_without_login != undefined) {
+			languages = sessionStorage.user_languages_without_login.split(',');
+		}
+	  	var most_recent = gapi.client.samosa.api.get_expressions_in_channel({'channel_id' : 'default_new', 'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), 'languages': languages}).execute(
       	function(resp) {
       			var new_voices = _this.state.voices.concat(resp.voices);
       			_this.setState({voices: new_voices, cursor: resp.cursor, most_recent_called: false});
@@ -97,7 +102,8 @@ module.exports = React.createClass({
 
 		var selectItemWrapper = {
 			padding: '10px',
-			marginLeft : '135px'
+			width: '1000px',
+			margin: '0 auto'
 		}
 
 		var selectItem = {

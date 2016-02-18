@@ -4,6 +4,7 @@ var Radium = require('radium');
 var LoadingSpinner = require('./../components/LoadingSpinner');
 var ShowClips = require('./ShowClips');
 var {StyleRoot} = Radium;
+var Page = require('page');
 
 var ChannelPage = React.createClass({
 	getInitialState : function() {
@@ -29,11 +30,18 @@ var ChannelPage = React.createClass({
 	getChannelContent : function() {
 		var _this = this;
 		this.setState({get_channel_content_called : true});
-		gapi.client.samosa.api.get_expressions_in_channel({'channel_id' : this.props.params.key, 'cursor' : this.state.cursor}).execute(
+		var languages = [];
+		if (sessionStorage.user_languages_without_login != undefined) {
+			languages = sessionStorage.user_languages_without_login.split(',');
+			languages.push('global');
+		}
+		gapi.client.samosa.api.get_expressions_in_channel({'channel_id' : this.props.params.key, 'cursor' : this.state.cursor, 'languages' : languages}).execute(
       	function(resp) {
-      			var new_expressions = _this.state.expressions.concat(resp.voices);
+      			if (resp.voices == undefined) {
+      				Page('/errorPage');
+      			}
       			_this.setState({
-      							expressions : new_expressions, 
+      							expressions : _this.state.expressions.concat(resp.voices), 
       							channel : resp.channel,
       						 	cursor : resp.cursor, 
       						 	more : resp.more, 

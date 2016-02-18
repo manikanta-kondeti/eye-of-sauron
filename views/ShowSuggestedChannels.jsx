@@ -10,13 +10,13 @@ var ShowChannels = React.createClass({
 	render: function() {
 
 		var showChannelsStyle = {
-			overflow: 'hidden',
-			marginTop : '20px',
-			marginLeft : '120px',
-			marginRight : '100px',
+			width : '10000px',
+			marginTop : '10px',
+			marginBottom : '10px',
+			marginLeft : '5px',
 			'@media only screen and (min-device-width: 320px) and (max-device-width: 480px)': {
 					marginLeft : '35px',
-					marginRight : '25px'
+					marginBottom : '10px'
   			}
 		}
 		var channels = null;

@@ -32,11 +32,16 @@ module.exports = React.createClass({
 	popular_now: function() {
 		var _this = this;
 		this.setState({popular_now_called: true});
-	  	var popularr_voices = gapi.client.samosa.api.expressions.popular({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key')}).execute(
+		var languages = [];
+		if (sessionStorage.user_languages_without_login != undefined) {
+			languages = sessionStorage.user_languages_without_login.split(',');
+		}
+		
+	  	gapi.client.samosa.api.get_expressions_in_channel({'channel_id' : 'default_hot', 'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), 'languages' : languages}).execute(
       	function(resp) {
       			var new_voices = _this.state.voices.concat(resp.voices);
       			_this.setState({voices: new_voices, cursor: resp.cursor, popular_now_called: false});
-            });
+        });
 	},
 
 	handleScroll: function() {
@@ -93,7 +98,8 @@ module.exports = React.createClass({
 
 		var selectItemWrapper = {
 			padding: '10px',
-			marginLeft : '135px'
+			width: '1000px',
+			margin: '0 auto'
 		}
 
 		var selectItem = {

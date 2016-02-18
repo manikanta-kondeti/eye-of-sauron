@@ -25,7 +25,6 @@ module.exports = React.createClass({
 	},
 
 	componentDidMount: function() {
-		console.log("Mounted channels group view");
 		this.get_channels_by_type(window.location.pathname.slice(1));
     	window.addEventListener('scroll', this.handleScroll);
 	},
@@ -43,8 +42,17 @@ module.exports = React.createClass({
 	get_channels_by_type : function(channel_type) {
 		var _this = this;
 		this.setState({get_channels_by_type_called: true});
-	  	var popularr_voices = gapi.client.samosa.api.get_channels_by_type({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), channel_group_type : ChannelGroups[channel_type]}).execute(
+		var languages = [];
+		if (sessionStorage.user_languages_without_login != undefined) {
+			languages = sessionStorage.user_languages_without_login.split(',');
+			languages.push('global');
+		}
+	  	gapi.client.samosa.api.get_channels_by_type({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), 'languages' : languages, channel_group_type : ChannelGroups[channel_type]}).execute(
       	function(resp) {
+      			if (resp.channels == undefined) {
+      				_this.setState({channels: [], cursor: '', more : false, auth_key:'', get_channels_by_type_called: false, channel_group_type : null})
+      				Page('/errorPage');
+      			}
       			var new_channels = _this.state.channels.concat(resp.channels);
       			_this.setState({channels: new_channels, cursor: resp.cursor, get_channels_by_type_called: false, channel_group_type : channel_type});
             });
@@ -69,7 +77,6 @@ module.exports = React.createClass({
 	},
 
 	navigate: function(url) {
-		console.log('navigating to .. ' + url);
 		if (url == "/popular-now" || url == "/most-recent") {
 			Page(url);
 			return;
@@ -110,7 +117,8 @@ module.exports = React.createClass({
 
 		var selectItemWrapper = {
 			padding: '10px',
-			marginLeft : '135px'
+			width: '1000px',
+			margin: '0 auto'
 		}
 
 		var selectItem = {
