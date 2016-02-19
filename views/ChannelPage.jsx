@@ -63,11 +63,7 @@ var ChannelPage = React.createClass({
 	render : function() {
 
 		var styles = {
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
 			channelDiv : {
-=======
-			ChannelDiv : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 				width : '100%',
 				position: 'relative',
 				height : '200px',
@@ -81,11 +77,7 @@ var ChannelPage = React.createClass({
   				}
   			},
 
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
   			imageStyle : {
-=======
-  			ImageStyle : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 				borderRadius: '100px',
 	    		width: '150px',
 	    		height: '150px',
@@ -97,11 +89,7 @@ var ChannelPage = React.createClass({
 	    		boxShadow : '0 0 0 4px #fff'
 			},
 
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
 			imageDivStyle : {
-=======
-			ImageDivStyle : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 				float: 'left',
 				marginLeft: '37%',
 	    		padding: '18px',
@@ -113,22 +101,14 @@ var ChannelPage = React.createClass({
   				},
 			},
 
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
 			channelDetailsDivStyle : {
-=======
-			ChannelDetailsDivStyle : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 				float : 'right',
 				margin: '13px',
 				padding: '10px',
 				color: 'white'
 			},
 
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
 			channelDetailsStyle : {
-=======
-			ChannelDetailsStyle : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 				fontSize: '18px',
 				fontWeight: '500',
 				fontFamily: 'sans-serif',
@@ -138,11 +118,7 @@ var ChannelPage = React.createClass({
   				}
 			},
 
-<<<<<<< 35c90cef794517a4cd3be93328e2141409c4843a
 			channelMetricStyle : {
-=======
-			ChannelMetricStyle : {
->>>>>>> Feature(s) : Major commit with new features and a few changes on the old files
 	    		fontSize: '14px',
 	    		fontWeight: '300',
 	    		letterSpacing: '.015em',
