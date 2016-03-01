@@ -42,13 +42,16 @@ module.exports = React.createClass({
 	get_channels_by_type : function(channel_type) {
 		var _this = this;
 		this.setState({get_channels_by_type_called: true});
+		var args = {'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), channel_group_type : ChannelGroups[channel_type]};
 		var languages = [];
-		if (sessionStorage.user_languages_without_login != undefined) {
+		// if condition to check if user is logged in and send set languages if not a logged in user
+		if (sessionStorage.user_languages_without_login != undefined && sessionStorage.user_languages_without_login != '' && (sessionStorage.samosa_key == undefined || sessionStorage.samosa_key == "")) {
 			languages = sessionStorage.user_languages_without_login.split(',');
 			languages.push('global');
+			args['languages'] = languages;
 		}
-	  	gapi.client.samosa.api.get_channels_by_type({'cursor': this.state.cursor, 'auth_key': sessionStorage.getItem('samosa_key'), 'languages' : languages, channel_group_type : ChannelGroups[channel_type]}).execute(
-      	function(resp) {
+	  	gapi.client.samosa.api.get_channels_by_type(args).execute(
+      		function(resp) {
       			if (resp.channels == undefined) {
       				_this.setState({channels: [], cursor: '', more : false, auth_key:'', get_channels_by_type_called: false, channel_group_type : null})
       				Page('/errorPage');
