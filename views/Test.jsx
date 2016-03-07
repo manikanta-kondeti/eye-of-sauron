@@ -23,7 +23,7 @@ module.exports = React.createClass({
 		// Update for every 2 secs
 		this.setInterval(
       		this.updateUsers,
-      		20000
+      		5000
     	);
 		
 	},
@@ -145,6 +145,11 @@ module.exports = React.createClass({
 				fontSize : '50px',
 				textAlign : 'center',
 				padding : '30px'
+			},
+
+			iconStyle : {
+				margin : '3px',
+				padding : '3px'
 			}
 		}
 		
@@ -154,13 +159,16 @@ module.exports = React.createClass({
 		}
 
 		var updates = [];
+		var comments_image_stack = [];
 		if (this.state.updates != '' && this.state.updates != undefined) {
 			for (var i=0; i<4; i++){
 				if (this.state.updates[i] != undefined) {
 					updates.push(this.state.updates[i].comment_text);
+					comments_image_stack.push(<img src="http://iconsineed.com/icons/freecns-cumulus/519589-087_Speechbubbles-128.png" width="30px" height="30px" style={styles.iconStyle}/>);
 				}
 				else {
-					updates.push('')
+					updates.push('');
+					comments_image_stack.push('');
 				}
 			}
 		}
@@ -184,10 +192,9 @@ module.exports = React.createClass({
 					    			
 					    			<div>
 					    				<ul style={styles.ulStyle}>
-					    					<li style={styles.liStyle}> {updates[0]}  </li>
-					    					<li style={styles.liStyle}> {updates[1]} </li>
-					    					<li style={styles.liStyle}> {updates[2]} </li>
-					    					
+					    					<li style={styles.liStyle}>{comments_image_stack[0]} {updates[0]}  </li>
+					    					<li style={styles.liStyle}>{comments_image_stack[1]} {updates[1]} </li>
+					    					<li style={styles.liStyle}>{comments_image_stack[2]} {updates[2]} </li>
 					    				</ul>
 						    			
 					    				</div>
