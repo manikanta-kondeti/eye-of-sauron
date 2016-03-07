@@ -23,7 +23,7 @@ module.exports = React.createClass({
 		// Update for every 2 secs
 		this.setInterval(
       		this.updateUsers,
-      		5000
+      		10000
     	);
 		
 	},
