@@ -14,10 +14,14 @@
   },
   "author": "mani",
   "dependencies": {
-    "react": "0.13.3",
     "page": "~1.6.3",
     "path": "0.11.14",
-    "react-autocomplete": "0.1.4"
+    "react": "0.13.3",
+    "react-addons-css-transition-group": "^0.14.7",
+    "react-autocomplete": "0.1.4",
+    "react-bootstrap": "^0.28.3",
+    "react-dom": "^0.14.7",
+    "react-scroll-effects": "^1.0.9"
   },
   "devDependencies": {
     "webpack": "~1.4.4",

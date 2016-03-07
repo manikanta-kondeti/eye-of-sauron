@@ -1,0 +1,46 @@
+.example-enter {
+  font-size: 15px;
+  transition: font-size 1s ease-out;
+}
+
+.example-enter.example-enter-active {
+    font-size: 1em;
+}
+
+.example-leave {
+  opacity: 1;
+  transition: opacity 5s ease-in;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.1;
+}
+
+.example-appear {
+  opacity: 0.1;
+  transition: opacity 5s ease-in;
+}
+
+.example-appear.example-appear-active {
+  opacity: 1;
+}
+
+.image-enter {
+    opacity: 0.01;
+    transition: opacity 1.5s ease-in;
+    -webkit-transition: opacity 1.5s ease-in;
+}
+
+.image-enter.example-enter-active {
+    opacity: 1;
+}
+
+.image-leave {
+    opacity: 1;
+    transition: opacity 1.5s ease-in;
+    -webkit-transition: opacity 1.5s ease-in;
+}
+
+.image-leave.example-leave-active {
+    opacity: 0.01;
+}
