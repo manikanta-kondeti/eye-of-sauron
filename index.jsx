@@ -12,7 +12,7 @@ window.init = function() {
     var Header = require('./views/Header');
     var HeaderAfterLogin = require('./views/HeaderAfterLogin');
     var ErrorPage = require('./components/ErrorPage');
-    var Test = require('./views/Test');
+    var Feed = require('./views/Feed');
     
 		var Router = React.createClass({
 
@@ -65,8 +65,8 @@ window.init = function() {
   }
 
 	var routes = [
- 		 ['', Test],
-     ['/test', Test]
+ 		 ['', Feed],
+     ['/feed', Feed]
 	];
 
 	React.render(<Router routes={routes} />, document.getElementById('right-side-bar'));
